@@ -1,8 +1,8 @@
-package org.playcards.core.api;
+package com.cardsplay.core.api;
 
-import org.playcards.core.models.Player;
-import org.playcards.core.models.Table;
-import org.playcards.core.models.TableId;
+import com.cardsplay.core.models.Player;
+import com.cardsplay.core.models.Table;
+import com.cardsplay.core.models.TableId;
 
 public interface TableService {
 	boolean joinTable(TableId table, Player player);

@@ -1,8 +1,8 @@
-package org.playcards.core.api;
+package com.cardsplay.core.api;
 
-import org.playcards.core.models.Player;
-import org.playcards.core.models.Room;
-import org.playcards.core.models.RoomId;
+import com.cardsplay.core.models.Player;
+import com.cardsplay.core.models.Room;
+import com.cardsplay.core.models.RoomId;
 
 public interface RoomService {
 

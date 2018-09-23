@@ -1,4 +1,4 @@
-package org.playcards.core.models;
+package com.cardsplay.core.models;
 
 import java.util.Map;
 

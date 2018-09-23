@@ -1,12 +1,12 @@
-package org.playcards.core.impl;
+package com.cardsplay.core.impl;
 
 import java.util.Map;
 
-import org.playcards.core.api.TableService;
-import org.playcards.core.models.Player;
-import org.playcards.core.models.Table;
-import org.playcards.core.models.TableId;
-import org.playcards.core.models.TableStatus;
+import com.cardsplay.core.api.TableService;
+import com.cardsplay.core.models.Player;
+import com.cardsplay.core.models.Table;
+import com.cardsplay.core.models.TableId;
+import com.cardsplay.core.models.TableStatus;
 
 public class TableManager implements TableService {
 

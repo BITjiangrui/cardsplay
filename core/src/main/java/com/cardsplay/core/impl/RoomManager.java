@@ -1,14 +1,14 @@
-package org.playcards.core.impl;
+package com.cardsplay.core.impl;
 
 import java.util.Map;
 
-import org.playcards.core.api.RoomService;
-import org.playcards.core.models.Player;
-import org.playcards.core.models.Room;
-import org.playcards.core.models.RoomId;
-import org.playcards.core.models.Table;
-import org.playcards.core.models.TableId;
-import org.playcards.core.models.TableStatus;
+import com.cardsplay.core.api.RoomService;
+import com.cardsplay.core.models.Player;
+import com.cardsplay.core.models.Room;
+import com.cardsplay.core.models.RoomId;
+import com.cardsplay.core.models.Table;
+import com.cardsplay.core.models.TableId;
+import com.cardsplay.core.models.TableStatus;
 
 public class RoomManager implements RoomService {
         Map<RoomId, Room> RoomStore;
