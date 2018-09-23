@@ -10,18 +10,5 @@
   <modules>
   	<module>win3cards</module>
   </modules>
-  
-  <dependencies>
-  
-     <dependency>
-     	<groupId>com.google.guava</groupId>
-     	<artifactId>guava</artifactId>
-     </dependency>
-     
-     <dependency>
-     	<groupId>com.Ohenry</groupId>
-     	<artifactId>core</artifactId>
-        <version>0.0.1-SNAPSHOT</version>     	
-     </dependency>       
-   </dependencies>
+
 </project>

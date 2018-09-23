@@ -24,17 +24,17 @@ public abstract class Dealer {
 		this.dealType = dealType;
 	}
 	//初始化牌局
-	abstract void  init();
+	public abstract void  init();
 	//洗牌
-	abstract List<Card> shuffle();
+	public abstract List<Card> shuffle();
 	//询问发牌位置
-	abstract int askStartLocation();
+	public abstract int askStartLocation();
 	// 发牌
-	abstract boolean deal(PlayerId player);
+	public abstract boolean deal(PlayerId player);
 	// 要求下注
-	abstract void askForBet(PlayerId player, int amount);
+	public abstract void askForBet(PlayerId player, int amount);
 	// 计算赢家
-	abstract Player calcWinner(List<Player> players);
+	public abstract Player calcWinner(List<Player> players);
 	// 结算
-	abstract void balance();
+	public abstract void balance();
 }
