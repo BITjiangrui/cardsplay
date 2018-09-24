@@ -11,7 +11,7 @@ import java.util.List;
  */
 public abstract class Player
 {
-    public PlayerId playerId;
+    public final PlayerId playerId;
     
     /**
      * 获取所有扑克
@@ -21,14 +21,25 @@ public abstract class Player
     /**
      * 钱包
      */
-    public TokenWallet wallet;
+    public final TokenWallet wallet;
     
+ 
+    public PlayerState state;
     
-    public Player(PlayerId playerId)
+    public Player(PlayerId playerId, TokenWallet wallet)
     {
         this.playerId = playerId;
+        this.wallet = wallet;
     }
     
+    public PlayerState getState() {
+        return state;
+    }
+
+    public void setState(PlayerState state) {
+        this.state = state;
+    }
+
     /**
      * 获取 allPorks
      * 
