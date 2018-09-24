@@ -59,7 +59,7 @@ public class Controller {
     private CardsPlayAgent agent;
 
     private final ExecutorService executorService = Executors
-            .newFixedThreadPool(10, groupedThreads("OVSDB-C", "executor-%d", log));
+            .newFixedThreadPool(10, groupedThreads("CardsPlay-C", "executor-%d", log));
 
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;

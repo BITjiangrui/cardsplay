@@ -1,13 +1,13 @@
 package com.cardsplay.core.api;
 
-import com.cardsplay.core.models.Player;
+import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 
 public interface TableService extends lifeCycleService{
-	boolean joinTable(TableId table, Player player);
+	boolean joinTable(TableId table, PlayerId player);
 	
-	boolean quitTable(TableId table, Player player);
+	boolean quitTable(TableId table, PlayerId player);
 
 	Iterable<Table>  getTables();
 	

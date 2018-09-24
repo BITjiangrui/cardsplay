@@ -28,20 +28,6 @@ public interface CardsPlayController extends lifeCycleService{
     void removeNodeListener(CardsPlayNodeListener listener);
 
     /**
-     * Adds ovsdb event listener.
-     *
-     * @param listener event listener
-     */
-    void addCardsPlayEventListener(CardsPlayEventListener listener);
-
-    /**
-     * Removes CardsPlay event listener.
-     *
-     * @param listener event listener
-     */
-    void removeCardsPlayEventListener(CardsPlayEventListener listener);
-
-    /**
      * Gets all the nodes information.
      *
      * @return the list of node id

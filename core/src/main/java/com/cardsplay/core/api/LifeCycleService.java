@@ -1,6 +1,6 @@
 package com.cardsplay.core.api;
 
-public interface lifeCycleService {
+public interface LifeCycleService {
 
     void activate();
     

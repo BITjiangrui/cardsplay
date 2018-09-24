@@ -3,7 +3,6 @@ package com.cardsplay.access.impl;
 
 import com.cardsplay.access.api.CardsPlayClientService;
 import com.cardsplay.access.api.CardsPlayController;
-import com.cardsplay.access.api.CardsPlayEventListener;
 import com.cardsplay.access.api.CardsPlayNodeId;
 import com.cardsplay.access.api.CardsPlayNodeListener;
 import com.cardsplay.access.driver.CardsPlayAgent;
@@ -33,7 +32,6 @@ public class CardsPlayControllerImpl implements CardsPlayController {
     protected  CardsPlayAgent agent = new InternalCardsPlayNodeAgent();
 
     protected Set<CardsPlayNodeListener> cardsPlayNodeListener = new CopyOnWriteArraySet<>();
-    protected Set<CardsPlayEventListener> cardsPlayEventListener = new CopyOnWriteArraySet<>();
 
     protected ConcurrentHashMap<String, CardsPlayClientService> requestNotification =
             new ConcurrentHashMap<String, CardsPlayClientService>();
@@ -65,18 +63,6 @@ public class CardsPlayControllerImpl implements CardsPlayController {
     @Override
     public void removeNodeListener(CardsPlayNodeListener listener) {
         this.cardsPlayNodeListener.remove(listener);
-    }
-
-    @Override
-    public void addCardsPlayEventListener(CardsPlayEventListener listener) {
-        if (!cardsPlayEventListener.contains(listener)) {
-            this.cardsPlayEventListener.add(listener);
-        }
-    }
-
-    @Override
-    public void removeCardsPlayEventListener(CardsPlayEventListener listener) {
-        this.cardsPlayEventListener.remove(listener);
     }
 
     @Override

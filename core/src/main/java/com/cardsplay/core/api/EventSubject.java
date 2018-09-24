@@ -1,5 +1,5 @@
 
-package com.cardsplay.access.api;
+package com.cardsplay.core.api;
 
 /**
  * Representation for an entity that carries important information for a listener.

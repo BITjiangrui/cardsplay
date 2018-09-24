@@ -16,7 +16,6 @@ public class WinThreeCardsDealer extends Dealer {
 
     @Override
     public void startGamble() {
-        // TODO Auto-generated method stub
         
     }
 

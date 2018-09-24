@@ -1,22 +1,22 @@
 
-package com.cardsplay.access.api;
+package com.cardsplay.core.api;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
 
 /**
- * The abstract event of CardsPlay.
+ * The abstract event.
  */
-public final class CardsPlayEvent<S> {
+public final class Event<S> {
 
     public enum Type {
         /**
-         * Signifies that a new CardsPlay port update has been detected.
+         * Signifies that a new Player is ready or undo ready.
          */
-        PORT_ADDED,
+        PLAYER_UPDATE,
         /**
-         * Signifies that a CardsPlay port has been removed.
+         * Signifies that a the table is ready to start.
          */
-        PORT_REMOVED
+        TABLE_UPDATE
     }
 
     private final Type type;
@@ -28,7 +28,7 @@ public final class CardsPlayEvent<S> {
      * @param type event type
      * @param subject event subject
      */
-    public CardsPlayEvent(Type type, S subject) {
+    public Event(Type type, S subject) {
         this.type = type;
         this.subject = subject;
     }

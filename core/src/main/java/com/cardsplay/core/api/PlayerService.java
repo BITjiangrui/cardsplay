@@ -1,16 +1,21 @@
 package com.cardsplay.core.api;
 
-import com.cardsplay.core.models.Player;
-import com.cardsplay.core.models.Room;
-import com.cardsplay.core.models.Table;
+import com.cardsplay.core.models.PlayerId;
+import com.cardsplay.core.models.RoomId;
+import com.cardsplay.core.models.TableId;
+
 
 public interface PlayerService extends lifeCycleService{
     
-    void playerOnline(Player player);
+    void playerOnline(PlayerId player);
     
-    void playerOffline(Player player);
+    void playerOffline(PlayerId player);
 
-    void getPlayerInRoom(Room room);
+    void playerIsReady(PlayerId player);
 
-    void getPlayerInTable(Table table);
+    void playerUndoReady(PlayerId player);
+
+    void getPlayerInRoom(RoomId room);
+
+    void getPlayerInTable(TableId table);
 }
