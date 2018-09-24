@@ -15,10 +15,10 @@
  */
 package com.cardsplay.access.impl;
 
+import com.cardsplay.access.driver.CardsPlayProviderService;
+
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
-
-import com.cards.access.driver.CardsPlayProviderService;
 
 /**
  * The listener class. Handles when the node disconnect.
