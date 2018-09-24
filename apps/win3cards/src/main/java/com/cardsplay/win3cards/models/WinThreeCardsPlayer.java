@@ -4,11 +4,10 @@ import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.TokenWallet;
 
-public class W3CPlayer extends Player {
+public class WinThreeCardsPlayer extends Player {
 
-    public W3CPlayer(PlayerId playerId, TokenWallet wallet) {
+    public WinThreeCardsPlayer(PlayerId playerId, TokenWallet wallet) {
         super(playerId, wallet);
-        // TODO Auto-generated constructor stub
     }
 
 }

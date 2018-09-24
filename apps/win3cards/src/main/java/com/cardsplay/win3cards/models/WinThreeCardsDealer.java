@@ -8,9 +8,9 @@ import com.cardsplay.core.models.Dealer;
 import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
 
-public class W3CDealer extends Dealer {
+public class WinThreeCardsDealer extends Dealer {
 
-    public W3CDealer(DealType dealType) {
+    public WinThreeCardsDealer(DealType dealType) {
         super(dealType);
         // TODO Auto-generated constructor stub
     }
