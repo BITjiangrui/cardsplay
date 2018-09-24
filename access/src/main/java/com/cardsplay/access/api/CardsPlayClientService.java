@@ -47,6 +47,7 @@ public interface CardsPlayClientService{
      *
      */
     void startGamble(Room room, Table table, List<Player> player);
+
     /**
      * This operation ask player to bet
      *

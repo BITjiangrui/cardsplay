@@ -42,14 +42,16 @@ public class CardsPlayControllerImpl implements CardsPlayController {
 
     private final Controller controller = new Controller();
 
-    public void init() {
+    @Override
+    public void activate() {
         controller.start(agent);
-        log.info("Started");
+        log.info("Started");        
     }
 
-    public void stop() {
+    @Override
+    public void deactivate() {
         controller.stop();
-        log.info("Stoped");
+        log.info("Stoped");        
     }
 
 

@@ -6,13 +6,13 @@ import com.google.common.collect.Sets;
 
 public class Room {
         public final RoomId roomId;
-	public Set<Table> tables;
+	public Set<TableId> tableIds;
 	public final int capacity;
 	public final DealType dealtype;
 	
 	public Room(RoomId roomId, int capacity, DealType dealtype) {
 	    this.roomId = roomId;
-	    tables = Sets.newConcurrentHashSet();
+	    tableIds = Sets.newConcurrentHashSet();
 	    this.capacity = capacity;
 	    this.dealtype = dealtype;
 	}

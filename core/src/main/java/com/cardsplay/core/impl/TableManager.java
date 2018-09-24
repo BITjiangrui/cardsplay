@@ -10,41 +10,54 @@ import com.cardsplay.core.models.TableStatus;
 
 public class TableManager implements TableService {
 
-	Map<TableId, Table> tableStore;
-	Map<TableId, TableStatus> stateStore;
-	public boolean joinTable(TableId table, Player player) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    Map<TableId, Table> tableStore;
+    Map<TableId, TableStatus> stateStore;
 
-	public boolean quitTable(TableId table, Player player) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    public boolean joinTable(TableId table, Player player) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	public Iterable<Table> getTables() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public boolean quitTable(TableId table, Player player) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 
-	public Table getTable(TableId tableId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Iterable<Table> getTables() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	public void addTable(Table table) {
-		// TODO Auto-generated method stub
+    public Table getTable(TableId tableId) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	}
+    public void addTable(Table table) {
+        // TODO Auto-generated method stub
 
-	public void removeTable(TableId tableId) {
-		// TODO Auto-generated method stub
+    }
 
-	}
+    public void removeTable(TableId tableId) {
+        // TODO Auto-generated method stub
 
-	public Table scheduleTable() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    }
+
+    public Table scheduleTable() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void activate() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void deactivate() {
+        // TODO Auto-generated method stub
+
+    }
 
 }

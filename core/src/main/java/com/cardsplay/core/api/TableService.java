@@ -4,7 +4,7 @@ import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 
-public interface TableService {
+public interface TableService extends lifeCycleService{
 	boolean joinTable(TableId table, Player player);
 	
 	boolean quitTable(TableId table, Player player);

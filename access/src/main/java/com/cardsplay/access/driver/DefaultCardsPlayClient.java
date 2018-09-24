@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import com.cardsplay.access.api.CardsPlayClientService;
 import com.cardsplay.access.api.CardsPlayNodeId;
+import com.cardsplay.access.util.FromJsonUtil;
 import com.cardsplay.core.models.Card;
 import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerState;
@@ -185,13 +186,28 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
 
     @Override
     public void processResult(JsonNode response) {
-        // TODO Auto-generated method stub
+        log.debug("Handle result");
+        String requestId = response.get("id").asText();
+        SettableFuture sf = requestResult.get(requestId);
+        if (sf == null) {
+            log.debug("No such future to process");
+            return;
+        }
+        String methodName = requestMethod.get(requestId);
+        sf.set(FromJsonUtil.jsonResultParser(response, methodName));
         
     }
 
     @Override
-    public void processRequest(JsonNode request) {
-        // TODO Auto-generated method stub
-        
+    public void processRequest(JsonNode requestJson) {
+        log.debug("Handle request");
+        if (requestJson.get("method").asText().equalsIgnoreCase("echo")) {
+            log.debug("handle echo request");
+
+            String replyString = FromJsonUtil.getEchoRequestStr(requestJson);
+            channel.writeAndFlush(replyString);
+        } else {
+            
+        }        
     }
 }

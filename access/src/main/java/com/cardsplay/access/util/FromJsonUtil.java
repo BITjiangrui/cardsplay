@@ -47,26 +47,6 @@ public final class FromJsonUtil {
         }
     }
 
-    /**
-     * convert JsonNode into DatabaseSchema.
-     * @param dbName database name
-     * @param dbJson the JsonNode of get_schema result
-     * @return DatabaseSchema
-     * @throws AbnormalJsonNodeException this is an abnormal JsonNode exception
-     */
-/*    public static DatabaseSchema jsonNodeToDbSchema(String dbName, JsonNode dbJson) {
-        validateJsonNode(dbJson, "tables");
-        validateJsonNode(dbJson, "version");
-        String dbVersion = dbJson.get("version").asText();
-        Map<String, TableSchema> tables = new HashMap<>();
-        Iterator<Map.Entry<String, JsonNode>> tablesIter = dbJson.get("tables").fields();
-        while (tablesIter.hasNext()) {
-            Map.Entry<String, JsonNode> table = tablesIter.next();
-            tables.put(table.getKey(), jsonNodeToTableSchema(table.getKey(), table.getValue()));
-        }
-        return new DatabaseSchema(dbName, dbVersion, tables);
-    }*/
-
 
     /**
      * convert JsonNode into the returnType of methods in OvsdbRPC class.
