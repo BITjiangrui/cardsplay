@@ -12,7 +12,6 @@ public class WinThreeCardsDealer extends Dealer {
 
     public WinThreeCardsDealer(DealType dealType) {
         super(dealType);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
