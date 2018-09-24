@@ -3,20 +3,29 @@ package com.cardsplay.core.models;
 import java.util.Map;
 
 public class TokenWallet {
-	public final TokenType tokenType;
-	
-	private Map<PlayerId, Integer> wallet;
-	
-	public TokenWallet(TokenType tokenType) {
-		this.tokenType = tokenType;
-	}
-	
-	public void bet(PlayerId playerId, int money) {
-		if(wallet.containsKey(playerId) && wallet.get(playerId)!=null) {
-			Integer result = wallet.get(playerId) + money;
-			wallet.put(playerId, result);
-		} else {
-			wallet.put(playerId, money);
-		}
-	}
+    public final PlayerId account;
+
+    private Map<TokenType, Integer> wallet;
+
+    public TokenWallet(PlayerId account) {
+        this.account = account;
+    }
+
+    public void add(TokenType tokenType, int money) {
+        if (wallet.containsKey(tokenType) && wallet.get(tokenType) != null) {
+            Integer result = wallet.get(tokenType) + money;
+            wallet.put(tokenType, result);
+        } else {
+            wallet.put(tokenType, money);
+        }
+    }
+
+    public void reduce(TokenType tokenType, int money) {
+        if (wallet.containsKey(tokenType) && wallet.get(tokenType) != null) {
+            Integer result = wallet.get(tokenType) + money;
+            wallet.put(tokenType, result);
+        } else {
+            wallet.put(tokenType, money);
+        }
+    }
 }

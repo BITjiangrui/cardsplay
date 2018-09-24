@@ -49,4 +49,12 @@ public abstract class Player
     {
         return porks;
     }
+    
+    public void deposit(int money) {
+        
+    }
+    
+    public void draw(int money) {
+        
+    }
 }

@@ -15,7 +15,7 @@ public class WinThreeCardsDealer extends Dealer {
     }
 
     @Override
-    public void init() {
+    public void startGamble() {
         // TODO Auto-generated method stub
         
     }
@@ -27,15 +27,15 @@ public class WinThreeCardsDealer extends Dealer {
     }
 
     @Override
+    public boolean assignCards(PlayerId player, List<Card> cards) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+    
+    @Override
     public int askStartLocation() {
         // TODO Auto-generated method stub
         return 0;
-    }
-
-    @Override
-    public boolean deal(PlayerId player) {
-        // TODO Auto-generated method stub
-        return false;
     }
 
     @Override
@@ -55,5 +55,4 @@ public class WinThreeCardsDealer extends Dealer {
         // TODO Auto-generated method stub
         
     }
-
 }
