@@ -17,11 +17,6 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
-import java.util.Collections;
-import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,9 +25,12 @@ import com.cardsplay.access.api.CardsPlayNodeId;
 import com.cardsplay.access.util.FromJsonUtil;
 import com.cardsplay.core.models.Card;
 import com.cardsplay.core.models.Player;
+import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.PlayerState;
 import com.cardsplay.core.models.Room;
+import com.cardsplay.core.models.RoomId;
 import com.cardsplay.core.models.Table;
+import com.cardsplay.core.models.TableId;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -105,69 +103,7 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
     }
 
     @Override
-    public void statusChange(Room room, Table table, Player player,
-                             PlayerState preStatus, PlayerState currentStatus) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void playerJoinIn(Room room, Table table, Player player) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void playerLeave(Room room, Table table, Player player) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void startGamble(Room room, Table table, List<Player> player) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public ListenableFuture<JsonNode> askForBet(Room room, Table table,
-                                                Player player, int money,
-                                                int round) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void confirmForBet(Room room, Table table, Player player, int money,
-                              int round) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
     public ListenableFuture<List<String>> echo() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ListenableFuture<JsonNode> assignCards(Room room, Table table,
-                                                  Player player,
-                                                  List<Card> cards) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ListenableFuture<JsonNode> showCards(Room room, Table table,
-                                                Player player,
-                                                List<Card> cards) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ListenableFuture<List<String>> assignTables(Room room, Table table) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -209,5 +145,68 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
         } else {
             
         }        
+    }
+
+    @Override
+    public void statusChange(RoomId room, TableId table, PlayerId player,
+                             PlayerState preStatus, PlayerState currentStatus) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void playerJoinIn(RoomId room, TableId table, PlayerId player) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void playerLeave(RoomId room, TableId table, PlayerId player) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void startGamble(RoomId room, TableId table, List<PlayerId> player) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public ListenableFuture<JsonNode> askForBet(RoomId room, TableId table,
+                                                PlayerId player, int money,
+                                                int round) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void confirmForBet(RoomId room, TableId table, PlayerId player,
+                              int money, int round) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public ListenableFuture<JsonNode> assignCards(RoomId room, TableId table,
+                                                  PlayerId player,
+                                                  List<Card> cards) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ListenableFuture<JsonNode> showCards(RoomId room, TableId table,
+                                                PlayerId player,
+                                                List<Card> cards) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public ListenableFuture<List<String>> assignTables(RoomId room,
+                                                       TableId table) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

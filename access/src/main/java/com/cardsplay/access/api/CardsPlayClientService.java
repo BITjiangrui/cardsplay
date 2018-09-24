@@ -4,10 +4,11 @@ package com.cardsplay.access.api;
 import java.util.List;
 
 import com.cardsplay.core.models.Card;
-import com.cardsplay.core.models.Player;
+import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.PlayerState;
 import com.cardsplay.core.models.Room;
-import com.cardsplay.core.models.Table;
+import com.cardsplay.core.models.RoomId;
+import com.cardsplay.core.models.TableId;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -27,39 +28,39 @@ public interface CardsPlayClientService{
      * This operation notify client the player state change event
      *
      */
-    void statusChange(Room room, Table table, Player player, PlayerState preStatus, PlayerState currentStatus);
+    void statusChange(RoomId room, TableId table, PlayerId player, PlayerState preStatus, PlayerState currentStatus);
   
     /**
      * This operation notify client the Player join in event
      *
      */
-    void playerJoinIn(Room room, Table table, Player player);
+    void playerJoinIn(RoomId room, TableId table, PlayerId player);
     
     
     /**
      * This operation notify client the Player leave event
      *
      */
-    void playerLeave(Room room, Table table, Player player);
+    void playerLeave(RoomId room, TableId table, PlayerId player);
 
     /**
      * This operation notify client the Game start event
      *
      */
-    void startGamble(Room room, Table table, List<Player> player);
+    void startGamble(RoomId room, TableId table, List<PlayerId> player);
 
     /**
      * This operation ask player to bet
      *
      */
-    ListenableFuture<JsonNode> askForBet(Room room, Table table, Player player, int money, int round);
+    ListenableFuture<JsonNode> askForBet(RoomId room, TableId table, PlayerId player, int money, int round);
 
 
     /**
      * This operation confirm the bet to other player to bet
      *
      */
-    void confirmForBet(Room room, Table table, Player player, int money, int round);
+    void confirmForBet(RoomId room, TableId table, PlayerId player, int money, int round);
 
     /**
      * The "echo" method can be used by both clients and servers to verify the
@@ -70,18 +71,18 @@ public interface CardsPlayClientService{
     /**
      * The "assign Cards" request to send three cards to player client
      */
-    ListenableFuture<JsonNode> assignCards(Room room, Table table, Player player, List<Card> cards);
+    ListenableFuture<JsonNode> assignCards(RoomId room, TableId table, PlayerId player, List<Card> cards);
 
     
     /**
      * The "show Cards" request to show all three cards to other player client
      */
-    ListenableFuture<JsonNode> showCards(Room room, Table table, Player player, List<Card> cards);
+    ListenableFuture<JsonNode> showCards(RoomId room, TableId table, PlayerId player, List<Card> cards);
     
     /**
      * This operation retrieves a scheduled table by Platform
      */
-    ListenableFuture<List<String>> assignTables(Room room, Table table);
+    ListenableFuture<List<String>> assignTables(RoomId room, TableId table);
 
     /**
      * This RPC method shows the all Info in the specific room¡£
