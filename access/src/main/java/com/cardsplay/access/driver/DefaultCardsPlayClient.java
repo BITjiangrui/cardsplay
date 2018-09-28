@@ -167,9 +167,10 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
     }
 
     @Override
-    public void startGamble(RoomId room, TableId table, List<PlayerId> player) {
+    public ListenableFuture<Boolean> startGamble(RoomId room, TableId table, List<PlayerId> player) {
         // TODO Auto-generated method stub
-        
+
+        return null;        
     }
 
     @Override
@@ -188,7 +189,7 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
     }
 
     @Override
-    public ListenableFuture<JsonNode> assignCards(RoomId room, TableId table,
+    public ListenableFuture<Boolean> assignCards(RoomId room, TableId table,
                                                   PlayerId player,
                                                   List<Card> cards) {
         // TODO Auto-generated method stub
@@ -196,7 +197,7 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
     }
 
     @Override
-    public ListenableFuture<JsonNode> showCards(RoomId room, TableId table,
+    public ListenableFuture<Boolean> showCards(RoomId room, TableId table,
                                                 PlayerId player,
                                                 List<Card> cards) {
         // TODO Auto-generated method stub

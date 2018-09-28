@@ -47,7 +47,7 @@ public interface CardsPlayClientService{
      * This operation notify client the Game start event
      *
      */
-    void startGamble(RoomId room, TableId table, List<PlayerId> player);
+    ListenableFuture<Boolean> startGamble(RoomId room, TableId table, List<PlayerId> player);
 
     /**
      * This operation ask player to bet
@@ -71,13 +71,13 @@ public interface CardsPlayClientService{
     /**
      * The "assign Cards" request to send three cards to player client
      */
-    ListenableFuture<JsonNode> assignCards(RoomId room, TableId table, PlayerId player, List<Card> cards);
+    ListenableFuture<Boolean> assignCards(RoomId room, TableId table, PlayerId player, List<Card> cards);
 
     
     /**
      * The "show Cards" request to show all three cards to other player client
      */
-    ListenableFuture<JsonNode> showCards(RoomId room, TableId table, PlayerId player, List<Card> cards);
+    ListenableFuture<Boolean> showCards(RoomId room, TableId table, PlayerId player, List<Card> cards);
     
     /**
      * This operation retrieves a scheduled table by Platform

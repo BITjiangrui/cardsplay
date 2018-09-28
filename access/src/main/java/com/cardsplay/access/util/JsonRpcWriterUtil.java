@@ -7,7 +7,7 @@ import com.cardsplay.access.jsonrpc.JsonRpcRequest;
 
 
 /**
- * RPC Methods request utility class. Refer to RFC7047's Section 4.1.
+ * RPC Methods request utility class.use to call client 's method
  */
 public final class JsonRpcWriterUtil {
 
@@ -39,16 +39,49 @@ public final class JsonRpcWriterUtil {
     }
 
     /**
-     * Returns string of get_schema request.
-     * @param uuid id of get_schema request
-     * @param dbnames params of get_schema request
-     * @return get_schema Request String
+     * notify client player join the table.
+     * @param uuid id of join_game request
+     * @param parms params of join_game request
+     * @return exit_game Request String
      */
-    public static String getSchemaStr(String uuid, List<String> dbnames) {
-        String methodName = "get_schema";
-        return getRequestStr(uuid, methodName, dbnames);
+    public static String joinGameStr(String uuid, List parms) {
+        String methodName = "join_game";
+        return getRequestStr(uuid, methodName, parms);
     }
 
+    /**
+     * notify client player leave the table.
+     * @param uuid id of exit_game request
+     * @param parms params of exit_game request
+     * @return exit_game Request String
+     */
+    public static String leaveGameStr(String uuid, List parms) {
+        String methodName = "exit_game";
+        return getRequestStr(uuid, methodName, parms);
+    }
+    
+    /**
+     * notify client the player is ready in the table.
+     * @param uuid id of ready request
+     * @param parms params of ready request
+     * @return ready Request String
+     */
+    public static String readyStr(String uuid, List parms) {
+        String methodName = "ready";
+        return getRequestStr(uuid, methodName, parms);
+    }
+    
+    /**
+     * notify client player is undo ready in the table.
+     * @param uuid id of undo_ready request
+     * @param parms params of undo_ready request
+     * @return undo_ready Request String
+     */
+    public static String undoReadyStr(String uuid, List parms) {
+        String methodName = "undo_ready";
+        return getRequestStr(uuid, methodName, parms);
+    }
+    
     /**
      * Returns string of echo request.
      * @param uuid id of echo request
@@ -59,13 +92,4 @@ public final class JsonRpcWriterUtil {
         return getRequestStr(uuid, methodName, null);
     }
 
-    /**
-     * Returns string of list_dbs request.
-     * @param uuid id of list_dbs request
-     * @return list_dbs Request String
-     */
-    public static String listDbsStr(String uuid) {
-        String methodName = "list_dbs";
-        return getRequestStr(uuid, methodName, null);
-    }
 }
