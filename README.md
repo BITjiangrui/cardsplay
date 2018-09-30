@@ -1,4 +1,4 @@
-Cards Play Platform: use as back-end service for playing cards based on blocking chain: eos
+Cards Play Platform: use as back-end service for playing cards based on block chain: eos
 ====================================
 
 ### Modules
