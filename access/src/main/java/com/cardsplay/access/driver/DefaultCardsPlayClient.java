@@ -103,9 +103,8 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
     }
 
     @Override
-    public ListenableFuture<List<String>> echo() {
+    public void echo() {
         // TODO Auto-generated method stub
-        return null;
     }
 
     @Override

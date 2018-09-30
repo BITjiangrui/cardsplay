@@ -5,13 +5,13 @@ package com.cardsplay.access.api;
 
 import java.util.List;
 
-import com.cardsplay.core.api.lifeCycleService;
+import com.cardsplay.core.api.LifeCycleService;
 
 /**
  * Abstraction of an CardsPlay controller. Serves as an one stop shop for obtaining
  * CardsPlay Node and (un)register listeners on CardsPlay events and CardsPlay node events.
  */
-public interface CardsPlayController extends lifeCycleService{
+public interface CardsPlayController extends LifeCycleService{
 
     /**
      * Adds Node Event Listener.

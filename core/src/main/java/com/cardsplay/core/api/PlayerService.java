@@ -1,11 +1,14 @@
 package com.cardsplay.core.api;
 
+import java.util.List;
+
+import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.RoomId;
 import com.cardsplay.core.models.TableId;
 
 
-public interface PlayerService extends lifeCycleService{
+public interface PlayerService extends LifeCycleService{
     
     void playerOnline(PlayerId player);
     
@@ -14,8 +17,15 @@ public interface PlayerService extends lifeCycleService{
     void playerIsReady(PlayerId player);
 
     void playerUndoReady(PlayerId player);
+    
+    void playerBet(PlayerId player, int money);
 
-    void getPlayerInRoom(RoomId room);
+    void playerWin(PlayerId player, int money);
 
-    void getPlayerInTable(TableId table);
+    List<Player> getPlayersInRoom(RoomId room);
+
+    List<Player> getPlayersInTable(TableId table);
+    
+    Player getPlayer(PlayerId playerId);
+
 }

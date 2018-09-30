@@ -4,7 +4,7 @@ import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.Room;
 import com.cardsplay.core.models.RoomId;
 
-public interface RoomService extends lifeCycleService{
+public interface RoomService extends LifeCycleService{
 
 	boolean joinRoom(RoomId room, PlayerId player);
 	

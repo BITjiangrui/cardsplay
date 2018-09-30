@@ -15,7 +15,7 @@ public class WinThreeCardsDealer extends Dealer {
     }
 
     @Override
-    public void startGamble() {
+    public void startGamble(int money) {
         
     }
 
@@ -38,7 +38,7 @@ public class WinThreeCardsDealer extends Dealer {
     }
 
     @Override
-    public void askForBet(PlayerId player, int amount) {
+    public void askForBet(PlayerId player, int round) {
         // TODO Auto-generated method stub
         
     }

@@ -15,6 +15,18 @@ public class RoomManager implements RoomService, EventRegistryService {
     Map<RoomId, Room> RoomStore;
     protected Set<EventListener> eventListener = new CopyOnWriteArraySet<>();
 
+    @Override
+    public void activate() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void deactivate() {
+        // TODO Auto-generated method stub
+
+    }
+    
     public boolean joinRoom(RoomId room, PlayerId player) {
         // TODO Auto-generated method stub
         return false;
@@ -41,18 +53,6 @@ public class RoomManager implements RoomService, EventRegistryService {
     }
 
     public void removeRoom(RoomId roomId) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void activate() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void deactivate() {
         // TODO Auto-generated method stub
 
     }

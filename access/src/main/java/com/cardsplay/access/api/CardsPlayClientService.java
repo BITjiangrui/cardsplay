@@ -66,7 +66,7 @@ public interface CardsPlayClientService{
      * The "echo" method can be used by both clients and servers to verify the
      * liveness of a game connection.
      */
-    ListenableFuture<List<String>> echo();
+    void echo();
 
     /**
      * The "assign Cards" request to send three cards to player client

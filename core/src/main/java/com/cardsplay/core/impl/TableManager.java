@@ -24,6 +24,18 @@ public class TableManager implements TableService,EventRegistryService {
 
     protected Set<EventListener> eventListener = new CopyOnWriteArraySet<>();
 
+    @Override
+    public void activate() {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void deactivate() {
+        // TODO Auto-generated method stub
+
+    }
+    
     public Iterable<Table> getTables() {
         // TODO Auto-generated method stub
         return null;
@@ -47,18 +59,6 @@ public class TableManager implements TableService,EventRegistryService {
     public Table scheduleTable() {
         // TODO Auto-generated method stub
         return null;
-    }
-
-    @Override
-    public void activate() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void deactivate() {
-        // TODO Auto-generated method stub
-
     }
 
     @Override

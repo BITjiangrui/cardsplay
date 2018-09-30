@@ -9,7 +9,7 @@ import java.util.List;
  * 
  * </pre>
  */
-public abstract class Player
+public class Player
 {
     public final PlayerId playerId;
     

@@ -2,21 +2,11 @@ package com.cardsplay.core.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import org.onosproject.ovsdb.controller.EventSubject;
-import org.onosproject.ovsdb.controller.OvsdbEvent;
-import org.onosproject.ovsdb.controller.OvsdbEventListener;
-import org.onosproject.ovsdb.controller.OvsdbEventSubject;
-import org.onosproject.ovsdb.provider.host.DefaultHostDescription;
-import org.onosproject.ovsdb.provider.host.DeviceId;
-import org.onosproject.ovsdb.provider.host.HostDescription;
-import org.onosproject.ovsdb.provider.host.HostId;
-import org.onosproject.ovsdb.provider.host.HostLocation;
-import org.onosproject.ovsdb.provider.host.PortNumber;
-import org.onosproject.ovsdb.provider.host.SparseAnnotations;
 
 import com.cardsplay.core.api.Event;
 import com.cardsplay.core.api.EventListener;
@@ -85,15 +75,33 @@ public class PlayerManager implements PlayerService, EventRegistryService {
     }
 
     @Override
-    public void getPlayerInRoom(RoomId room) {
+    public void playerBet(PlayerId player, int money) {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void getPlayerInTable(TableId table) {
+    public void playerWin(PlayerId player, int money) {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public List<Player> getPlayersInRoom(RoomId room) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<Player> getPlayersInTable(TableId table) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Player getPlayer(PlayerId playerId) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

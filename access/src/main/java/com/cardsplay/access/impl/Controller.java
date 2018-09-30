@@ -60,7 +60,7 @@ public class Controller {
 
     private final ExecutorService executorService = Executors
             .newFixedThreadPool(10, groupedThreads("CardsPlay-C", "executor-%d", log));
-
+    
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
     private Class<? extends ServerChannel> serverChannelClass;

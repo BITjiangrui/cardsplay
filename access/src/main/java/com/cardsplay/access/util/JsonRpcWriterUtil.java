@@ -83,6 +83,60 @@ public final class JsonRpcWriterUtil {
     }
     
     /**
+     * notify client player is the game is start in the table.
+     * @param uuid id of start_game request
+     * @param parms params of start_game request
+     * @return start_game Request String
+     */
+    public static String startGameStr(String uuid, List parms) {
+        String methodName = "start_game";
+        return getRequestStr(uuid, methodName, parms);
+    }
+    
+    /**
+     * notify client player is the game is over in the table.
+     * @param uuid id of game_over request
+     * @param parms params of game_over request
+     * @return game_over Request String
+     */
+    public static String gameOverStr(String uuid, List parms) {
+        String methodName = "game_over";
+        return getRequestStr(uuid, methodName, parms);
+    }
+    
+    /**
+     * assign cards to client player.
+     * @param uuid id of assign_cards request
+     * @param parms params of assign_cards request
+     * @return assign_cards Request String
+     */
+    public static String assignCardsStr(String uuid, List parms) {
+        String methodName = "assign_cards";
+        return getRequestStr(uuid, methodName, parms);
+    }
+    
+    /**
+     * notify client player who wins.
+     * @param uuid id of calc_winner request
+     * @param parms params of calc_winner request
+     * @return calc_winner Request String
+     */
+    public static String calcWinnerStr(String uuid, List parms) {
+        String methodName = "calc_winner";
+        return getRequestStr(uuid, methodName, parms);
+    }
+    
+    /**
+     * notify client player who should get money.
+     * @param uuid id of balance request
+     * @param parms params of balance request
+     * @return balance Request String
+     */
+    public static String balanceStr(String uuid, List parms) {
+        String methodName = "balance";
+        return getRequestStr(uuid, methodName, parms);
+    }
+    /**
      * Returns string of echo request.
      * @param uuid id of echo request
      * @return echo Request String
