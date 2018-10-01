@@ -19,11 +19,17 @@ import com.cardsplay.core.models.RoomId;
 import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 
-public class PlayerManager implements PlayerService, EventRegistryService {
+public class PlayerManager implements PlayerService{
+
     Map<PlayerId, Player> PlayerStore;
+
     protected Set<EventListener> eventListener = new CopyOnWriteArraySet<>();
 
+    private static PlayerService instance = new PlayerManager();
 
+
+    private PlayerManager(){
+    }
 
     @Override
     public void activate() {
@@ -104,4 +110,7 @@ public class PlayerManager implements PlayerService, EventRegistryService {
         return null;
     }
 
+    public static PlayerService getInstance(){
+        return instance;
+    }
 }

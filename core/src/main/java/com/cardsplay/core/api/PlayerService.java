@@ -8,7 +8,7 @@ import com.cardsplay.core.models.RoomId;
 import com.cardsplay.core.models.TableId;
 
 
-public interface PlayerService extends LifeCycleService{
+public interface PlayerService extends LifeCycleService, EventRegistryService{
     
     void playerOnline(PlayerId player);
     

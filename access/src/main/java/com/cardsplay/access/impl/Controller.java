@@ -176,8 +176,7 @@ public class Controller {
     /**
      * Starts controller.
      *
-     * @param agent OvsdbAgent
-     * @param monitorCallback Callback
+     * @param agent CardsPlayAgent
      */
     public void start(CardsPlayAgent agent) {
         this.agent = agent;

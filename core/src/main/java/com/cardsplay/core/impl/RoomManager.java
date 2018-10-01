@@ -6,15 +6,20 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import com.cardsplay.core.api.EventListener;
 import com.cardsplay.core.api.EventRegistryService;
+import com.cardsplay.core.api.PlayerService;
 import com.cardsplay.core.api.RoomService;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.Room;
 import com.cardsplay.core.models.RoomId;
 
-public class RoomManager implements RoomService, EventRegistryService {
+public class RoomManager implements RoomService {
     Map<RoomId, Room> RoomStore;
+
     protected Set<EventListener> eventListener = new CopyOnWriteArraySet<>();
 
+    private static RoomService instance = new RoomManager();
+
+    private RoomManager(){};
     @Override
     public void activate() {
         // TODO Auto-generated method stub
@@ -69,5 +74,7 @@ public class RoomManager implements RoomService, EventRegistryService {
     public void removeEventListener(EventListener listener) {
         this.eventListener.remove(listener);
     }
-
+    public static RoomService getInstance(){
+        return instance;
+    }
 }

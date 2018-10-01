@@ -1,4 +1,4 @@
-package com.cardsplay.win3cards.models;
+package com.cardsplay.win3cards;
 
 import java.util.List;
 

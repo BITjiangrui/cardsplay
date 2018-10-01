@@ -17,13 +17,16 @@ import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.cardsplay.core.models.TableStatus;
 
-public class TableManager implements TableService,EventRegistryService {
+public class TableManager implements TableService {
 
     Map<TableId, Table> tableStore;
     Map<TableId, TableStatus> stateStore;
 
     protected Set<EventListener> eventListener = new CopyOnWriteArraySet<>();
 
+    private static TableService instance = new TableManager();
+
+    private TableManager(){};
     @Override
     public void activate() {
         // TODO Auto-generated method stub
@@ -85,7 +88,10 @@ public class TableManager implements TableService,EventRegistryService {
     public void removeEventListener(EventListener listener) {
         this.eventListener.remove(listener);
     }
-    
+
+    public static TableService getInstance(){
+        return instance;
+    }
     private class InnerPlayerEventListener implements EventListener {
         @Override
         public void handle(Event<EventSubject> event) {

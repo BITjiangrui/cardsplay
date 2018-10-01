@@ -6,6 +6,9 @@ import com.cardsplay.access.api.CardsPlayController;
 import com.cardsplay.access.api.CardsPlayNodeId;
 import com.cardsplay.access.api.CardsPlayNodeListener;
 import com.cardsplay.access.driver.CardsPlayAgent;
+import com.cardsplay.core.api.EventListener;
+import com.cardsplay.core.api.PlayerService;
+import com.cardsplay.core.impl.PlayerManager;
 import com.google.common.collect.ImmutableList;
 
 import org.slf4j.Logger;
@@ -40,6 +43,11 @@ public class CardsPlayControllerImpl implements CardsPlayController {
 
     private final Controller controller = new Controller();
 
+    private static CardsPlayController instance = new CardsPlayControllerImpl();
+
+    private CardsPlayControllerImpl(){
+
+    }
     @Override
     public void activate() {
         controller.start(agent);
@@ -75,6 +83,9 @@ public class CardsPlayControllerImpl implements CardsPlayController {
         return cardsPlayClients.get(nodeId);
     }
 
+    public static CardsPlayController getInstance(){
+        return instance;
+    }
 
     /**
      * Implementation of an CardsPlay Agent which is responsible for keeping track
