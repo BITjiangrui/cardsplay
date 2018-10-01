@@ -13,7 +13,7 @@ public class BalanceNotEnoughException extends ServiceException {
     
     // 实际余额
     private int balance;
-    // 实际金额
+    // 需求金额
     private int wanted;
 
     public BalanceNotEnoughException() {
