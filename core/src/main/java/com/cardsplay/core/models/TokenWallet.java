@@ -5,14 +5,18 @@ import java.util.Map;
 public class TokenWallet {
     public final PlayerId account;
 
-    private Map<TokenType, Integer> wallet;
+    public final TokenType  tokenType;
+    
+    private Integer amount;
 
-    public TokenWallet(PlayerId account) {
+    public TokenWallet(PlayerId account, TokenType tokenType) {
         this.account = account;
+        this.tokenType = tokenType;
+        this.amount = 0;
     }
 
     public void add(TokenType tokenType, int money) {
-        if (wallet.containsKey(tokenType) && wallet.get(tokenType) != null) {
+        if (this.tokenType.equals(tokenType)) {
             Integer result = wallet.get(tokenType) + money;
             wallet.put(tokenType, result);
         } else {
