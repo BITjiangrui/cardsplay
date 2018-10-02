@@ -32,7 +32,7 @@ public class Main {
         controller.activate();
         serviceMap.put(CardsPlayController.class, controller);
 
-        // add Lister to controller
+        // init server side
         CardsPlayServerService server = WinThreeCardsServer.getInstance();
         server.activate();
     }
