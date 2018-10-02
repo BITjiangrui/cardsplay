@@ -23,6 +23,8 @@ import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.cardsplay.core.models.TokenType;
 import com.cardsplay.core.models.TokenWallet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
@@ -31,6 +33,10 @@ import static com.cardsplay.win3cards.Main.serviceMap;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class WinThreeCardsServer implements CardsPlayServerService {
+
+    public  final static Logger log = LoggerFactory
+            .getLogger(WinThreeCardsServer.class);
+
     RoomService roomService = (RoomService) serviceMap.get(RoomService.class);
     TableService tableService = (TableService) serviceMap.get(TableService.class);
     PlayerService playerService = (PlayerService) serviceMap.get(PlayerService.class);
@@ -55,6 +61,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
 
     @Override
     public void activate() {
+        log.info("WinThreeCardsServer Started");
         // Init Room
         RoomId roomId = new RoomId(UUID.randomUUID(), 1);
         Room room = new Room(roomId, roomCapacity, DealType.WinThreeCards);
@@ -77,7 +84,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
 
     @Override
     public void deactivate() {
-
+        log.info("WinThreeCardsServer Stopped");
     }
 
     @Override

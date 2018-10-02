@@ -16,6 +16,16 @@
         </dependency>
 
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-core</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.Ohenry</groupId>
             <artifactId>core</artifactId>
         </dependency>

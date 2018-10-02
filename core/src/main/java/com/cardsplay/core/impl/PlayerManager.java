@@ -1,27 +1,23 @@
 package com.cardsplay.core.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
-
-
-import com.cardsplay.core.api.Event;
 import com.cardsplay.core.api.EventListener;
-import com.cardsplay.core.api.EventRegistryService;
 import com.cardsplay.core.api.PlayerService;
 import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.PlayerState;
-import com.cardsplay.core.models.Room;
 import com.cardsplay.core.models.RoomId;
-import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class PlayerManager implements PlayerService{
 
+    public  final static Logger log = LoggerFactory
+            .getLogger(PlayerManager.class);
     Map<PlayerId, Player> PlayerStore;
 
     protected Set<EventListener> eventListener = new CopyOnWriteArraySet<>();
@@ -34,13 +30,13 @@ public class PlayerManager implements PlayerService{
 
     @Override
     public void activate() {
-        // TODO Auto-generated method stub
+        log.info("Player Service Activated");
 
     }
 
     @Override
     public void deactivate() {
-        // TODO Auto-generated method stub
+        log.info("Player Service Deactivated");
 
     }
 

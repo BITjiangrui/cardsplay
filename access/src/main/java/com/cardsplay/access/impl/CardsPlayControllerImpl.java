@@ -46,13 +46,13 @@ public class CardsPlayControllerImpl implements CardsPlayController {
     @Override
     public void activate() {
         controller.start(agent);
-        log.info("Started");        
+        log.info("CardsPlayController Started");
     }
 
     @Override
     public void deactivate() {
         controller.stop();
-        log.info("Stoped");        
+        log.info("CardsPlayController Stopped");
     }
 
 

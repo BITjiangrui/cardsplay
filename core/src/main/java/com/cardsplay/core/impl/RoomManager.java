@@ -6,35 +6,41 @@ import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.Room;
 import com.cardsplay.core.models.RoomId;
 import com.cardsplay.core.models.TableId;
+import com.google.common.collect.Maps;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 public class RoomManager implements RoomService {
-    Map<RoomId, Room> RoomStore;
+    Map<RoomId, Room> roomStore;
 
-
+    public  final static Logger log = LoggerFactory
+            .getLogger(RoomManager.class);
     protected Set<EventListener> eventListener = new CopyOnWriteArraySet<>();
 
     private static RoomService instance = new RoomManager();
 
     public static int roomCapacity = 250;
 
-    private RoomManager(){};
+    private RoomManager(){
+        roomStore = Maps.newConcurrentMap();
+    };
     @Override
     public void activate() {
-        // TODO Auto-generated method stub
+        log.info("Room Service Activated");
     }
 
     @Override
     public void deactivate() {
-        // TODO Auto-generated method stub
+        log.info("Room Service Deactivated");
 
     }
     
     public Room joinRoom(RoomId roomId, PlayerId player) {
-        Room room = RoomStore.get(roomId);
+        Room room = roomStore.get(roomId);
         room.playerJoinIn(player);
         return room;
     }
@@ -55,8 +61,7 @@ public class RoomManager implements RoomService {
     }
 
     public void addRoom(Room room) {
-        // TODO Auto-generated method stub
-
+        roomStore.put(room.roomId, room);
     }
 
     public void removeRoom(RoomId roomId) {
@@ -65,11 +70,11 @@ public class RoomManager implements RoomService {
     }
 
     public void addTableToRoom(RoomId roomId, TableId tableId){
-        RoomStore.get(roomId).addTableId(tableId);
+        roomStore.get(roomId).addTableId(tableId);
     }
 
     public void removeTableFromRoom(RoomId roomId, TableId tableId){
-        RoomStore.get(roomId).removeTableId(tableId);
+        roomStore.get(roomId).removeTableId(tableId);
     }
 
     @Override

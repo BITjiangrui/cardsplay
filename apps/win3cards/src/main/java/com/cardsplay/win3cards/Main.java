@@ -3,6 +3,7 @@ package com.cardsplay.win3cards;
 import com.cardsplay.access.api.CardsPlayController;
 import com.cardsplay.access.api.CardsPlayServerService;
 import com.cardsplay.access.impl.CardsPlayControllerImpl;
+import com.cardsplay.core.api.LifeCycleService;
 import com.cardsplay.core.api.PlayerService;
 import com.cardsplay.core.api.RoomService;
 import com.cardsplay.core.api.TableService;
@@ -14,7 +15,8 @@ import com.google.common.collect.Maps;
 import java.util.Map;
 
 public class Main {
-    public static Map serviceMap = Maps.newConcurrentMap();
+    public static Map<Class, LifeCycleService> serviceMap = Maps.newConcurrentMap();
+
     public static void main(String[] args) {
         // TODO: add graceful shutdown mechanism
         // init Core Service
@@ -36,5 +38,17 @@ public class Main {
         // init server side
         CardsPlayServerService server = WinThreeCardsServer.getInstance();
         server.activate();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("hook running...");
+                serviceMap.values().forEach(v -> {
+                    v.deactivate();
+                });
+                System.out.println("graceful  end...");
+            }
+        }));
+
     }
 }
