@@ -1,60 +1,31 @@
 
 package com.cardsplay.core.api;
 
-import static com.google.common.base.MoreObjects.toStringHelper;
-
 /**
- * The abstract event.
+ * Abstraction of an of a time-stamped event pertaining to an arbitrary subject.
  */
-public final class Event<S> {
-
-    public enum Type {
-        /**
-         * Signifies that a new Player is ready or undo ready.
-         */
-        PLAYER_UPDATE,
-        /**
-         * Signifies that Player is jon in or quit.
-         */
-        TABLE_UPDATE
-    }
-
-    private final Type type;
-    private final S subject;
+public interface Event<T extends Enum, S> {
 
     /**
-     * Creates an event of a given type and for the specified event subject.
+     * Returns the timestamp of when the event occurred, given in milliseconds
+     * since the start of epoch.
      *
-     * @param type event type
-     * @param subject event subject
+     * @return timestamp in milliseconds
      */
-    public Event(Type type, S subject) {
-        this.type = type;
-        this.subject = subject;
-    }
+    long time();
 
     /**
-     * Returns the type of event.
+     * Returns the type of the event.
      *
      * @return event type
      */
-    public Type type() {
-        return type;
-    }
+    T type();
 
     /**
-     * Returns the subject of event.
+     * Returns the subject of the event.
      *
      * @return subject to which this event pertains
      */
-    public S subject() {
-        return subject;
-    }
-
-    @Override
-    public String toString() {
-        return toStringHelper(this).add("type", type())
-                .add("subject", subject()).toString();
-    }
+    S subject();
 
 }

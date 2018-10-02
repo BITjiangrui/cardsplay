@@ -2,10 +2,12 @@ package com.cardsplay.core.impl;
 
 import com.cardsplay.core.api.EventListener;
 import com.cardsplay.core.api.TableService;
+import com.cardsplay.core.exception.ServiceException;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.cardsplay.core.models.TableStatus;
+import com.cardsplay.util.ResponseCode;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+
 
 public class TableManager implements TableService {
 
@@ -65,9 +68,17 @@ public class TableManager implements TableService {
     }
 
     @Override
-    public Table joinTable(TableId table, PlayerId player) {
-        // TODO Auto-generated method stub
-        return null;
+    public Table joinTable(TableId tableId, PlayerId playerId) throws ServiceException {
+        Table table = tableStore.get(tableId);
+        if(table == null){
+            log.error("Player {} can not join because Table {}do not exist", playerId, tableId);
+            throw new ServiceException(ResponseCode.badRequest, "桌号不存在");
+        } else if(table.playerIds.size() >= table.capacity){
+            log.error("Player {} can not join Table {} because the num of players reach the upper limit", playerId, tableId);
+            throw new ServiceException(ResponseCode.denyAccess, "人数已经达到上限");
+        }
+        table.playerIds.add(playerId);
+        return table;
     }
 
     @Override

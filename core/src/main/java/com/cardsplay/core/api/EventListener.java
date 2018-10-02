@@ -4,11 +4,12 @@ package com.cardsplay.core.api;
 /**
  * Allows for providers interested in cards play events to be notified.
  */
-public interface EventListener {
+public interface EventListener<E extends Event> {
+
     /**
-     * Handles the event.
+     * Reacts to the specified event.
      *
-     * @param event event
+     * @param event event to be processed
      */
-    void handle(Event<EventSubject> event);
+    void event(E event);
 }

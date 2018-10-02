@@ -5,14 +5,14 @@ import com.cardsplay.access.api.CardsPlayNodeId;
 import com.cardsplay.access.api.CardsPlayNodeListener;
 import com.cardsplay.access.api.CardsPlayServerService;
 import com.cardsplay.core.api.ClientResponse;
-import com.cardsplay.core.api.Event;
-import com.cardsplay.core.api.EventListener;
-import com.cardsplay.core.api.EventSubject;
-import com.cardsplay.core.api.PlayerEventSubject;
+import com.cardsplay.core.api.PlayerEvent;
+import com.cardsplay.core.api.PlayerListener;
 import com.cardsplay.core.api.PlayerService;
 import com.cardsplay.core.api.RoomService;
-import com.cardsplay.core.api.TableEventSubject;
+import com.cardsplay.core.api.TableEvent;
+import com.cardsplay.core.api.TableListener;
 import com.cardsplay.core.api.TableService;
+import com.cardsplay.core.exception.ServiceException;
 import com.cardsplay.core.models.DealType;
 import com.cardsplay.core.models.Dealer;
 import com.cardsplay.core.models.Player;
@@ -23,6 +23,7 @@ import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.cardsplay.core.models.TokenType;
 import com.cardsplay.core.models.TokenWallet;
+import com.cardsplay.util.ResponseCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +31,6 @@ import java.util.UUID;
 
 import static com.cardsplay.core.impl.RoomManager.roomCapacity;
 import static com.cardsplay.win3cards.Main.serviceMap;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 public class WinThreeCardsServer implements CardsPlayServerService {
 
@@ -42,7 +42,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
     PlayerService playerService = (PlayerService) serviceMap.get(PlayerService.class);
     CardsPlayController controller = (CardsPlayController) serviceMap.get(CardsPlayController.class);
     // The default capacity of each table
-    private static int playersIntaleCapacity = 5;
+    private static int playersInTableCapacity = 5;
 
 
 
@@ -52,7 +52,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
 
     private InnerPlayerEventListener playerEventListener = new InnerPlayerEventListener();
 
-    private InnerTableEventListener tableEventListener = new InnerTableEventListener();
+    //private InnerTableEventListener tableEventListener = new InnerTableEventListener();
 
 
     private  WinThreeCardsServer(){
@@ -71,7 +71,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         for(int i=1; i<250; i++){
             TableId tableId = new TableId(UUID.randomUUID(), i);
             Dealer dealer = new WinThreeCardsDealer();
-            Table table = new Table(tableId, dealer, playersIntaleCapacity);
+            Table table = new Table(tableId, dealer, playersInTableCapacity);
             tableService.addTable(table);
             roomService.addTableToRoom(roomId, tableId);
         }
@@ -79,7 +79,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         // add listener
         controller.addNodeListener(cardsPlayNodeHandler);
         playerService.addEventListener(playerEventListener);
-        tableService.addEventListener(tableEventListener);
+        //tableService.addEventListener(tableEventListener);
     }
 
     @Override
@@ -106,12 +106,20 @@ public class WinThreeCardsServer implements CardsPlayServerService {
     public ClientResponse joinTable(CardsPlayNodeId nodeId, TableId tableId) {
         PlayerId playerId = new PlayerId(nodeId.nodeId());
         ClientResponse response = null;
-        for (Room room : roomService.getRooms()){
-            if (room.tableIds.contains(tableId) && room.playerIds.contains(playerId)){
-                Table table = tableService.joinTable(tableId, playerId);
-                response = ClientResponse.respSuccess(table);
+        for (Room room : roomService.getRooms()) {
+            if (room.tableIds.contains(tableId) && room.playerIds.contains(playerId)) {
+                try {
+                    Table table = tableService.joinTable(tableId, playerId);
+                    response = ClientResponse.respSuccess(table);
+                    return response;
+                } catch (ServiceException exception){
+                    response = ClientResponse.respFail(exception.getCode(), exception.getMsg());
+                    return  response;
+                }
             }
         }
+        log.error("tableId {} or playerId {} can not be find in all room", tableId, playerId);
+        response = ClientResponse.respFail(ResponseCode.badRequest, "请重新加入房间");
         return response;
     }
 
@@ -140,14 +148,11 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         return instance;
     }
 
-    private class InnerTableEventListener implements EventListener {
+    private class InnerTableEventListener implements TableListener {
+
         @Override
-        public void handle(Event<EventSubject> event) {
-            EventSubject subject = null;
-            if (event.subject() instanceof PlayerEventSubject) {
-                subject = (TableEventSubject) event.subject();
-            }
-            checkNotNull(subject, "EventSubject is not null");
+        public void event(TableEvent event) {
+            log.info("{} event happend {}",event.type());
             switch (event.type()) {
                 case TABLE_UPDATE:
                     break;
@@ -155,18 +160,14 @@ public class WinThreeCardsServer implements CardsPlayServerService {
                     break;
             }
         }
-
     }
 
 
-    private class InnerPlayerEventListener implements EventListener {
+    private class InnerPlayerEventListener implements PlayerListener {
+
         @Override
-        public void handle(Event<EventSubject> event) {
-            EventSubject subject = null;
-            if (event.subject() instanceof PlayerEventSubject) {
-                subject = (PlayerEventSubject) event.subject();
-            }
-            checkNotNull(subject, "EventSubject is not null");
+        public void event(PlayerEvent event) {
+            log.info("{} event happend {}",event.type());
             switch (event.type()) {
                 case PLAYER_UPDATE:
                     break;
@@ -174,7 +175,6 @@ public class WinThreeCardsServer implements CardsPlayServerService {
                     break;
             }
         }
-
     }
 
     public class CardsPlayNodeHandler implements CardsPlayNodeListener{

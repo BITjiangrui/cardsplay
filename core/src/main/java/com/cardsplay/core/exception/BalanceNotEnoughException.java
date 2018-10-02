@@ -9,8 +9,7 @@ import static com.google.common.base.MoreObjects.toStringHelper;
  * @version 1.0.0
  */
 public class BalanceNotEnoughException extends ServiceException {
-    private static final long serialVersionUID = -647562559025214578L;
-    
+
     // 实际余额
     private int balance;
     // 需求金额
