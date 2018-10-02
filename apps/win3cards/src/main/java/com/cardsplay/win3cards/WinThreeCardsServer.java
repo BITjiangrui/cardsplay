@@ -11,6 +11,7 @@ import com.cardsplay.core.api.EventSubject;
 import com.cardsplay.core.api.PlayerEventSubject;
 import com.cardsplay.core.api.PlayerService;
 import com.cardsplay.core.api.RoomService;
+import com.cardsplay.core.api.TableEventSubject;
 import com.cardsplay.core.api.TableService;
 import com.cardsplay.core.models.DealType;
 import com.cardsplay.core.models.Dealer;
@@ -127,7 +128,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         public void handle(Event<EventSubject> event) {
             EventSubject subject = null;
             if (event.subject() instanceof PlayerEventSubject) {
-                subject = (PlayerEventSubject) event.subject();
+                subject = (TableEventSubject) event.subject();
             }
             checkNotNull(subject, "EventSubject is not null");
             switch (event.type()) {
