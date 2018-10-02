@@ -62,7 +62,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
     @Override
     public void activate() {
         log.info("WinThreeCardsServer Started");
-        // Init Room
+        // Init 1 Room
         RoomId roomId = new RoomId(UUID.randomUUID(), 1);
         Room room = new Room(roomId, roomCapacity, DealType.WinThreeCards);
         roomService.addRoom(room);
