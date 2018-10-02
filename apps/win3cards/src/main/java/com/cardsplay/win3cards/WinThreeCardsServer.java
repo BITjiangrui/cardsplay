@@ -52,7 +52,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
 
     private InnerPlayerEventListener playerEventListener = new InnerPlayerEventListener();
 
-    //private InnerTableEventListener tableEventListener = new InnerTableEventListener();
+    private InnerTableEventListener tableEventListener = new InnerTableEventListener();
 
 
     private  WinThreeCardsServer(){
@@ -79,7 +79,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         // add listener
         controller.addNodeListener(cardsPlayNodeHandler);
         playerService.addEventListener(playerEventListener);
-        //tableService.addEventListener(tableEventListener);
+        tableService.addEventListener(tableEventListener);
     }
 
     @Override
