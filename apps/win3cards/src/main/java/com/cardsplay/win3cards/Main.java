@@ -16,6 +16,7 @@ import java.util.Map;
 public class Main {
     public static Map serviceMap = Maps.newConcurrentMap();
     public static void main(String[] args) {
+        // TODO: add graceful shutdown mechanism
         // init Core Service
         PlayerService playerService = PlayerManager.getInstance();
         RoomService roomService = RoomManager.getInstance();
