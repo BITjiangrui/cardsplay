@@ -2,12 +2,14 @@ package com.cardsplay.core.impl;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import com.cardsplay.core.api.EventListener;
 import com.cardsplay.core.api.EventRegistryService;
 import com.cardsplay.core.api.PlayerService;
 import com.cardsplay.core.api.RoomService;
+import com.cardsplay.core.models.DealType;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.Room;
 import com.cardsplay.core.models.RoomId;
@@ -19,11 +21,12 @@ public class RoomManager implements RoomService {
 
     private static RoomService instance = new RoomManager();
 
+    public static int roomCapacity = 250;
+
     private RoomManager(){};
     @Override
     public void activate() {
         // TODO Auto-generated method stub
-
     }
 
     @Override
