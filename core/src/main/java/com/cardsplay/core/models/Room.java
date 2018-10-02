@@ -16,4 +16,12 @@ public class Room {
         this.capacity = capacity;
         this.dealtype = dealtype;
     }
+
+    public void addTableId(TableId tableId){
+        tableIds.add(tableId);
+    }
+
+    public void removeTableId(TableId tableId){
+        tableIds.remove(tableId);
+    }
 }

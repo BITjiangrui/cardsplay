@@ -10,5 +10,5 @@ public enum PlayerState {
 	 * unavaiable:²»¿ÉÓÃ×´Ì¬
 	 * waiting:
 	 * */
-	Uncheck, Check, Discard, Dealed, Undeal, unavaiable, Waiting, Ready;
+	Online, Offline, Uncheck, Check, Discard, Dealed, Undeal, Waiting, Ready;
 }

@@ -10,8 +10,8 @@ import com.cardsplay.core.models.PlayerId;
 
 public class WinThreeCardsDealer extends Dealer {
 
-    public WinThreeCardsDealer(DealType dealType) {
-        super(dealType);
+    public WinThreeCardsDealer() {
+        super(DealType.WinThreeCards);
     }
 
     @Override

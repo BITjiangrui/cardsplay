@@ -13,6 +13,8 @@ import com.cardsplay.core.models.DealType;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.Room;
 import com.cardsplay.core.models.RoomId;
+import com.cardsplay.core.models.Table;
+import com.cardsplay.core.models.TableId;
 
 public class RoomManager implements RoomService {
     Map<RoomId, Room> RoomStore;
@@ -65,6 +67,13 @@ public class RoomManager implements RoomService {
 
     }
 
+    public void addTableToRoom(RoomId roomId, TableId tableId){
+        RoomStore.get(roomId).addTableId(tableId);
+    }
+
+    public void removeTableFromRoom(RoomId roomId, TableId tableId){
+        RoomStore.get(roomId).removeTableId(tableId);
+    }
 
     @Override
     public void addEventListener(EventListener listener) {

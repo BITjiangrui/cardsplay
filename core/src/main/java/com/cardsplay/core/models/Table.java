@@ -15,7 +15,7 @@ public class Table {
 	public Set<PlayerId> playerIds;
 	public final int size;
 	
-	public Table(TableId tableId, Dealer dealer, DealType dealType, int volumn) {
+	public Table(TableId tableId, Dealer dealer, int volumn) {
 		this.tableId = tableId;
 		this.dealer = dealer;
 		playerIds = Sets.newConcurrentHashSet();

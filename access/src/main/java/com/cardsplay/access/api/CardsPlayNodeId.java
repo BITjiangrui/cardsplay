@@ -6,6 +6,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.cardsplay.util.IpAddress;
 
+import java.util.UUID;
+
 
 /**
  * The class representing a nodeId of node which using ovsdb connection.
@@ -14,16 +16,18 @@ import com.cardsplay.util.IpAddress;
 public final class CardsPlayNodeId{
     private static final String SCHEME = "cardsplay";
     private final String ipAddress;
+    private  final UUID playerNodeId;
 
     /**
      * Creates a new node identifier from an IpAddress ipAddress, a long port.
      *
      * @param ipAddress node IP address
-     * @param port node port
+     * @param uuid node uuid
      */
-    public CardsPlayNodeId(IpAddress ipAddress, long port) {
+    public CardsPlayNodeId(UUID uuid, IpAddress ipAddress) {
         // TODO: port is currently not in use, need to remove it later
         checkNotNull(ipAddress, "ipAddress is not null");
+        this.playerNodeId = uuid;
         this.ipAddress = ipAddress.toString();
     }
 
@@ -37,8 +41,8 @@ public final class CardsPlayNodeId{
      *
      * @return the value of the NodeId.
      */
-    public String nodeId() {
-        return SCHEME + ":" + ipAddress;
+    public UUID nodeId() {
+        return playerNodeId;
     }
 
     /**

@@ -17,19 +17,15 @@ public class TokenWallet {
 
     public void add(TokenType tokenType, int money) {
         if (this.tokenType.equals(tokenType)) {
-            Integer result = wallet.get(tokenType) + money;
-            wallet.put(tokenType, result);
+            amount = amount + money;
         } else {
-            wallet.put(tokenType, money);
         }
     }
 
     public void reduce(TokenType tokenType, int money) {
-        if (wallet.containsKey(tokenType) && wallet.get(tokenType) != null) {
-            Integer result = wallet.get(tokenType) + money;
-            wallet.put(tokenType, result);
+        if (this.tokenType.equals(tokenType)) {
+            amount = amount - money;
         } else {
-            wallet.put(tokenType, money);
         }
     }
 }

@@ -14,6 +14,7 @@ import com.cardsplay.core.api.EventRegistryService;
 import com.cardsplay.core.api.PlayerService;
 import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
+import com.cardsplay.core.models.PlayerState;
 import com.cardsplay.core.models.Room;
 import com.cardsplay.core.models.RoomId;
 import com.cardsplay.core.models.Table;
@@ -57,15 +58,14 @@ public class PlayerManager implements PlayerService{
     }
 
     @Override
-    public void playerOnline(PlayerId player) {
-        // TODO Auto-generated method stub
-        
+    public void playerOnline(Player player) {
+        player.setState(PlayerState.Online);
+        PlayerStore.put(player.playerId, player);
     }
 
     @Override
-    public void playerOffline(PlayerId player) {
-        // TODO Auto-generated method stub
-        
+    public void playerOffline(Player player) {
+        player.setState(PlayerState.Offline);
     }
 
     @Override
@@ -93,13 +93,13 @@ public class PlayerManager implements PlayerService{
     }
 
     @Override
-    public List<Player> getPlayersInRoom(RoomId room) {
+    public Iterable<Player> getPlayersInRoom(RoomId room) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<Player> getPlayersInTable(TableId table) {
+    public Iterable<Player> getPlayersInTable(TableId table) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -107,6 +107,11 @@ public class PlayerManager implements PlayerService{
     @Override
     public Player getPlayer(PlayerId playerId) {
         // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Iterable<Player> getPlayers() {
         return null;
     }
 

@@ -10,9 +10,9 @@ import com.cardsplay.core.models.TableId;
 
 public interface PlayerService extends LifeCycleService, EventRegistryService{
     
-    void playerOnline(PlayerId player);
+    void playerOnline(Player player);
     
-    void playerOffline(PlayerId player);
+    void playerOffline(Player player);
 
     void playerIsReady(PlayerId player);
 
@@ -22,10 +22,13 @@ public interface PlayerService extends LifeCycleService, EventRegistryService{
 
     void playerWin(PlayerId player, int money);
 
-    List<Player> getPlayersInRoom(RoomId room);
+    Iterable<Player> getPlayersInRoom(RoomId room);
 
-    List<Player> getPlayersInTable(TableId table);
+    Iterable<Player> getPlayersInTable(TableId table);
     
     Player getPlayer(PlayerId playerId);
+
+    Iterable<Player> getPlayers();
+
 
 }
