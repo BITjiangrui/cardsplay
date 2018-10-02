@@ -42,6 +42,13 @@ public class WinThreeCardsServer implements CardsPlayServerService {
 
     private static CardsPlayServerService instance = new WinThreeCardsServer();
 
+    private  CardsPlayNodeHandler cardsPlayNodeHandler = new CardsPlayNodeHandler();
+
+    private InnerPlayerEventListener playerEventListener = new InnerPlayerEventListener();
+
+    private InnerTableEventListener tableEventListener = new InnerTableEventListener();
+
+
     private  WinThreeCardsServer(){
 
     }
@@ -63,7 +70,9 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         }
 
         // add listener
-        controller.addNodeListener(new playerInternalHandler());
+        controller.addNodeListener(cardsPlayNodeHandler);
+        playerService.addEventListener(playerEventListener);
+        tableService.addEventListener(tableEventListener);
     }
 
     @Override
@@ -160,7 +169,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
 
     }
 
-    public class playerInternalHandler implements CardsPlayNodeListener{
+    public class CardsPlayNodeHandler implements CardsPlayNodeListener{
 
         @Override
         public void nodeAdded(CardsPlayNodeId nodeId) {
