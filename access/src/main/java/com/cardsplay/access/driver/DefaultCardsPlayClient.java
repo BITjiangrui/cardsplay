@@ -1,48 +1,32 @@
 
 package com.cardsplay.access.driver;
 
-import io.netty.channel.Channel;
-
-import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.cardsplay.access.api.CardsPlayClientService;
 import com.cardsplay.access.api.CardsPlayNodeId;
 import com.cardsplay.access.util.FromJsonUtil;
+import com.cardsplay.core.api.ClientResponse;
 import com.cardsplay.core.models.Card;
-import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.PlayerState;
-import com.cardsplay.core.models.Room;
 import com.cardsplay.core.models.RoomId;
-import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.SettableFuture;
+import io.netty.channel.Channel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Map;
 
 
 /**
- * An representation of an ovsdb client.
+ * An representation of an CardsPlay client.
  */
 public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPlayClientService {
 
-    private static final int TRANSACTCONFIG_TIMEOUT = 3; //sec
 
     private final Logger log = LoggerFactory.getLogger(DefaultCardsPlayClient.class);
 
@@ -108,7 +92,7 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
     }
 
     @Override
-    public void showRoom(Room room) {
+    public void showRoom(ClientResponse response) {
         // TODO Auto-generated method stub
         
     }

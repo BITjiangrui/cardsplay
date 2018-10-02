@@ -1,6 +1,14 @@
 
 package com.cardsplay.access.impl;
 
+import com.cardsplay.access.api.CardsPlayConstant;
+import com.cardsplay.access.api.CardsPlayNodeId;
+import com.cardsplay.access.driver.CardsPlayAgent;
+import com.cardsplay.access.driver.CardsPlayProviderService;
+import com.cardsplay.access.driver.DefaultCardsPlayClient;
+import com.cardsplay.util.IpAddress;
+import com.cardsplay.util.Tools;
+import com.cardsplay.util.TpPort;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -24,26 +32,16 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.cardsplay.access.api.CardsPlayConstant;
-import com.cardsplay.access.api.CardsPlayNodeId;
-import com.cardsplay.access.driver.CardsPlayAgent;
-import com.cardsplay.access.driver.CardsPlayProviderService;
-import com.cardsplay.access.driver.DefaultCardsPlayClient;
-import com.cardsplay.util.IpAddress;
-import com.cardsplay.util.Tools;
-import com.cardsplay.util.TpPort;
 
 import static com.cardsplay.util.Tools.groupedThreads;
 /**
@@ -138,7 +136,8 @@ public class Controller {
                 log.info("Get connection from ip address {} : {}",
                          ipAddress.toString(), port);
 
-                CardsPlayNodeId nodeId = new CardsPlayNodeId(ipAddress, port);
+                // TODO: get UUID from database
+                CardsPlayNodeId nodeId = new CardsPlayNodeId(UUID.randomUUID(), ipAddress);
                 CardsPlayProviderService cardsPlayProviderService = getNodeInstance(nodeId,
                                                                             agent,
                                                                             channel);

@@ -4,6 +4,12 @@
 	<groupId>com.Ohenry</groupId>
 	<artifactId>cardsplay</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<dependencies>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-transport</artifactId>
+		</dependency>
+	</dependencies>
 	<packaging>pom</packaging>
 
 	<modules>

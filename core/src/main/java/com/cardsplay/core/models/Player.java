@@ -19,6 +19,7 @@ public class Player {
      * 获取所有扑克
      */
     public List<Card> porks;
+
     public String nickName;
 
 

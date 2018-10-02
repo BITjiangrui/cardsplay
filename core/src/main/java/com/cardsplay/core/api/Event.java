@@ -14,7 +14,7 @@ public final class Event<S> {
          */
         PLAYER_UPDATE,
         /**
-         * Signifies that a the table is ready to start.
+         * Signifies that Player is jon in or quit.
          */
         TABLE_UPDATE
     }

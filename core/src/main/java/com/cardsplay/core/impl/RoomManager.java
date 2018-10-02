@@ -1,23 +1,19 @@
 package com.cardsplay.core.impl;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.CopyOnWriteArraySet;
-
 import com.cardsplay.core.api.EventListener;
-import com.cardsplay.core.api.EventRegistryService;
-import com.cardsplay.core.api.PlayerService;
 import com.cardsplay.core.api.RoomService;
-import com.cardsplay.core.models.DealType;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.Room;
 import com.cardsplay.core.models.RoomId;
-import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class RoomManager implements RoomService {
     Map<RoomId, Room> RoomStore;
+
 
     protected Set<EventListener> eventListener = new CopyOnWriteArraySet<>();
 
@@ -37,9 +33,10 @@ public class RoomManager implements RoomService {
 
     }
     
-    public boolean joinRoom(RoomId room, PlayerId player) {
-        // TODO Auto-generated method stub
-        return false;
+    public Room joinRoom(RoomId roomId, PlayerId player) {
+        Room room = RoomStore.get(roomId);
+        room.playerJoinIn(player);
+        return room;
     }
 
     public boolean quitRoom(RoomId room, PlayerId player) {

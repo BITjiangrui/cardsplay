@@ -1,6 +1,7 @@
 package com.cardsplay.win3cards;
 
 import com.cardsplay.access.api.CardsPlayController;
+import com.cardsplay.access.api.CardsPlayServerService;
 import com.cardsplay.access.impl.CardsPlayControllerImpl;
 import com.cardsplay.core.api.PlayerService;
 import com.cardsplay.core.api.RoomService;
@@ -32,7 +33,7 @@ public class Main {
         serviceMap.put(CardsPlayController.class, controller);
 
         // add Lister to controller
-        WinThreeCardsServer server = new WinThreeCardsServer();
-        server.init();
+        CardsPlayServerService server = WinThreeCardsServer.getInstance();
+        server.activate();
     }
 }

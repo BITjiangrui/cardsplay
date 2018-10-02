@@ -9,6 +9,9 @@ public class Room {
     public final int capacity;
     public final DealType dealtype;
     public Set<TableId> tableIds;
+    public Set<PlayerId> playerIds;
+
+    public  String nickName;
 
     public Room(RoomId roomId, int capacity, DealType dealtype) {
         this.roomId = roomId;
@@ -21,7 +24,16 @@ public class Room {
         tableIds.add(tableId);
     }
 
+    public void playerJoinIn(PlayerId playerId) {
+        playerIds.add(playerId);
+    }
+
+
     public void removeTableId(TableId tableId){
         tableIds.remove(tableId);
+    }
+
+    public String getNickName() {
+        return nickName;
     }
 }

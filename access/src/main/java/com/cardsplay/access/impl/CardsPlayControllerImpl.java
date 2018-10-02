@@ -6,16 +6,11 @@ import com.cardsplay.access.api.CardsPlayController;
 import com.cardsplay.access.api.CardsPlayNodeId;
 import com.cardsplay.access.api.CardsPlayNodeListener;
 import com.cardsplay.access.driver.CardsPlayAgent;
-import com.cardsplay.core.api.EventListener;
-import com.cardsplay.core.api.PlayerService;
-import com.cardsplay.core.impl.PlayerManager;
 import com.google.common.collect.ImmutableList;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;

@@ -1,16 +1,16 @@
 
 package com.cardsplay.access.api;
 
-import java.util.List;
-
+import com.cardsplay.core.api.ClientResponse;
 import com.cardsplay.core.models.Card;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.PlayerState;
-import com.cardsplay.core.models.Room;
 import com.cardsplay.core.models.RoomId;
 import com.cardsplay.core.models.TableId;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.util.concurrent.ListenableFuture;
+
+import java.util.List;
 
 /**
  * Represents to provider facing side of a client.
@@ -87,7 +87,7 @@ public interface CardsPlayClientService{
     /**
      * This RPC method shows the all Info in the specific room¡£
      */
-    void showRoom(Room room);
+    void showRoom(ClientResponse response);
 
     /**
      * Checks if the node is still connected.

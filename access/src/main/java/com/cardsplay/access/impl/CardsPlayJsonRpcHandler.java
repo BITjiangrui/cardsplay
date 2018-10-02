@@ -42,9 +42,9 @@ public final class CardsPlayJsonRpcHandler extends ChannelInboundHandlerAdapter 
     }
 
     /**
-     * Sets the ovsdbProviderService instance.
+     * Sets the CardsPlayProviderService instance.
      *
-     * @param ovsdbNodeDriver the ovsdbNodeDriver to use
+     * @param cardsPlayNodeDriver the ovsdbNodeDriver to use
      */
     public void setCardsPlayProviderService(CardsPlayProviderService cardsPlayNodeDriver) {
         this.cardsPlayProviderService = cardsPlayNodeDriver;
@@ -62,7 +62,7 @@ public final class CardsPlayJsonRpcHandler extends ChannelInboundHandlerAdapter 
     /**
      * Sets the cardsPlaynode id.
      *
-     * @param cardsPlaynode the cardsPlaynode to use
+     * @param cardsPlayNode the cardsPlaynode to use
      */
     public void setNodeId(CardsPlayNodeId cardsPlayNode) {
         this.cardsPlayNodeId = cardsPlayNode;
