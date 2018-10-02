@@ -98,13 +98,14 @@ public class WinThreeCardsServer implements CardsPlayServerService {
     @Override
     public ClientResponse joinTable(CardsPlayNodeId nodeId, TableId tableId) {
         PlayerId playerId = new PlayerId(nodeId.nodeId());
+        ClientResponse response = null;
         for (Room room : roomService.getRooms()){
             if (room.tableIds.contains(tableId) && room.playerIds.contains(playerId)){
                 Table table = tableService.joinTable(tableId, playerId);
-                ClientResponse response = ClientResponse.respSuccess(table);
+                response = ClientResponse.respSuccess(table);
             }
         }
-        return null;
+        return response;
     }
 
     @Override
