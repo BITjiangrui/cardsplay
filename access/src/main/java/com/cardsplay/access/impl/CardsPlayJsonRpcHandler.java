@@ -17,7 +17,7 @@ import com.google.common.base.Strings;
  * cardsplay messages to the appropriate locations.
  */
 public final class CardsPlayJsonRpcHandler extends ChannelInboundHandlerAdapter {
-    protected static final Logger log = LoggerFactory
+    protected final static Logger log = LoggerFactory
             .getLogger(CardsPlayJsonRpcHandler.class);
     private CardsPlayNodeId cardsPlayNodeId;
     private CardsPlayProviderService cardsPlayProviderService;

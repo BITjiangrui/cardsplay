@@ -23,7 +23,7 @@
 	<properties>
 		<project.build.sourceEncoding>GBK</project.build.sourceEncoding>
 		<netty4.version>4.1.16.Final</netty4.version>
-		<slf4j.version>1.7.21</slf4j.version>
+		<slf4j.version>1.7.25</slf4j.version>
 		<guava.version>22.0</guava.version>
 		<jackson.version>2.8.10</jackson.version>
 	</properties>
@@ -107,14 +107,12 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
 				<version>${slf4j.version}</version>
-				<scope>provided</scope>
 			</dependency>
 
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-core</artifactId>
 				<version>${slf4j.version}</version>
-				<scope>test</scope>
 			</dependency>
 
 			<dependency>

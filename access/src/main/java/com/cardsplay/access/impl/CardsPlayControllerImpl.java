@@ -21,7 +21,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 public class CardsPlayControllerImpl implements CardsPlayController {
 
-    public static final Logger log = LoggerFactory
+    public  final static Logger log = LoggerFactory
             .getLogger(CardsPlayControllerImpl.class);
 
     protected ConcurrentHashMap<CardsPlayNodeId,  CardsPlayClientService> cardsPlayClients =
