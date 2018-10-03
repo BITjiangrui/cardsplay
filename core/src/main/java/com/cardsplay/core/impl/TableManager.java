@@ -82,9 +82,8 @@ public class TableManager implements TableService {
     }
 
     @Override
-    public boolean quitTable(TableId table, PlayerId player) {
+    public void quitTable(TableId table, PlayerId player) {
         // TODO Auto-generated method stub
-        return false;
     }
 
 

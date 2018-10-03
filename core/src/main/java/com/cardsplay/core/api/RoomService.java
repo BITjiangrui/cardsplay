@@ -9,7 +9,7 @@ public interface RoomService extends LifeCycleService, EventRegistryService{
 
 	Room joinRoom(RoomId room, PlayerId player);
 	
-	boolean quitRoom(RoomId room, PlayerId player);
+	void quitRoom(RoomId room, PlayerId player);
 
 	Iterable<Room>  getRooms();
 	

@@ -7,7 +7,7 @@ import com.cardsplay.core.models.TableId;
 public interface TableService extends LifeCycleService, EventRegistryService{
 	Table joinTable(TableId table, PlayerId player);
 	
-	boolean quitTable(TableId table, PlayerId player);
+	void quitTable(TableId table, PlayerId player);
 
 	Iterable<Table>  getTables();
 	

@@ -125,12 +125,25 @@ public class WinThreeCardsServer implements CardsPlayServerService {
 
     @Override
     public ClientResponse exitRoom(CardsPlayNodeId nodeId, RoomId roomId) {
-        return null;
+        PlayerId playerId = new PlayerId(nodeId.nodeId());
+        Room room =  roomService.getRoom(roomId);
+        for(TableId tableId : room.tableIds){
+            Table table = tableService.getTable(tableId);
+            if(table.playerIds.contains(playerId)){
+                tableService.quitTable(tableId, playerId);
+            }
+        }
+        roomService.quitRoom(roomId, playerId);
+        ClientResponse response = ClientResponse.respSuccess(true);
+        return response;
     }
 
     @Override
     public ClientResponse exitTable(CardsPlayNodeId nodeId, TableId tableId) {
-        return null;
+        PlayerId playerId = new PlayerId(nodeId.nodeId());
+        tableService.quitTable(tableId, playerId);
+        ClientResponse response = ClientResponse.respSuccess(true);
+        return response;
     }
 
     @Override

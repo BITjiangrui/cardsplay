@@ -29,4 +29,8 @@ public class Table {
 		this.playerIds = playerIds;
 		capacity =volumn;
 	}
+
+	protected void removePlayer(PlayerId playerId){
+		playerIds.remove(playerId);
+	}
 }

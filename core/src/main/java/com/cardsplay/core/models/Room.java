@@ -28,6 +28,10 @@ public class Room {
         playerIds.add(playerId);
     }
 
+    public void playerExit(PlayerId playerId) {
+        playerIds.remove(playerId);
+    }
+
 
     public void removeTableId(TableId tableId){
         tableIds.remove(tableId);

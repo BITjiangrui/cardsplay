@@ -45,9 +45,8 @@ public class RoomManager implements RoomService {
         return room;
     }
 
-    public boolean quitRoom(RoomId room, PlayerId player) {
+    public void quitRoom(RoomId room, PlayerId player) {
         // TODO Auto-generated method stub
-        return false;
     }
 
     public Iterable<Room> getRooms() {
