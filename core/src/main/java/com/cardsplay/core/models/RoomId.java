@@ -5,16 +5,11 @@ import java.util.UUID;
 public class RoomId {
 	public final UUID roomId;
 
-	public final int seq;
-
-	public RoomId(UUID roomId, int seq) {
+	public RoomId(UUID roomId) {
 		this.roomId = roomId;
-		this.seq = seq;
 	}
 	
 	public UUID getRoomId() {
 		return roomId;
 	}
-
-	public int getSeq(){return seq;}
 }

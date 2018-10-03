@@ -2,10 +2,12 @@ package com.cardsplay.core.impl;
 
 import com.cardsplay.core.api.EventListener;
 import com.cardsplay.core.api.RoomService;
+import com.cardsplay.core.exception.ServiceException;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.Room;
 import com.cardsplay.core.models.RoomId;
 import com.cardsplay.core.models.TableId;
+import com.cardsplay.util.ResponseCode;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,10 +41,9 @@ public class RoomManager implements RoomService {
 
     }
     
-    public Room joinRoom(RoomId roomId, PlayerId player) {
+    public void joinRoom(RoomId roomId, PlayerId player) {
         Room room = roomStore.get(roomId);
         room.playerJoinIn(player);
-        return room;
     }
 
     public void quitRoom(RoomId room, PlayerId player) {
@@ -50,13 +51,16 @@ public class RoomManager implements RoomService {
     }
 
     public Iterable<Room> getRooms() {
-        // TODO Auto-generated method stub
-        return null;
+        return roomStore.values();
     }
 
-    public Room getRoom(RoomId roomId) {
-        // TODO Auto-generated method stub
-        return null;
+    public Room getRoom(RoomId roomId) throws ServiceException{
+        if (roomStore.containsKey(roomId)){
+            return roomStore.get(roomId);
+        } else {
+            log.error("Room {} do not exist", roomId);
+            throw new ServiceException(ResponseCode.badRequest, "房间不存在");
+        }
     }
 
     public void addRoom(Room room) {

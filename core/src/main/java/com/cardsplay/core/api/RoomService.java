@@ -7,7 +7,7 @@ import com.cardsplay.core.models.TableId;
 
 public interface RoomService extends LifeCycleService, EventRegistryService{
 
-	Room joinRoom(RoomId room, PlayerId player);
+	void joinRoom(RoomId room, PlayerId player);
 	
 	void quitRoom(RoomId room, PlayerId player);
 

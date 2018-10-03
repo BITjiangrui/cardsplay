@@ -48,8 +48,12 @@ public class TableManager implements TableService {
     }
 
     public Table getTable(TableId tableId) {
-        // TODO Auto-generated method stub
-        return null;
+        if (tableStore.containsKey(tableId)){
+            return tableStore.get(tableId);
+        } else {
+            log.error("Table {} do not exist", tableId);
+            throw new ServiceException(ResponseCode.badRequest, "牌桌不存在");
+        }
     }
 
     public void addTable(Table table) {
@@ -68,7 +72,7 @@ public class TableManager implements TableService {
     }
 
     @Override
-    public Table joinTable(TableId tableId, PlayerId playerId) throws ServiceException {
+    public void joinTable(TableId tableId, PlayerId playerId) throws ServiceException {
         Table table = tableStore.get(tableId);
         if(table == null){
             log.error("Player {} can not join because Table {}do not exist", playerId, tableId);
@@ -78,7 +82,6 @@ public class TableManager implements TableService {
             throw new ServiceException(ResponseCode.denyAccess, "人数已经达到上限");
         }
         table.playerIds.add(playerId);
-        return table;
     }
 
     @Override

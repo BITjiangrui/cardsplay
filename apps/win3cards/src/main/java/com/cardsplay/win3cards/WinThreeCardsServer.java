@@ -63,8 +63,8 @@ public class WinThreeCardsServer implements CardsPlayServerService {
     public void activate() {
         log.info("WinThreeCardsServer Started");
         // Init 1 Room
-        RoomId roomId = new RoomId(UUID.randomUUID(), 1);
-        Room room = new Room(roomId, roomCapacity, DealType.WinThreeCards);
+        RoomId roomId = new RoomId(UUID.randomUUID());
+        Room room = new Room(roomId, 1, roomCapacity, DealType.WinThreeCards);
         roomService.addRoom(room);
 
         // Init 250 Tables in one room
@@ -88,18 +88,36 @@ public class WinThreeCardsServer implements CardsPlayServerService {
     }
 
     @Override
-    public ClientResponse getRooms(CardsPlayNodeId nodeId) {
+    public ClientResponse getRoomsInfo() {
         Iterable<Room> roomIds = roomService.getRooms();
         ClientResponse response = ClientResponse.respSuccess(roomIds);
         return response;
     }
 
     @Override
+    public ClientResponse getRoomInfo(RoomId roomId) {
+        ClientResponse response = null;
+        try {
+            Room room = roomService.getRoom(roomId);
+            response = ClientResponse.respSuccess(room);
+        } catch (ServiceException exception){
+            response = ClientResponse.respFail(exception.getCode(), exception.getMsg());
+        }
+        return response;
+    }
+
+    @Override
     public ClientResponse joinRoom(CardsPlayNodeId nodeId, RoomId roomId) {
         PlayerId playerId = new PlayerId(nodeId.nodeId());
-        Room room = roomService.joinRoom(roomId, playerId);
-        ClientResponse response = ClientResponse.respSuccess(room);
+        roomService.joinRoom(roomId, playerId);
+        ClientResponse response = ClientResponse.respSuccess(true);
         return response;
+    }
+
+    @Override
+    public ClientResponse getTableInfo(TableId tableId) {
+        tableService.getTable(tableId);
+        return null;
     }
 
     @Override
@@ -109,8 +127,8 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         for (Room room : roomService.getRooms()) {
             if (room.tableIds.contains(tableId) && room.playerIds.contains(playerId)) {
                 try {
-                    Table table = tableService.joinTable(tableId, playerId);
-                    response = ClientResponse.respSuccess(table);
+                    tableService.joinTable(tableId, playerId);
+                    response = ClientResponse.respSuccess(true);
                     return response;
                 } catch (ServiceException exception){
                     response = ClientResponse.respFail(exception.getCode(), exception.getMsg());
@@ -148,12 +166,32 @@ public class WinThreeCardsServer implements CardsPlayServerService {
 
     @Override
     public ClientResponse beReady(CardsPlayNodeId nodeId, TableId tableId) {
-        return null;
+        PlayerId playerId = new PlayerId(nodeId.nodeId());
+        Table table = tableService.getTable(tableId);
+        ClientResponse response = null;
+        if(table.playerIds.contains(playerId)){
+            playerService.playerIsReady(playerId);
+            response = ClientResponse.respSuccess(true);
+        } else {
+            log.error("playerId {} can not be find in tableId {}", playerId, tableId);
+            response = ClientResponse.respFail(ResponseCode.badRequest, "请退出重新加入牌桌");
+        }
+        return response;
     }
 
     @Override
     public ClientResponse undoReady(CardsPlayNodeId nodeId, TableId tableId) {
-        return null;
+        PlayerId playerId = new PlayerId(nodeId.nodeId());
+        Table table = tableService.getTable(tableId);
+        ClientResponse response = null;
+        if(table.playerIds.contains(playerId)){
+            playerService.playerUndoReady(playerId);
+            response = ClientResponse.respSuccess(true);
+        } else {
+            log.error("playerId {} can not be find in tableId {}", playerId, tableId);
+            response = ClientResponse.respFail(ResponseCode.badRequest, "请退出重新加入牌桌");
+        }
+        return response;
     }
 
 

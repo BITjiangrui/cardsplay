@@ -6,6 +6,7 @@ import java.util.Set;
 
 public class Room {
     public final RoomId roomId;
+    public final int seq;
     public final int capacity;
     public final DealType dealtype;
     public Set<TableId> tableIds;
@@ -13,8 +14,9 @@ public class Room {
 
     public  String nickName;
 
-    public Room(RoomId roomId, int capacity, DealType dealtype) {
+    public Room(RoomId roomId, int seq, int capacity, DealType dealtype) {
         this.roomId = roomId;
+        this.seq = seq;
         tableIds = Sets.newConcurrentHashSet();
         this.capacity = capacity;
         this.dealtype = dealtype;

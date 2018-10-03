@@ -8,9 +8,13 @@ import com.cardsplay.core.models.TableId;
 // represent the server side of the cards play server
 public interface CardsPlayServerService extends LifeCycleService{
 
-    ClientResponse getRooms(CardsPlayNodeId nodeId);
+    ClientResponse getRoomsInfo();
+
+    ClientResponse getRoomInfo(RoomId roomId);
 
     ClientResponse joinRoom(CardsPlayNodeId nodeId, RoomId roomId);
+
+    ClientResponse getTableInfo(TableId tableId);
 
     ClientResponse joinTable(CardsPlayNodeId nodeId, TableId tableId);
 
