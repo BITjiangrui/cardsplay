@@ -1,16 +1,19 @@
 package com.cardsplay.win3cards;
 
-import java.util.List;
-
 import com.cardsplay.core.models.Card;
 import com.cardsplay.core.models.DealType;
 import com.cardsplay.core.models.Dealer;
 import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
+import com.cardsplay.core.models.Rule;
+
+import java.util.List;
 
 public class WinThreeCardsDealer extends Dealer {
 
-    public WinThreeCardsDealer() {
+    public Rule rule;
+
+    public WinThreeCardsDealer(Rule rule) {
         super(DealType.WinThreeCards);
     }
 

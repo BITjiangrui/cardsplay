@@ -25,6 +25,8 @@ public class TableInfo {
 
         int seq;
 
+        Dealer dealer;
+
         public Builder() {
 
         }
@@ -43,6 +45,7 @@ public class TableInfo {
             this.seq = seq;
             return this;
         }
+
 
         public TableInfo build() {
             return new TableInfo(this);

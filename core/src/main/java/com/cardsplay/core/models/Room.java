@@ -11,15 +11,17 @@ public class Room {
     public final DealType dealtype;
     public Set<TableId> tableIds;
     public Set<PlayerId> playerIds;
+    public final Rule rule;
 
     public  String nickName;
 
-    public Room(RoomId roomId, int seq, int capacity, DealType dealtype) {
+    public Room(RoomId roomId, int seq, int capacity, DealType dealtype, Rule rule) {
         this.roomId = roomId;
         this.seq = seq;
         tableIds = Sets.newConcurrentHashSet();
         this.capacity = capacity;
         this.dealtype = dealtype;
+        this.rule = rule;
     }
 
     public void addTableId(TableId tableId){

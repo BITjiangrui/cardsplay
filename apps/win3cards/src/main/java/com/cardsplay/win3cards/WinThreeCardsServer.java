@@ -20,6 +20,7 @@ import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.Room;
 import com.cardsplay.core.models.RoomId;
 import com.cardsplay.core.models.RoomInfo;
+import com.cardsplay.core.models.Rule;
 import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.cardsplay.core.models.TableInfo;
@@ -68,13 +69,14 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         log.info("WinThreeCardsServer Started");
         // Init 1 Room
         RoomId roomId = new RoomId(UUID.randomUUID());
-        Room room = new Room(roomId, 1, roomCapacity, DealType.WinThreeCards);
+        Room room = new Room(roomId, 1, roomCapacity, DealType.WinThreeCards,Rule.NEWBEE);
+
         roomService.addRoom(room);
 
         // Init 250 Tables in one room
         for(int i=1; i<250; i++){
             TableId tableId = new TableId(UUID.randomUUID());
-            Dealer dealer = new WinThreeCardsDealer();
+            Dealer dealer = new WinThreeCardsDealer(room.rule);
             Table table = new Table(tableId, i, dealer, playersInTableCapacity);
             tableService.addTable(table);
             roomService.addTableToRoom(roomId, tableId);
@@ -109,6 +111,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
                     .nickName(room.nickName)
                     .sequence(room.seq)
                     .tablesInfo(tablesInfo)
+                    .rule(room.rule)
                     .build();
             roomsInfo.add(roomInfo);
         }
@@ -134,6 +137,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
                                     .nickName(room.nickName)
                                     .sequence(room.seq)
                                     .tablesInfo(tablesInfo)
+                                    .rule(room.rule)
                                     .build();
 
             response = ClientResponse.respSuccess(roomInfo);
@@ -146,6 +150,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
     @Override
     public ClientResponse joinRoom(CardsPlayNodeId nodeId, RoomId roomId) {
         PlayerId playerId = new PlayerId(nodeId.nodeId());
+        // TODO: add dealer rule check
         roomService.joinRoom(roomId, playerId);
         ClientResponse response = ClientResponse.respSuccess(true);
         return response;

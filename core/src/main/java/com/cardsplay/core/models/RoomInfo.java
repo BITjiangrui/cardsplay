@@ -10,11 +10,14 @@ public class RoomInfo {
 
     public int seq;
 
+    public Rule rule;
+
     public RoomInfo(Builder builder){
         this.roomId = builder.roomId;
         this.tablesInfo = builder.tablesInfo;
         this.nickName = builder.nickName;
         this.seq = builder.seq;
+        this.rule = builder.rule;
     }
     public static Builder builder() {
         return new Builder();
@@ -29,6 +32,9 @@ public class RoomInfo {
         String nickName;
 
         int seq;
+
+        Rule rule;
+
 
         public Builder() {
 
@@ -54,6 +60,10 @@ public class RoomInfo {
             return this;
         }
 
+        public Builder rule(Rule rule){
+            this.rule = rule;
+            return this;
+        }
         public RoomInfo build() {
             return new RoomInfo(this);
         }
