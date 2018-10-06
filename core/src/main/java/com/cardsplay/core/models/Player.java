@@ -1,6 +1,8 @@
 package com.cardsplay.core.models;
 
 
+import static com.google.common.base.MoreObjects.toStringHelper;
+
 /**
  * <pre>
  * ÆË¿ËÅÆÍæ¼Ò
@@ -46,6 +48,15 @@ public class Player {
     }
 
     public void draw(int money) {
+
+    }
+
+    @Override
+    public String toString() {
+        return toStringHelper(this).add("playerId", playerId)
+                .add("wallet", wallet)
+                .add("nickName", nickName)
+                .add("state", state).toString();
 
     }
 }

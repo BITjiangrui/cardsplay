@@ -13,6 +13,7 @@ import com.cardsplay.core.api.TableEvent;
 import com.cardsplay.core.api.TableListener;
 import com.cardsplay.core.api.TableService;
 import com.cardsplay.core.exception.ServiceException;
+import com.cardsplay.core.impl.ServiceRegistry;
 import com.cardsplay.core.models.DealType;
 import com.cardsplay.core.models.Dealer;
 import com.cardsplay.core.models.Player;
@@ -35,17 +36,17 @@ import java.util.Set;
 import java.util.UUID;
 
 import static com.cardsplay.core.impl.RoomManager.roomCapacity;
-import static com.cardsplay.win3cards.Main.serviceMap;
 
 public class WinThreeCardsServer implements CardsPlayServerService {
 
     public  final static Logger log = LoggerFactory
             .getLogger(WinThreeCardsServer.class);
 
-    RoomService roomService = (RoomService) serviceMap.get(RoomService.class);
-    TableService tableService = (TableService) serviceMap.get(TableService.class);
-    PlayerService playerService = (PlayerService) serviceMap.get(PlayerService.class);
-    CardsPlayController controller = (CardsPlayController) serviceMap.get(CardsPlayController.class);
+    ServiceRegistry serviceMap = ServiceRegistry.getInstance();
+    RoomService roomService = (RoomService) serviceMap.getService(RoomService.class);
+    TableService tableService = (TableService) serviceMap.getService(TableService.class);
+    PlayerService playerService = (PlayerService) serviceMap.getService(PlayerService.class);
+    CardsPlayController controller = (CardsPlayController) serviceMap.getService(CardsPlayController.class);
     // The default capacity of each table
     private static int playersInTableCapacity = 5;
 

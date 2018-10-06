@@ -1,15 +1,22 @@
 package com.cardsplay.core.impl;
 
+import com.cardsplay.core.api.Event;
 import com.cardsplay.core.api.EventListener;
+import com.cardsplay.core.api.PlayerEvent;
 import com.cardsplay.core.api.PlayerService;
+import com.cardsplay.core.api.RoomService;
+import com.cardsplay.core.api.TableService;
 import com.cardsplay.core.exception.ServiceException;
 import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.PlayerState;
+import com.cardsplay.core.models.Room;
 import com.cardsplay.core.models.RoomId;
+import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.cardsplay.util.ResponseCode;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +33,9 @@ public class PlayerManager implements PlayerService{
     protected Set<EventListener> eventListener = new CopyOnWriteArraySet<>();
 
     private static PlayerService instance = new PlayerManager();
-
+    ServiceRegistry serviceMap = ServiceRegistry.getInstance();
+    RoomService roomService = (RoomService) serviceMap.getService(RoomService.class);
+    TableService tableService = (TableService) serviceMap.getService(TableService.class);
 
     private PlayerManager(){
         playerStore = Maps.newConcurrentMap();
@@ -75,7 +84,12 @@ public class PlayerManager implements PlayerService{
             log.error("Player {} do not exist", playerId, playerId);
             throw new ServiceException(ResponseCode.badRequest, "玩家不存在，请退出重新加入");
         }
+        Player prePlayer = new Player(playerId, player.wallet);
+        prePlayer.state = player.state;
+        prePlayer.nickName = player.nickName;
         player.setState(PlayerState.Ready);
+        PlayerEvent playerEvent = new PlayerEvent(PlayerEvent.Type.PLAYER_UPDATE, prePlayer, player);
+        post(playerEvent);
     }
 
     @Override
@@ -85,7 +99,12 @@ public class PlayerManager implements PlayerService{
             log.error("Player {} do not exist", playerId, playerId);
             throw new ServiceException(ResponseCode.badRequest, "玩家不存在，请退出重新加入");
         }
+        Player prePlayer = new Player(playerId, player.wallet);
+        prePlayer.state = player.state;
+        prePlayer.nickName = player.nickName;
         player.setState(PlayerState.UndoReady);
+        PlayerEvent playerEvent = new PlayerEvent(PlayerEvent.Type.PLAYER_UPDATE, prePlayer, player);
+        post(playerEvent);
     }
 
     @Override
@@ -94,29 +113,46 @@ public class PlayerManager implements PlayerService{
     }
 
     @Override
-    public Iterable<Player> getPlayersInRoom(RoomId room) {
-        // TODO Auto-generated method stub
-        return null;
+    public Iterable<Player> getPlayersInRoom(RoomId roomId) throws ServiceException{
+        Room room = roomService.getRoom(roomId);
+        Set<Player> players = Sets.newConcurrentHashSet();
+        for(PlayerId playerId : room.playerIds){
+            players.add(getPlayer(playerId));
+        }
+        return players;
     }
 
     @Override
-    public Iterable<Player> getPlayersInTable(TableId table) {
-        // TODO Auto-generated method stub
-        return null;
+    public Iterable<Player> getPlayersInTable(TableId tableId) throws ServiceException {
+        Table table = tableService.getTable(tableId);
+        Set<Player> players = Sets.newConcurrentHashSet();
+        for (PlayerId playerId : table.playerIds){
+            players.add(getPlayer(playerId));
+        }
+        return players;
     }
 
     @Override
     public Player getPlayer(PlayerId playerId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+        if (playerStore.containsKey(playerId)){
+            return playerStore.get(playerId);
+        } else {
+            log.error("Player {} do not exist", playerId);
+            throw new ServiceException(ResponseCode.badRequest, "玩家不存在");
+        }    }
 
     @Override
     public Iterable<Player> getPlayers() {
-        return null;
+        return playerStore.values();
     }
 
     public static PlayerService getInstance(){
         return instance;
+    }
+
+    private void  post(Event playerEvenr){
+        for(EventListener listener : eventListener){
+            listener.event(playerEvenr);
+        }
     }
 }
