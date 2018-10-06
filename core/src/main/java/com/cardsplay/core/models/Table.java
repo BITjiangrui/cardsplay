@@ -15,19 +15,20 @@ public class Table {
 	public final Dealer dealer;
 	public Set<PlayerId> playerIds;
 	public final int capacity;
-	
-	public Table(TableId tableId, Dealer dealer, int volumn) {
+	public final int seq;
+
+
+	public Table(TableId tableId,int seq, Dealer dealer, int volumn) {
 		this.tableId = tableId;
+		this.seq = seq;
 		this.dealer = dealer;
 		playerIds = Sets.newConcurrentHashSet();
 		capacity =volumn;
 	}
 
-	public Table(TableId tableId, Dealer dealer, int volumn, Set<PlayerId> playerIds) {
-		this.tableId = tableId;
-		this.dealer = dealer;
+	public Table(TableId tableId, int seq, Dealer dealer, int volumn, Set<PlayerId> playerIds) {
+		this(tableId, seq, dealer, volumn);
 		this.playerIds = playerIds;
-		capacity =volumn;
 	}
 
 	protected void removePlayer(PlayerId playerId){

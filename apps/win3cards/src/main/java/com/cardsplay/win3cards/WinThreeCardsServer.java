@@ -19,14 +19,18 @@ import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.Room;
 import com.cardsplay.core.models.RoomId;
+import com.cardsplay.core.models.RoomInfo;
 import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
+import com.cardsplay.core.models.TableInfo;
 import com.cardsplay.core.models.TokenType;
 import com.cardsplay.core.models.TokenWallet;
 import com.cardsplay.util.ResponseCode;
+import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Set;
 import java.util.UUID;
 
 import static com.cardsplay.core.impl.RoomManager.roomCapacity;
@@ -69,9 +73,9 @@ public class WinThreeCardsServer implements CardsPlayServerService {
 
         // Init 250 Tables in one room
         for(int i=1; i<250; i++){
-            TableId tableId = new TableId(UUID.randomUUID(), i);
+            TableId tableId = new TableId(UUID.randomUUID());
             Dealer dealer = new WinThreeCardsDealer();
-            Table table = new Table(tableId, dealer, playersInTableCapacity);
+            Table table = new Table(tableId, i, dealer, playersInTableCapacity);
             tableService.addTable(table);
             roomService.addTableToRoom(roomId, tableId);
         }
@@ -90,7 +94,25 @@ public class WinThreeCardsServer implements CardsPlayServerService {
     @Override
     public ClientResponse getRoomsInfo() {
         Iterable<Room> roomIds = roomService.getRooms();
-        ClientResponse response = ClientResponse.respSuccess(roomIds);
+        Set roomsInfo = Sets.newConcurrentHashSet();
+        for(Room room : roomService.getRooms()){
+            Set tablesInfo = Sets.newConcurrentHashSet();
+            for(TableId tableId : room.tableIds){
+                TableInfo tableInfo = TableInfo.builder().tableId(tableId)
+                        .sequence(tableService.getTable(tableId).seq)
+                        .players(playerService.getPlayersInTable(tableId))
+                        .build();
+                tablesInfo.add(tableInfo);
+            }
+
+            RoomInfo roomInfo = RoomInfo.builder().roomId(room.roomId)
+                    .nickName(room.nickName)
+                    .sequence(room.seq)
+                    .tablesInfo(tablesInfo)
+                    .build();
+            roomsInfo.add(roomInfo);
+        }
+        ClientResponse response = ClientResponse.respSuccess(roomsInfo);
         return response;
     }
 
@@ -99,7 +121,22 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         ClientResponse response = null;
         try {
             Room room = roomService.getRoom(roomId);
-            response = ClientResponse.respSuccess(room);
+            Set tablesInfo = Sets.newConcurrentHashSet();
+            for(TableId tableId : room.tableIds){
+                TableInfo tableInfo = TableInfo.builder().tableId(tableId)
+                        .sequence(tableService.getTable(tableId).seq)
+                        .players(playerService.getPlayersInTable(tableId))
+                        .build();
+                tablesInfo.add(tableInfo);
+            }
+
+            RoomInfo roomInfo = RoomInfo.builder().roomId(room.roomId)
+                                    .nickName(room.nickName)
+                                    .sequence(room.seq)
+                                    .tablesInfo(tablesInfo)
+                                    .build();
+
+            response = ClientResponse.respSuccess(roomInfo);
         } catch (ServiceException exception){
             response = ClientResponse.respFail(exception.getCode(), exception.getMsg());
         }
@@ -116,8 +153,17 @@ public class WinThreeCardsServer implements CardsPlayServerService {
 
     @Override
     public ClientResponse getTableInfo(TableId tableId) {
-        tableService.getTable(tableId);
-        return null;
+        ClientResponse response = null;
+        try {
+            TableInfo tableInfo = TableInfo.builder().tableId(tableId)
+                    .sequence(tableService.getTable(tableId).seq)
+                    .players(playerService.getPlayersInTable(tableId))
+                    .build();
+            response = ClientResponse.respSuccess(tableInfo);
+        } catch (ServiceException exception){
+            response = ClientResponse.respFail(exception.getCode(), exception.getMsg());
+        }
+        return response;
     }
 
     @Override
@@ -170,7 +216,12 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         Table table = tableService.getTable(tableId);
         ClientResponse response = null;
         if(table.playerIds.contains(playerId)){
-            playerService.playerIsReady(playerId);
+            try{
+                playerService.playerIsReady(playerId);
+            } catch (ServiceException exception){
+                response = ClientResponse.respFail(exception.getCode(), exception.getMsg());
+                return  response;
+            }
             response = ClientResponse.respSuccess(true);
         } else {
             log.error("playerId {} can not be find in tableId {}", playerId, tableId);
@@ -185,7 +236,12 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         Table table = tableService.getTable(tableId);
         ClientResponse response = null;
         if(table.playerIds.contains(playerId)){
-            playerService.playerUndoReady(playerId);
+            try{
+                playerService.playerUndoReady(playerId);
+            } catch (ServiceException exception){
+                response = ClientResponse.respFail(exception.getCode(), exception.getMsg());
+                return  response;
+            }
             response = ClientResponse.respSuccess(true);
         } else {
             log.error("playerId {} can not be find in tableId {}", playerId, tableId);
@@ -233,6 +289,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         @Override
         public void nodeAdded(CardsPlayNodeId nodeId) {
             PlayerId playerId = new PlayerId(nodeId.nodeId());
+            // TODO: add Token get in DB to init wallet
             TokenWallet tokenWallet = new TokenWallet(playerId, TokenType.EOS);
             Player player = new Player(playerId, tokenWallet);
             playerService.playerOnline(player);

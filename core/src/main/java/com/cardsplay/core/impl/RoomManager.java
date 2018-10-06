@@ -67,9 +67,13 @@ public class RoomManager implements RoomService {
         roomStore.put(room.roomId, room);
     }
 
-    public void removeRoom(RoomId roomId) {
-        // TODO Auto-generated method stub
-
+    public void removeRoom(RoomId roomId) throws ServiceException{
+        if (roomStore.containsKey(roomId)){
+            roomStore.remove(roomId);
+        } else {
+            log.error("Room {} do not exist", roomId);
+            throw new ServiceException(ResponseCode.badRequest, "房间不存在");
+        }
     }
 
     public void addTableToRoom(RoomId roomId, TableId tableId){

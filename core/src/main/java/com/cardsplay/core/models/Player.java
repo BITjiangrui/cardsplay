@@ -1,8 +1,6 @@
 package com.cardsplay.core.models;
 
 
-import java.util.List;
-
 /**
  * <pre>
  * 扑克牌玩家
@@ -15,10 +13,6 @@ public class Player {
      * 钱包
      */
     public final TokenWallet wallet;
-    /**
-     * 获取所有扑克
-     */
-    public List<Card> porks;
 
     public String nickName;
 
@@ -45,14 +39,7 @@ public class Player {
     public  String getNickName(){
         return nickName;
     }
-    /**
-     * 获取 allPorks
-     *
-     * @return 返回 allPorks
-     */
-    public List<Card> getAllPorks() {
-        return porks;
-    }
+
 
     public void deposit(int money) {
 

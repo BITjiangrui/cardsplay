@@ -1,8 +1,7 @@
 package com.cardsplay.core.models;
 
 import java.util.List;
-
-import com.google.common.util.concurrent.ListenableFuture;
+import java.util.Map;
 
 /**
  * <pre>
@@ -17,7 +16,7 @@ public abstract class Dealer {
 	
 	private int round;
 
-	public List<Card> cards;
+	public Map<PlayerId, Card> playerCards;
 	
 	public TableId tableId;
 

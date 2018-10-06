@@ -17,6 +17,5 @@ public interface TableService extends LifeCycleService, EventRegistryService{
 	
 	void removeTable(TableId tableId);
 	
-	Table scheduleTable();
-
+	void scheduleTable();
 }

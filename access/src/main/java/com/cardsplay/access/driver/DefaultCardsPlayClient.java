@@ -126,7 +126,7 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
             String replyString = FromJsonUtil.getEchoRequestStr(requestJson);
             channel.writeAndFlush(replyString);
         } else {
-            
+            // TODO: add token id & player id switch in request
         }        
     }
 

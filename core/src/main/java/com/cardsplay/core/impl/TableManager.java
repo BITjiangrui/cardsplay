@@ -38,13 +38,14 @@ public class TableManager implements TableService {
 
     @Override
     public void deactivate() {
+        tableStore.clear();
         log.info("Table Service Deactivated");
 
     }
     
     public Iterable<Table> getTables() {
-        // TODO Auto-generated method stub
-        return null;
+
+        return tableStore.values();
     }
 
     public Table getTable(TableId tableId) {
@@ -57,18 +58,21 @@ public class TableManager implements TableService {
     }
 
     public void addTable(Table table) {
-        // TODO Auto-generated method stub
-
+            tableStore.put(table.tableId, table);
     }
 
     public void removeTable(TableId tableId) {
-        // TODO Auto-generated method stub
-
+        if (tableStore.containsKey(tableId)){
+            tableStore.remove(tableId);
+        } else{
+            log.error("Table {} do not exist", tableId);
+            throw new ServiceException(ResponseCode.badRequest, "牌桌不存在");
+        }
     }
 
-    public Table scheduleTable() {
-        // TODO Auto-generated method stub
-        return null;
+    public void scheduleTable() {
+        //TODO : add schedule algorithm based on max players in waiting state
+
     }
 
     @Override
@@ -85,8 +89,13 @@ public class TableManager implements TableService {
     }
 
     @Override
-    public void quitTable(TableId table, PlayerId player) {
-        // TODO Auto-generated method stub
+    public void quitTable(TableId tableId, PlayerId playerId) throws ServiceException {
+        Table table = tableStore.get(tableId);
+        if(table == null){
+            log.error("Player {} can not join because Table {}do not exist", playerId, tableId);
+            throw new ServiceException(ResponseCode.badRequest, "桌号不存在");
+        }
+        table.playerIds.remove(playerId);
     }
 
 
