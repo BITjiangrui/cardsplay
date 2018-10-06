@@ -133,7 +133,7 @@ public class PlayerManager implements PlayerService{
     }
 
     @Override
-    public Player getPlayer(PlayerId playerId) {
+    public Player getPlayer(PlayerId playerId) throws ServiceException{
         if (playerStore.containsKey(playerId)){
             return playerStore.get(playerId);
         } else {
