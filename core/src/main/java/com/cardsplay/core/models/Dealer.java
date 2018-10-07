@@ -23,7 +23,7 @@ public abstract class Dealer {
     }
 
     //≥ı ºªØ≈∆æ÷
-    public abstract void startGamble(int money);
+    public abstract void startGamble();
 
     //œ¥≈∆
     public abstract List<Card> shuffle();

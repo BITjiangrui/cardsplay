@@ -34,6 +34,10 @@ public class Table {
 		this.dealer = dealer;
 	}
 
+	public Dealer getDealer(){
+		return  dealer;
+	}
+
 	public void removePlayer(PlayerId playerId){
 		playerIds.remove(playerId);
 	}

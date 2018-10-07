@@ -2,11 +2,13 @@ package com.cardsplay.core.impl;
 
 import com.cardsplay.core.api.Event;
 import com.cardsplay.core.api.EventListener;
+import com.cardsplay.core.api.PlayerService;
 import com.cardsplay.core.api.TableEvent;
 import com.cardsplay.core.api.TableService;
 import com.cardsplay.core.exception.ServiceException;
 import com.cardsplay.core.models.Dealer;
 import com.cardsplay.core.models.PlayerId;
+import com.cardsplay.core.models.PlayerState;
 import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.cardsplay.core.models.TableStatus;
@@ -25,6 +27,8 @@ public class TableManager implements TableService {
 
     public  final static Logger log = LoggerFactory
             .getLogger(TableManager.class);
+    ServiceRegistry serviceMap = ServiceRegistry.getInstance();
+    PlayerService playerService = (PlayerService) serviceMap.getService(PlayerService.class);
     Map<TableId, Table> tableStore;
     Map<TableId, TableStatus> stateStore;
 
@@ -64,6 +68,17 @@ public class TableManager implements TableService {
 
     }
 
+    @Override
+    public Boolean isTableReady(TableId tableId) {
+        Boolean ready = true;
+        for(PlayerId playerId : tableStore.get(tableId).playerIds){
+            if (playerService.getPlayer(playerId).state != PlayerState.Ready){
+                ready = false;
+            }
+        }
+        return ready;
+    }
+
     public Table getTable(TableId tableId) {
         if (tableStore.containsKey(tableId)){
             return tableStore.get(tableId);
@@ -76,6 +91,11 @@ public class TableManager implements TableService {
     @Override
     public TableStatus getTableState(TableId tableId) {
         return stateStore.get(tableId);
+    }
+
+    @Override
+    public void setTableState(TableId tableId, TableStatus state) {
+        stateStore.put(tableId, state);
     }
 
     public void addTable(Table table) {
@@ -105,6 +125,11 @@ public class TableManager implements TableService {
         }
         log.error("Can not find Table for Player {} ", playerId);
         throw new ServiceException(ResponseCode.badRequest, "ÅÆ×À²»´æÔÚ");    }
+
+    @Override
+    public Dealer getDealer(TableId tableId) {
+        return tableStore.get(tableId).getDealer();
+    }
 
     @Override
     public void joinTable(TableId tableId, PlayerId playerId) throws ServiceException {

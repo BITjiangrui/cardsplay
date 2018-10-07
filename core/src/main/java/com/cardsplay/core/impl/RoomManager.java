@@ -1,6 +1,7 @@
 package com.cardsplay.core.impl;
 
 import com.cardsplay.core.api.EventListener;
+import com.cardsplay.core.api.PlayerService;
 import com.cardsplay.core.api.RoomService;
 import com.cardsplay.core.exception.ServiceException;
 import com.cardsplay.core.models.PlayerId;
@@ -24,7 +25,8 @@ public class RoomManager implements RoomService {
     protected Set<EventListener> eventListener = new CopyOnWriteArraySet<>();
 
     private static RoomService instance = new RoomManager();
-
+    ServiceRegistry serviceMap = ServiceRegistry.getInstance();
+    PlayerService playerService = (PlayerService) serviceMap.getService(PlayerService.class);
     public static int roomCapacity = 250;
 
     private RoomManager(){
@@ -41,9 +43,16 @@ public class RoomManager implements RoomService {
 
     }
     
-    public void joinRoom(RoomId roomId, PlayerId player) {
+    public void joinRoom(RoomId roomId, PlayerId player) throws ServiceException{
         Room room = roomStore.get(roomId);
-        room.playerJoinIn(player);
+        if (playerService.getPlayer(player).wallet.getAmount() > room.rule.getBalance()){
+            room.playerJoinIn(player);
+        } else {
+            log.error("The balance {} is not enough for player  {} to enter room{}",
+                      playerService.getPlayer(player).wallet.getAmount(),player, roomId);
+            throw new ServiceException(ResponseCode.badRequest, "Óà¶î²»×ã");
+        }
+
     }
 
     public void quitRoom(RoomId room, PlayerId player) {

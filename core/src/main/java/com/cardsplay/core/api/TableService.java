@@ -15,9 +15,14 @@ public interface TableService extends LifeCycleService, EventRegistryService{
 
 	void setDealer(TableId tableId, Dealer dealer);
 
+	Boolean isTableReady(TableId tableId);
+
 	Table getTable(TableId tableId);
 
 	TableStatus getTableState(TableId tableId);
+
+	void setTableState(TableId tableId, TableStatus state);
+
 
 	void addTable(Table table);
 	
@@ -26,4 +31,6 @@ public interface TableService extends LifeCycleService, EventRegistryService{
 	void scheduleTable();
 
 	Table getTableByPlayer(PlayerId playerId);
+
+	Dealer getDealer(TableId tableId);
 }

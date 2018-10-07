@@ -8,14 +8,26 @@ public enum Rule {
     private  Bet singleBet;
 
     // 单回合最高下注
-    private  int upperLimit;
+    private  double upperLimit;
 
-    // 钱包余额
-    private int balance;
+    // 钱包余额需高于该值
+    private double balance;
 
     private Rule(Bet singleBet, int upperLimit, int balance){
         this.singleBet = singleBet;
         this.upperLimit = upperLimit;
         this.balance = balance;
+    }
+
+    public double getBalance(){
+        return balance;
+    }
+
+    public Bet getSingleBet() {
+        return singleBet;
+    }
+
+    public double getUpperLimit(){
+        return upperLimit;
     }
 }

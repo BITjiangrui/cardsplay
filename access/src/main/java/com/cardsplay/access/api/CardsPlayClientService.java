@@ -3,6 +3,7 @@ package com.cardsplay.access.api;
 
 import com.cardsplay.core.api.ClientResponse;
 import com.cardsplay.core.models.Card;
+import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.PlayerState;
 import com.cardsplay.core.models.RoomId;
@@ -35,7 +36,7 @@ public interface CardsPlayClientService{
      * This operation notify client the Player join in event
      *
      */
-    void playerJoinIn(RoomId room, TableId table, PlayerId player);
+    void playerJoinIn(RoomId room, TableId table, Player player);
     
     
     /**

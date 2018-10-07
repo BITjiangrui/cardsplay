@@ -81,8 +81,9 @@ public class WinThreeCardsServer implements CardsPlayServerService {
             TableId tableId = new TableId(UUID.randomUUID());
             Dealer dealer = new WinThreeCardsDealer(room.rule);
             Table table = new Table(tableId, i, playersInTableCapacity);
-            table.setDealer(dealer);
+            tableService.setDealer(tableId, dealer);
             tableService.addTable(table);
+            tableService.setTableState(table.tableId, TableStatus.Waiting);
             roomService.addTableToRoom(roomId, tableId);
         }
 
@@ -154,9 +155,13 @@ public class WinThreeCardsServer implements CardsPlayServerService {
     @Override
     public ClientResponse joinRoom(CardsPlayNodeId nodeId, RoomId roomId) {
         PlayerId playerId = new PlayerId(nodeId.nodeId());
-        // TODO: add dealer rule check
-        roomService.joinRoom(roomId, playerId);
-        ClientResponse response = ClientResponse.respSuccess(true);
+        ClientResponse response = null;
+        try{
+            roomService.joinRoom(roomId, playerId);
+            response = ClientResponse.respSuccess(true);
+        } catch (ServiceException exception){
+            response = ClientResponse.respFail(exception.getCode(), exception.getMsg());
+        }
         return response;
     }
 
@@ -282,7 +287,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
                         RoomId roomId = roomService.getRoomByTable(event.subject().tableId);
                         for(PlayerId otherPlayerId : playerService.getOtherPlayers(playerId)){
                             CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(otherPlayerId.playerId));
-                            client.playerJoinIn(roomId, event.subject().tableId, playerId);
+                            client.playerJoinIn(roomId, event.subject().tableId, playerService.getPlayer(playerId));
                         }
                     }
 
@@ -327,18 +332,28 @@ public class WinThreeCardsServer implements CardsPlayServerService {
                     break;
                 case PLAYER_ONLINE:
                     break;
+
+                //当一个桌子的所有人都是ready的则立刻开始游戏
                 case PLAYER_READY:
-                    tableId = tableService.getTableByPlayer(event.subject().playerId).tableId;
-                    roomId = roomService.getRoomByTable(tableId);
-                    if(tableService.getTableState(tableId) == TableStatus.Running){
-                        // TODO: add ready process
+                    Player player = event.subject();
+                    Table table = tableService.getTableByPlayer(player.playerId);
+                    roomId = roomService.getRoomByTable(table.tableId);
+                    for(PlayerId otherPlayerId : playerService.getOtherPlayers(player.playerId)){
+                        CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(otherPlayerId.playerId));
+                        client.statusChange(roomId, table.tableId, player.playerId, event.prevSubject().state, event.subject().state);
+                    }
+                    if (tableService.isTableReady(table.tableId)){
+                        tableService.getDealer(table.tableId).startGamble();
                     }
                     break;
+
                 case PLAYER_UNDOREADY:
-                    tableId = tableService.getTableByPlayer(event.subject().playerId).tableId;
-                    roomId = roomService.getRoomByTable(tableId);
-                    if(tableService.getTableState(tableId) == TableStatus.Running){
-                        // TODO: add undo ready process
+                    player = event.subject();
+                    table = tableService.getTableByPlayer(player.playerId);
+                    roomId = roomService.getRoomByTable(table.tableId);
+                    for(PlayerId otherPlayerId : playerService.getOtherPlayers(player.playerId)){
+                        CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(otherPlayerId.playerId));
+                        client.statusChange(roomId, table.tableId, player.playerId, event.prevSubject().state, event.subject().state);
                     }
                     break;
                 default:

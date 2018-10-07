@@ -18,7 +18,7 @@ public class WinThreeCardsDealer extends Dealer {
     }
 
     @Override
-    public void startGamble(int money) {
+    public void startGamble() {
         
     }
 
