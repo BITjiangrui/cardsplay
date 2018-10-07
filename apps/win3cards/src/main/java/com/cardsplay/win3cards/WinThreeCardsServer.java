@@ -313,23 +313,20 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         public void event(PlayerEvent event) {
             log.info("{} event happend {}",event.type());
             switch (event.type()) {
+                /*
+                * 无论在游戏进行中还是非进行中，一旦掉线会立即退出游戏，无法恢复
+                * 每回合的最大时间设置为1 min，keep alive也会设置为1 min
+                * 在 1 min以内的网络断开都可以恢复
+                * */
                 case PLAYER_OFFLINE:
                     TableId tableId = tableService.getTableByPlayer(event.subject().playerId).tableId;
                     RoomId roomId = roomService.getRoomByTable(tableId);
-                    if(tableService.getTableState(tableId) == TableStatus.Waiting){
-                        tableService.quitTable(tableId,event.subject().playerId);
-                        roomService.quitRoom(roomId, event.subject().playerId);
-                        playerService.removePlayer(event.subject().playerId);
-                    }
+                    tableService.quitTable(tableId,event.subject().playerId);
+                    roomService.quitRoom(roomId, event.subject().playerId);
+                    playerService.removePlayer(event.subject().playerId);
                     break;
                 case PLAYER_ONLINE:
-                    tableId = tableService.getTableByPlayer(event.subject().playerId).tableId;
-                    roomId = roomService.getRoomByTable(tableId);
-                    if(tableService.getTableState(tableId) == TableStatus.Running){
-                        // TODO: add offline recover process
-                    }
                     break;
-
                 case PLAYER_READY:
                     tableId = tableService.getTableByPlayer(event.subject().playerId).tableId;
                     roomId = roomService.getRoomByTable(tableId);
