@@ -16,6 +16,8 @@ public interface PlayerService extends LifeCycleService, EventRegistryService{
 
     void playerUndoReady(PlayerId player);
 
+    void removePlayer(PlayerId playerId);
+
     void playerBet(PlayerId player, int money);
 
     Iterable<Player> getPlayersInRoom(RoomId room);

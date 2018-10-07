@@ -11,7 +11,7 @@ public class PlayerEvent extends AbstractEvent<PlayerEvent.Type, Player> {
      * Type of table update events.
      */
     public enum Type {
-        PLAYER_UPDATE;
+        PLAYER_ONLINE, PLAYER_OFFLINE, PLAYER_READY, PLAYER_UNDOREADY;
     }
 
     private Player prevSubject;
@@ -20,15 +20,13 @@ public class PlayerEvent extends AbstractEvent<PlayerEvent.Type, Player> {
         super(type, subject);
     }
 
-    public PlayerEvent(Type type, Player port, long time) {
-        super(type, port, time);
+    public PlayerEvent(Type type, Player player, long time) {
+        super(type, player, time);
     }
 
-    public PlayerEvent(Type type, Player port, Player prevSubject) {
-        super(type, port);
-        if (type == Type.PLAYER_UPDATE) {
-            this.prevSubject = prevSubject;
-        }
+    public PlayerEvent(Type type, Player player, Player prevSubject) {
+        super(type, player);
+        this.prevSubject = prevSubject;
     }
 
     public Player prevSubject() {

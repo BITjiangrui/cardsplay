@@ -29,7 +29,8 @@ public interface CardsPlayClientService{
      *
      */
     void statusChange(RoomId room, TableId table, PlayerId player, PlayerState preStatus, PlayerState currentStatus);
-  
+
+
     /**
      * This operation notify client the Player join in event
      *

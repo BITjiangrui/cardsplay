@@ -26,6 +26,7 @@ import com.cardsplay.core.models.Rule;
 import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.cardsplay.core.models.TableInfo;
+import com.cardsplay.core.models.TableStatus;
 import com.cardsplay.core.models.TokenType;
 import com.cardsplay.core.models.TokenWallet;
 import com.cardsplay.util.ResponseCode;
@@ -312,7 +313,36 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         public void event(PlayerEvent event) {
             log.info("{} event happend {}",event.type());
             switch (event.type()) {
-                case PLAYER_UPDATE:
+                case PLAYER_OFFLINE:
+                    TableId tableId = tableService.getTableByPlayer(event.subject().playerId).tableId;
+                    RoomId roomId = roomService.getRoomByTable(tableId);
+                    if(tableService.getTableState(tableId) == TableStatus.Waiting){
+                        tableService.quitTable(tableId,event.subject().playerId);
+                        roomService.quitRoom(roomId, event.subject().playerId);
+                        playerService.removePlayer(event.subject().playerId);
+                    }
+                    break;
+                case PLAYER_ONLINE:
+                    tableId = tableService.getTableByPlayer(event.subject().playerId).tableId;
+                    roomId = roomService.getRoomByTable(tableId);
+                    if(tableService.getTableState(tableId) == TableStatus.Running){
+                        // TODO: add offline recover process
+                    }
+                    break;
+
+                case PLAYER_READY:
+                    tableId = tableService.getTableByPlayer(event.subject().playerId).tableId;
+                    roomId = roomService.getRoomByTable(tableId);
+                    if(tableService.getTableState(tableId) == TableStatus.Running){
+                        // TODO: add ready process
+                    }
+                    break;
+                case PLAYER_UNDOREADY:
+                    tableId = tableService.getTableByPlayer(event.subject().playerId).tableId;
+                    roomId = roomService.getRoomByTable(tableId);
+                    if(tableService.getTableState(tableId) == TableStatus.Running){
+                        // TODO: add undo ready process
+                    }
                     break;
                 default:
                     break;

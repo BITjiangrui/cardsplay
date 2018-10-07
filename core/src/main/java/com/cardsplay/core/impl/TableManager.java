@@ -73,6 +73,11 @@ public class TableManager implements TableService {
         }
     }
 
+    @Override
+    public TableStatus getTableState(TableId tableId) {
+        return stateStore.get(tableId);
+    }
+
     public void addTable(Table table) {
             tableStore.put(table.tableId, table);
     }

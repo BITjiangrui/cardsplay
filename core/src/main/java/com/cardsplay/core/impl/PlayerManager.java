@@ -70,11 +70,16 @@ public class PlayerManager implements PlayerService{
     public void playerOnline(Player player) {
         player.setState(PlayerState.Online);
         playerStore.put(player.playerId, player);
+        PlayerEvent playerEvent = new PlayerEvent(PlayerEvent.Type.PLAYER_ONLINE, player);
+        post(playerEvent);
+
     }
 
     @Override
     public void playerOffline(Player player) {
         player.setState(PlayerState.Offline);
+        PlayerEvent playerEvent = new PlayerEvent(PlayerEvent.Type.PLAYER_OFFLINE, player);
+        post(playerEvent);
     }
 
     @Override
@@ -88,7 +93,7 @@ public class PlayerManager implements PlayerService{
         prePlayer.state = player.state;
         prePlayer.nickName = player.nickName;
         player.setState(PlayerState.Ready);
-        PlayerEvent playerEvent = new PlayerEvent(PlayerEvent.Type.PLAYER_UPDATE, prePlayer, player);
+        PlayerEvent playerEvent = new PlayerEvent(PlayerEvent.Type.PLAYER_READY, prePlayer, player);
         post(playerEvent);
     }
 
@@ -103,8 +108,13 @@ public class PlayerManager implements PlayerService{
         prePlayer.state = player.state;
         prePlayer.nickName = player.nickName;
         player.setState(PlayerState.UndoReady);
-        PlayerEvent playerEvent = new PlayerEvent(PlayerEvent.Type.PLAYER_UPDATE, prePlayer, player);
+        PlayerEvent playerEvent = new PlayerEvent(PlayerEvent.Type.PLAYER_UNDOREADY, prePlayer, player);
         post(playerEvent);
+    }
+
+    @Override
+    public void removePlayer(PlayerId playerId) {
+        playerStore.remove(playerId);
     }
 
     @Override
