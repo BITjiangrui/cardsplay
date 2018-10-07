@@ -21,7 +21,9 @@ public interface PlayerService extends LifeCycleService, EventRegistryService{
     Iterable<Player> getPlayersInRoom(RoomId room);
 
     Iterable<Player> getPlayersInTable(TableId table);
-    
+
+    Iterable<PlayerId> getOtherPlayers(PlayerId playerId);
+
     Player getPlayer(PlayerId playerId);
 
     Iterable<Player> getPlayers();

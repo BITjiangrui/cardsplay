@@ -11,7 +11,7 @@ public class TableEvent extends AbstractEvent<TableEvent.Type, Table>{
      * Type of table update events.
      */
     public enum Type {
-        TABLE_UPDATE;
+        TABLE_JOIN, TABLE_QUIT;
     }
 
     private Table prevSubject;
@@ -26,9 +26,7 @@ public class TableEvent extends AbstractEvent<TableEvent.Type, Table>{
 
     public TableEvent(Type type, Table port, Table prevSubject) {
         super(type, port);
-        if (type == Type.TABLE_UPDATE) {
-            this.prevSubject = prevSubject;
-        }
+        this.prevSubject = prevSubject;
     }
 
     public Table prevSubject() {

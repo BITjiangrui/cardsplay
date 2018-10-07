@@ -1,5 +1,6 @@
 package com.cardsplay.win3cards;
 
+import com.cardsplay.access.api.CardsPlayClientService;
 import com.cardsplay.access.api.CardsPlayController;
 import com.cardsplay.access.api.CardsPlayNodeId;
 import com.cardsplay.access.api.CardsPlayNodeListener;
@@ -78,7 +79,8 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         for(int i=1; i<250; i++){
             TableId tableId = new TableId(UUID.randomUUID());
             Dealer dealer = new WinThreeCardsDealer(room.rule);
-            Table table = new Table(tableId, i, dealer, playersInTableCapacity);
+            Table table = new Table(tableId, i, playersInTableCapacity);
+            table.setDealer(dealer);
             tableService.addTable(table);
             roomService.addTableToRoom(roomId, tableId);
         }
@@ -180,6 +182,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
             if (room.tableIds.contains(tableId) && room.playerIds.contains(playerId)) {
                 try {
                     tableService.joinTable(tableId, playerId);
+                    playerService.playerUndoReady(playerId);
                     response = ClientResponse.respSuccess(true);
                     return response;
                 } catch (ServiceException exception){
@@ -266,8 +269,35 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         @Override
         public void event(TableEvent event) {
             log.info("{} event happend {}",event.type());
+            Set<PlayerId> currentPlayers = null;
+            Set<PlayerId> prevPlayers = null;
             switch (event.type()) {
-                case TABLE_UPDATE:
+                case TABLE_JOIN:
+                    currentPlayers = event.subject().playerIds;
+                    prevPlayers = event.prevSubject().playerIds;
+                    currentPlayers.removeAll(prevPlayers);
+                    log.info("Process  TABLE_JOIN event by players {}", currentPlayers);
+                    for (PlayerId playerId : currentPlayers){
+                        RoomId roomId = roomService.getRoomByTable(event.subject().tableId);
+                        for(PlayerId otherPlayerId : playerService.getOtherPlayers(playerId)){
+                            CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(otherPlayerId.playerId));
+                            client.playerJoinIn(roomId, event.subject().tableId, playerId);
+                        }
+                    }
+
+                    break;
+                case TABLE_QUIT:
+                    currentPlayers = event.subject().playerIds;
+                    prevPlayers = event.prevSubject().playerIds;
+                    prevPlayers.removeAll(currentPlayers);
+                    log.info("Process  TABLE_QUIT event by players {}", prevPlayers);
+                    for (PlayerId playerId : prevPlayers){
+                        RoomId roomId = roomService.getRoomByTable(event.prevSubject().tableId);
+                        for(Player otherPlayer : playerService.getPlayersInTable(event.subject().tableId)){
+                            CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(otherPlayer.playerId.playerId));
+                            client.playerLeave(roomId, event.subject().tableId, playerId);
+                        }
+                    }
                     break;
                 default:
                     break;

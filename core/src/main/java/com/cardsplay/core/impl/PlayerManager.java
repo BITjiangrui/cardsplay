@@ -133,6 +133,14 @@ public class PlayerManager implements PlayerService{
     }
 
     @Override
+    public Iterable<PlayerId> getOtherPlayers(PlayerId playerId) throws ServiceException{
+        Table table = tableService.getTableByPlayer(playerId);
+        Set otherPlayers = table.playerIds;
+        otherPlayers.remove(playerId);
+        return otherPlayers;
+    }
+
+    @Override
     public Player getPlayer(PlayerId playerId) throws ServiceException{
         if (playerStore.containsKey(playerId)){
             return playerStore.get(playerId);

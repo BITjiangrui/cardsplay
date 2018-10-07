@@ -12,26 +12,29 @@ import java.util.Set;
  */
 public class Table {
 	public final TableId tableId;
-	public final Dealer dealer;
+	public  Dealer dealer;
 	public Set<PlayerId> playerIds;
 	public final int capacity;
 	public final int seq;
 
 
-	public Table(TableId tableId,int seq, Dealer dealer, int volumn) {
+	public Table(TableId tableId,int seq, int volumn) {
 		this.tableId = tableId;
 		this.seq = seq;
-		this.dealer = dealer;
 		playerIds = Sets.newConcurrentHashSet();
 		capacity =volumn;
 	}
 
-	public Table(TableId tableId, int seq, Dealer dealer, int volumn, Set<PlayerId> playerIds) {
-		this(tableId, seq, dealer, volumn);
+	public Table(TableId tableId, int seq, int volumn, Set<PlayerId> playerIds) {
+		this(tableId, seq, volumn);
 		this.playerIds = playerIds;
 	}
 
-	protected void removePlayer(PlayerId playerId){
+	public  void setDealer(Dealer dealer){
+		this.dealer = dealer;
+	}
+
+	public void removePlayer(PlayerId playerId){
 		playerIds.remove(playerId);
 	}
 }

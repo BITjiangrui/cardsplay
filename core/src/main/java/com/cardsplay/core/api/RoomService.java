@@ -14,7 +14,10 @@ public interface RoomService extends LifeCycleService, EventRegistryService{
 	Iterable<Room>  getRooms();
 	
 	Room getRoom(RoomId roomId);
-	
+
+	RoomId getRoomByTable(TableId roomId);
+
+
 	void addRoom(Room room);
 	
 	void removeRoom(RoomId roomId);

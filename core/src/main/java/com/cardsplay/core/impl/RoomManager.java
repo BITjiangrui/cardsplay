@@ -63,6 +63,17 @@ public class RoomManager implements RoomService {
         }
     }
 
+    @Override
+    public RoomId getRoomByTable(TableId tableId) {
+        for(Room room : roomStore.values()){
+            if (room.tableIds.contains(tableId)){
+                return  room.roomId;
+            }
+        }
+        log.error("Can not get Room by Table {}", tableId);
+        throw new ServiceException(ResponseCode.badRequest, "房间不存在");
+    }
+
     public void addRoom(Room room) {
         roomStore.put(room.roomId, room);
     }
