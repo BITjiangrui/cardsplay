@@ -6,6 +6,7 @@ import com.cardsplay.access.api.CardsPlayNodeId;
 import com.cardsplay.access.util.FromJsonUtil;
 import com.cardsplay.core.api.ClientResponse;
 import com.cardsplay.core.models.Card;
+import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.PlayerState;
 import com.cardsplay.core.models.RoomId;
@@ -138,10 +139,10 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
     }
 
     @Override
-    public void playerJoinIn(RoomId room, TableId table, PlayerId player) {
-        // TODO Auto-generated method stub
-        
+    public void playerJoinIn(RoomId room, TableId table, Player player) {
+
     }
+
 
     @Override
     public void playerLeave(RoomId room, TableId table, PlayerId player) {
@@ -150,11 +151,10 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
     }
 
     @Override
-    public ListenableFuture<Boolean> startGamble(RoomId room, TableId table, List<PlayerId> player) {
-        // TODO Auto-generated method stub
-
-        return null;        
+    public ListenableFuture<Boolean> startGamble(RoomId room, TableId table) {
+        return null;
     }
+
 
     @Override
     public ListenableFuture<JsonNode> askForBet(RoomId room, TableId table,

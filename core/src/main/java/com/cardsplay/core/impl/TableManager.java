@@ -13,11 +13,12 @@ import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.cardsplay.core.models.TableStatus;
 import com.cardsplay.util.ResponseCode;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -64,6 +65,7 @@ public class TableManager implements TableService {
             log.error("Table {}do not exist", tableId);
             throw new ServiceException(ResponseCode.badRequest, "桌号不存在");
         }
+        dealer.setTableId(tableId);
         table.setDealer(dealer);
 
     }
@@ -141,7 +143,7 @@ public class TableManager implements TableService {
             log.error("Player {} can not join Table {} because the num of players reach the upper limit", playerId, tableId);
             throw new ServiceException(ResponseCode.denyAccess, "人数已经达到上限");
         }
-        Set players = Sets.newConcurrentHashSet();
+        List players = Lists.newArrayList();
         players.addAll(table.playerIds);
         Table preTable = new Table(table.tableId, table.seq, table.capacity, players);
         table.playerIds.add(playerId);
@@ -157,7 +159,7 @@ public class TableManager implements TableService {
             log.error("Player {} can not join because Table {}do not exist", playerId, tableId);
             throw new ServiceException(ResponseCode.badRequest, "桌号不存在");
         }
-        Set players = Sets.newConcurrentHashSet();
+        List players = Lists.newArrayList();
         players.addAll(table.playerIds);
         Table preTable = new Table(table.tableId, table.seq, table.capacity, players);
         table.playerIds.remove(playerId);

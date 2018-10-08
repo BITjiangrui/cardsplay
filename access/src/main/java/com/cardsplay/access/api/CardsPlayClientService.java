@@ -49,7 +49,7 @@ public interface CardsPlayClientService{
      * This operation notify client the Game start event
      *
      */
-    ListenableFuture<Boolean> startGamble(RoomId room, TableId table, List<PlayerId> player);
+    ListenableFuture<Boolean> startGamble(RoomId room, TableId table);
 
     /**
      * This operation ask player to bet

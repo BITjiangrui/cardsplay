@@ -1,8 +1,8 @@
 package com.cardsplay.core.models;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * <pre>
@@ -13,7 +13,7 @@ import java.util.Set;
 public class Table {
 	public final TableId tableId;
 	public  Dealer dealer;
-	public Set<PlayerId> playerIds;
+	public List<PlayerId> playerIds;
 	public final int capacity;
 	public final int seq;
 
@@ -21,11 +21,11 @@ public class Table {
 	public Table(TableId tableId,int seq, int volumn) {
 		this.tableId = tableId;
 		this.seq = seq;
-		playerIds = Sets.newConcurrentHashSet();
+		playerIds = Lists.newArrayList();
 		capacity =volumn;
 	}
 
-	public Table(TableId tableId, int seq, int volumn, Set<PlayerId> playerIds) {
+	public Table(TableId tableId, int seq, int volumn, List<PlayerId> playerIds) {
 		this(tableId, seq, volumn);
 		this.playerIds = playerIds;
 	}

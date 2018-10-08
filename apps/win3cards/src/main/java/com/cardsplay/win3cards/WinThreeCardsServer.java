@@ -34,6 +34,7 @@ import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -275,9 +276,10 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         @Override
         public void event(TableEvent event) {
             log.info("{} event happend {}",event.type());
-            Set<PlayerId> currentPlayers = null;
-            Set<PlayerId> prevPlayers = null;
+            List<PlayerId> currentPlayers = null;
+            List<PlayerId> prevPlayers = null;
             switch (event.type()) {
+                // TODO : make sure the relative position is post
                 case TABLE_JOIN:
                     currentPlayers = event.subject().playerIds;
                     prevPlayers = event.prevSubject().playerIds;

@@ -1,5 +1,7 @@
 package com.cardsplay.core.models;
 
+import com.google.common.collect.Maps;
+
 import java.util.List;
 import java.util.Map;
 
@@ -13,26 +15,28 @@ public abstract class Dealer {
     public final DealType dealType;
 
     public TokenWallet wallet;
-    public Map<PlayerId, Card> playerCards;
+    public Map<PlayerId, List<Card> > playerCards;
     public TableId tableId;
     private int round;
 
 
     public Dealer(DealType dealType) {
         this.dealType = dealType;
+        playerCards = Maps.newConcurrentMap();
+    }
+
+    public void setTableId(TableId tableId){
+        this.tableId = tableId;
     }
 
     //初始化牌局
     public abstract void startGamble();
 
     //洗牌
-    public abstract List<Card> shuffle();
+    public abstract void shuffle(List<Card> cards);
 
     //询问发牌位置
     public abstract int askStartLocation();
-
-    // 发牌
-    public abstract boolean assignCards(PlayerId player, List<Card> cards);
 
     // 要求下注
     public abstract void askForBet(PlayerId player, int round);

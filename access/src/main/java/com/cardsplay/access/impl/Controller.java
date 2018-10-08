@@ -137,7 +137,7 @@ public class Controller {
                          ipAddress.toString(), port);
 
                 // TODO: get UUID from database
-                CardsPlayNodeId nodeId = new CardsPlayNodeId(UUID.randomUUID(), ipAddress);
+                CardsPlayNodeId nodeId = new CardsPlayNodeId(UUID.randomUUID());
                 CardsPlayProviderService cardsPlayProviderService = getNodeInstance(nodeId,
                                                                             agent,
                                                                             channel);
