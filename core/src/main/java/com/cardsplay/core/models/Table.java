@@ -21,7 +21,7 @@ public class Table {
 	public Table(TableId tableId,int seq, int volumn) {
 		this.tableId = tableId;
 		this.seq = seq;
-		playerIds = Lists.newArrayList();
+		playerIds = Lists.newLinkedList();
 		capacity =volumn;
 	}
 

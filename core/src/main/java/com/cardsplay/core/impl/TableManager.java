@@ -143,7 +143,7 @@ public class TableManager implements TableService {
             log.error("Player {} can not join Table {} because the num of players reach the upper limit", playerId, tableId);
             throw new ServiceException(ResponseCode.denyAccess, "人数已经达到上限");
         }
-        List players = Lists.newArrayList();
+        List players = Lists.newLinkedList();
         players.addAll(table.playerIds);
         Table preTable = new Table(table.tableId, table.seq, table.capacity, players);
         table.playerIds.add(playerId);
@@ -159,7 +159,7 @@ public class TableManager implements TableService {
             log.error("Player {} can not join because Table {}do not exist", playerId, tableId);
             throw new ServiceException(ResponseCode.badRequest, "桌号不存在");
         }
-        List players = Lists.newArrayList();
+        List players = Lists.newLinkedList();
         players.addAll(table.playerIds);
         Table preTable = new Table(table.tableId, table.seq, table.capacity, players);
         table.playerIds.remove(playerId);
