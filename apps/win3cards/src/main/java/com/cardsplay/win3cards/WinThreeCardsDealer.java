@@ -16,8 +16,8 @@ import com.cardsplay.core.models.Rule;
 import com.cardsplay.core.models.TableStatus;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class WinThreeCardsDealer extends Dealer {
 
@@ -48,23 +48,14 @@ public class WinThreeCardsDealer extends Dealer {
 
         shuffle(cards);
 
-        for(int i = 0;i < 3;i++){
-            for (PlayerId playerId : playerCards.keySet()){
-                playerCards.get(playerId).add(cards.get(i));
-            }
+        for(int i = 0;i < cards.size();i++){
+            System.out.println("Cards" + i + "：" + cards.get(i));
         }
     }
 
     @Override
     public void shuffle(List<Card> cards) {
-        Random rd = new Random();
-        for(int i=0;i<52;i++)
-        {
-            int j = rd.nextInt(52);//生成随机数
-            Card temp = cards.get(i);
-            cards.set(i, cards.get(j));
-            cards.set(j, temp);
-        }
+        Collections.shuffle(cards);
     }
     
     @Override
@@ -81,7 +72,7 @@ public class WinThreeCardsDealer extends Dealer {
 
     @Override
     public Player calcWinner(List<Player> players) {
-        // TODO Auto-generated method stub
+        // TODO Need to consider exception situation of all players offline
         return null;
     }
 

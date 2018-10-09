@@ -41,4 +41,8 @@ public class Table {
 	public void removePlayer(PlayerId playerId){
 		playerIds.remove(playerId);
 	}
+
+	public void addPlayer(PlayerId playerId){
+		//TODO: to make it thread safe
+	}
 }

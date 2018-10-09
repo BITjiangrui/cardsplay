@@ -20,6 +20,7 @@ import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -145,7 +146,7 @@ public class PlayerManager implements PlayerService{
     @Override
     public Iterable<PlayerId> getOtherPlayers(PlayerId playerId) throws ServiceException{
         Table table = tableService.getTableByPlayer(playerId);
-        Set otherPlayers = table.playerIds;
+        List otherPlayers = table.playerIds;
         otherPlayers.remove(playerId);
         return otherPlayers;
     }
