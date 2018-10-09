@@ -100,6 +100,19 @@ public class WinThreeCardsServer implements CardsPlayServerService {
     }
 
     @Override
+    public ClientResponse getPlayerInfo(CardsPlayNodeId nodeId) {
+        PlayerId playerId = new PlayerId(nodeId.nodeId());
+        ClientResponse response = null;
+        try{
+            Player player = playerService.getPlayer(playerId);
+            response = ClientResponse.respSuccess(player);
+        } catch (ServiceException exception){
+            response = ClientResponse.respFail(exception.getCode(), exception.getMsg());
+        }
+        return response;    
+    }
+
+    @Override
     public ClientResponse getRoomsInfo() {
         Iterable<Room> roomIds = roomService.getRooms();
         Set roomsInfo = Sets.newConcurrentHashSet();
@@ -283,29 +296,24 @@ public class WinThreeCardsServer implements CardsPlayServerService {
                 case TABLE_JOIN:
                     currentPlayers = event.subject().playerIds;
                     prevPlayers = event.prevSubject().playerIds;
-                    currentPlayers.removeAll(prevPlayers);
-                    log.info("Process  TABLE_JOIN event by players {}", currentPlayers);
                     for (PlayerId playerId : currentPlayers){
                         RoomId roomId = roomService.getRoomByTable(event.subject().tableId);
-                        for(PlayerId otherPlayerId : playerService.getOtherPlayers(playerId)){
-                            CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(otherPlayerId.playerId));
-                            client.playerJoinIn(roomId, event.subject().tableId, playerService.getPlayer(playerId));
-                        }
+                        CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(playerId.playerId));
+                        client.playerJoinIn(roomId, event.prevSubject(), event.subject());
                     }
-
+                    currentPlayers.removeAll(prevPlayers);
+                    log.info("Process  TABLE_JOIN event by players {}", currentPlayers);
                     break;
                 case TABLE_QUIT:
                     currentPlayers = event.subject().playerIds;
                     prevPlayers = event.prevSubject().playerIds;
+                    for (PlayerId playerId : currentPlayers){
+                        RoomId roomId = roomService.getRoomByTable(event.prevSubject().tableId);
+                        CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(playerId.playerId));
+                        client.playerLeave(roomId, event.prevSubject(), event.subject());
+                    }
                     prevPlayers.removeAll(currentPlayers);
                     log.info("Process  TABLE_QUIT event by players {}", prevPlayers);
-                    for (PlayerId playerId : prevPlayers){
-                        RoomId roomId = roomService.getRoomByTable(event.prevSubject().tableId);
-                        for(Player otherPlayer : playerService.getPlayersInTable(event.subject().tableId)){
-                            CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(otherPlayer.playerId.playerId));
-                            client.playerLeave(roomId, event.subject().tableId, playerId);
-                        }
-                    }
                     break;
                 default:
                     break;
@@ -321,16 +329,19 @@ public class WinThreeCardsServer implements CardsPlayServerService {
             log.info("{} event happend {}",event.type());
             switch (event.type()) {
                 /*
-                * 无论在游戏进行中还是非进行中，一旦掉线会立即退出游戏，无法恢复
+                * 如果游戏在进行中则不驱逐用户，在游戏中的状态还可以恢复
                 * 每回合的最大时间设置为1 min，keep alive也会设置为1 min
                 * 在 1 min以内的网络断开都可以恢复
+                * 如果处在等待状态则驱逐出去
                 * */
                 case PLAYER_OFFLINE:
                     TableId tableId = tableService.getTableByPlayer(event.subject().playerId).tableId;
                     RoomId roomId = roomService.getRoomByTable(tableId);
-                    tableService.quitTable(tableId,event.subject().playerId);
-                    roomService.quitRoom(roomId, event.subject().playerId);
-                    playerService.removePlayer(event.subject().playerId);
+                    if(tableService.getTableState(tableId).equals(TableStatus.Waiting)) {
+                        tableService.quitTable(tableId,event.subject().playerId);
+                        roomService.quitRoom(roomId, event.subject().playerId);
+                        playerService.removePlayer(event.subject().playerId);
+                    }
                     break;
                 case PLAYER_ONLINE:
                     break;

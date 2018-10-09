@@ -72,7 +72,7 @@ public class TableManager implements TableService {
 
     @Override
     public Boolean isTableReady(TableId tableId) {
-        Boolean ready = true;
+        Boolean ready = tableStore.get(tableId).isFull();
         for(PlayerId playerId : tableStore.get(tableId).playerIds){
             if (playerService.getPlayer(playerId).state != PlayerState.Ready){
                 ready = false;

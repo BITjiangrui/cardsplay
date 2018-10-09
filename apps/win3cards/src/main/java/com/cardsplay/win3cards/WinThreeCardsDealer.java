@@ -17,13 +17,18 @@ import com.cardsplay.core.models.TableStatus;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class WinThreeCardsDealer extends Dealer {
 
     public final Rule rule;
     public List<Card> cards;
-
+    List<PlayerId> players;
     ServiceRegistry serviceMap = ServiceRegistry.getInstance();
     RoomService roomService = (RoomService) serviceMap.getService(RoomService.class);
     CardsPlayController controller = (CardsPlayController) serviceMap.getService(CardsPlayController.class);
@@ -37,7 +42,8 @@ public class WinThreeCardsDealer extends Dealer {
 
     @Override
     public void startGamble() {
-        for (PlayerId playerId : tableService.getTable(this.tableId).playerIds){
+        players = tableService.getTable(this.tableId).playerIds;
+        for (PlayerId playerId : players){
             this.playerCards.put(playerId, new ArrayList<Card>(3));
             CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(playerId.playerId));
             client.startGamble(roomService.getRoomByTable(this.tableId), this.tableId);
@@ -47,8 +53,13 @@ public class WinThreeCardsDealer extends Dealer {
         cards = generateCards();
 
         shuffle(cards);
-
-        for(int i = 0;i < cards.size();i++){
+        
+        askStartLocation();
+        
+        for(int i = 1;i <= 3;i++){
+            for (PlayerId playerId : players) {
+                playerCards.get(playerId).add(cards.get(i*players.indexOf(playerId)));
+            }
             System.out.println("Cards" + i + "：" + cards.get(i));
         }
     }
@@ -59,9 +70,20 @@ public class WinThreeCardsDealer extends Dealer {
     }
     
     @Override
-    public int askStartLocation() {
-        // TODO Auto-generated method stub
-        return 0;
+    public void askStartLocation() {
+        Random random = new Random();
+        PlayerId luckyDog = players.get(random.nextInt(5));
+        Integer location = 1;
+        for (PlayerId playerId : players){
+            CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(playerId.playerId));
+            try {
+                location = client.askForStartLocation(luckyDog).get(15, TimeUnit.SECONDS);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        swap(luckyDog, location-1);
     }
 
     @Override
@@ -124,5 +146,38 @@ public class WinThreeCardsDealer extends Dealer {
            }
         }
         return cards;
+    }
+    
+    private void swap(PlayerId playerId, int location) {
+        int current = players.indexOf(playerId);
+        if(location > current) {
+            for(int i=0; i<location-current;i++) {
+                moveRight(players);
+            }
+        }else if(location < current) {
+            for(int i=0; i<current - location;i++) {
+                moveLeft(players);
+            }
+        }
+    }
+    
+    // 右移一位
+    private void moveRight(List<PlayerId> array){
+        PlayerId temp;
+        temp = array.get(array.size()-1);
+        for(int i = array.size()-1;i>0;i--){
+                array.set(i, array.get(i-1));
+        }
+        array.set(0, temp);
+    }
+    
+    // 左移一位
+    private void moveLeft(List<PlayerId> array){
+        PlayerId temp;
+        temp = array.get(0);
+        for(int i = 0;i < array.size()-1;i++){
+                array.set(i, array.get(i+1));
+        }
+        array.set(array.size()-1, temp);
     }
 }

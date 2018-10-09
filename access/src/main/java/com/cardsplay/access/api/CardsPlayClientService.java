@@ -7,6 +7,7 @@ import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.PlayerState;
 import com.cardsplay.core.models.RoomId;
+import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -36,14 +37,14 @@ public interface CardsPlayClientService{
      * This operation notify client the Player join in event
      *
      */
-    void playerJoinIn(RoomId room, TableId table, Player player);
+    void playerJoinIn(RoomId room, Table preTable, Table currentTable);
     
     
     /**
      * This operation notify client the Player leave event
      *
      */
-    void playerLeave(RoomId room, TableId table, PlayerId player);
+    void playerLeave(RoomId room, Table preTable, Table currentTable);
 
     /**
      * This operation notify client the Game start event
@@ -103,4 +104,10 @@ public interface CardsPlayClientService{
      * Disconnects the OVSDB server.
      */
     void disconnect();
+    
+
+    /**
+     * Ask for start location¡£
+     */
+    ListenableFuture<Integer> askForStartLocation(PlayerId playerId);
 }

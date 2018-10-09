@@ -10,6 +10,7 @@ import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.PlayerState;
 import com.cardsplay.core.models.RoomId;
+import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Maps;
@@ -139,18 +140,6 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
     }
 
     @Override
-    public void playerJoinIn(RoomId room, TableId table, Player player) {
-
-    }
-
-
-    @Override
-    public void playerLeave(RoomId room, TableId table, PlayerId player) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
     public ListenableFuture<Boolean> startGamble(RoomId room, TableId table) {
         return null;
     }
@@ -192,5 +181,17 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
                                                        TableId table) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public void playerJoinIn(RoomId room, Table preTable, Table currentTable) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void playerLeave(RoomId room, Table preTable, Table currentTable) {
+        // TODO Auto-generated method stub
+        
     }
 }

@@ -108,7 +108,7 @@ public class PlayerManager implements PlayerService{
         Player prePlayer = new Player(playerId, player.wallet);
         prePlayer.state = player.state;
         prePlayer.nickName = player.nickName;
-        player.setState(PlayerState.UndoReady);
+        player.setState(PlayerState.Online);
         PlayerEvent playerEvent = new PlayerEvent(PlayerEvent.Type.PLAYER_UNDOREADY, prePlayer, player);
         post(playerEvent);
     }

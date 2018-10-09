@@ -21,7 +21,7 @@ public class Table {
 	public Table(TableId tableId,int seq, int volumn) {
 		this.tableId = tableId;
 		this.seq = seq;
-		playerIds = Lists.newLinkedList();
+		playerIds = Lists.newArrayListWithCapacity(5);
 		capacity =volumn;
 	}
 
@@ -44,5 +44,9 @@ public class Table {
 
 	public void addPlayer(PlayerId playerId){
 		//TODO: to make it thread safe
+	}
+	
+	public boolean isFull() {
+	        return playerIds.size() == capacity;
 	}
 }

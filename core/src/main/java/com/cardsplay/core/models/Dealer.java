@@ -36,7 +36,7 @@ public abstract class Dealer {
     public abstract void shuffle(List<Card> cards);
 
     //询问发牌位置
-    public abstract int askStartLocation();
+    public abstract void askStartLocation();
 
     // 要求下注
     public abstract void askForBet(PlayerId player, int round);
