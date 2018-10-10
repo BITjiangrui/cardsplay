@@ -17,7 +17,7 @@ public abstract class Dealer {
     public TokenWallet wallet;
     public Map<PlayerId, List<Card> > playerCards;
     public TableId tableId;
-    private int round;
+    public int round;
 
 
     public Dealer(DealType dealType) {

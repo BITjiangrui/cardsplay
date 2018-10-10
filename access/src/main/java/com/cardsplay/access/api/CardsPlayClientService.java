@@ -7,6 +7,7 @@ import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.PlayerState;
 import com.cardsplay.core.models.RoomId;
+import com.cardsplay.core.models.Rule;
 import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -56,7 +57,7 @@ public interface CardsPlayClientService{
      * This operation ask player to bet
      *
      */
-    ListenableFuture<JsonNode> askForBet(RoomId room, TableId table, PlayerId player, int money, int round);
+    ListenableFuture<Double> askForBet(RoomId room, TableId table, PlayerId player, Rule rule, int round);
 
 
     /**

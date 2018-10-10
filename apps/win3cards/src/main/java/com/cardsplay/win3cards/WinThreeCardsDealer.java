@@ -21,8 +21,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WinThreeCardsDealer extends Dealer {
 
@@ -34,7 +39,10 @@ public class WinThreeCardsDealer extends Dealer {
     CardsPlayController controller = (CardsPlayController) serviceMap.getService(CardsPlayController.class);
     TableService tableService = (TableService) serviceMap.getService(TableService.class);
     PlayerService playerService = (PlayerService) serviceMap.getService(PlayerService.class);
-
+    public  final static Logger log = LoggerFactory
+            .getLogger(WinThreeCardsDealer.class);
+    protected ExecutorService executor =
+            Executors.newSingleThreadExecutor();
     public WinThreeCardsDealer(Rule rule) {
         super(DealType.WinThreeCards);
         this.rule = rule;
@@ -42,6 +50,7 @@ public class WinThreeCardsDealer extends Dealer {
 
     @Override
     public void startGamble() {
+        round = 1;
         players = tableService.getTable(this.tableId).playerIds;
         for (PlayerId playerId : players){
             this.playerCards.put(playerId, new ArrayList<Card>(3));
@@ -61,6 +70,14 @@ public class WinThreeCardsDealer extends Dealer {
                 playerCards.get(playerId).add(cards.get(i*players.indexOf(playerId)));
             }
             System.out.println("Cards" + i + "£º" + cards.get(i));
+        }
+        
+        for(; ; round++) {
+            for(PlayerId playerId : players) {
+                executor.execute(()->{
+                    askForBet(playerId, round);
+                });
+            }
         }
     }
 
@@ -88,8 +105,16 @@ public class WinThreeCardsDealer extends Dealer {
 
     @Override
     public void askForBet(PlayerId player, int round) {
-        // TODO Auto-generated method stub
-        
+        Double bet;
+        for (PlayerId playerId : players){
+            CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(playerId.playerId));
+            try {
+                client.askForBet(roomService.getRoomByTable(tableId), tableId, player, rule, round);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
