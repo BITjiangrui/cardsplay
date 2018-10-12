@@ -6,10 +6,10 @@ import com.cardsplay.access.api.CardsPlayNodeId;
 import com.cardsplay.access.util.FromJsonUtil;
 import com.cardsplay.core.api.ClientResponse;
 import com.cardsplay.core.models.Card;
-import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.PlayerState;
 import com.cardsplay.core.models.RoomId;
+import com.cardsplay.core.models.Rule;
 import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -94,6 +94,21 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
     }
 
     @Override
+    public ListenableFuture<ClientResponse> assignCards(RoomId room, TableId table, PlayerId player, List<Card> cards) {
+        return null;
+    }
+
+    @Override
+    public ListenableFuture<ClientResponse> showCards(RoomId room, TableId table, PlayerId player, List<Card> cards) {
+        return null;
+    }
+
+    @Override
+    public ListenableFuture<ClientResponse> assignTables(RoomId room, TableId table) {
+        return null;
+    }
+
+    @Override
     public void showRoom(ClientResponse response) {
         // TODO Auto-generated method stub
         
@@ -104,6 +119,12 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
         // TODO Auto-generated method stub
         
     }
+
+    @Override
+    public ListenableFuture<Integer> askForStartLocation(PlayerId playerId) {
+        return null;
+    }
+
 
     @Override
     public void processResult(JsonNode response) {
@@ -140,48 +161,25 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
     }
 
     @Override
-    public ListenableFuture<Boolean> startGamble(RoomId room, TableId table) {
+    public ListenableFuture<ClientResponse> startGamble(RoomId room, TableId table) {
         return null;
     }
 
 
     @Override
-    public ListenableFuture<JsonNode> askForBet(RoomId room, TableId table,
-                                                PlayerId player, int money,
+    public ListenableFuture<ClientResponse> askForBet(RoomId room, TableId table,
+                                                PlayerId player, Rule rule,
                                                 int round) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void confirmForBet(RoomId room, TableId table, PlayerId player,
-                              int money, int round) {
-        // TODO Auto-generated method stub
-        
+    public void confirmForBet(RoomId room, TableId table, PlayerId player, Rule money, int round) {
+
     }
 
-    @Override
-    public ListenableFuture<Boolean> assignCards(RoomId room, TableId table,
-                                                  PlayerId player,
-                                                  List<Card> cards) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
-    @Override
-    public ListenableFuture<Boolean> showCards(RoomId room, TableId table,
-                                                PlayerId player,
-                                                List<Card> cards) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ListenableFuture<List<String>> assignTables(RoomId room,
-                                                       TableId table) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     @Override
     public void playerJoinIn(RoomId room, Table preTable, Table currentTable) {
