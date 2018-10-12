@@ -1,5 +1,7 @@
 package com.cardsplay.core.api;
 
+import com.cardsplay.util.ResponseCode;
+
 import static com.google.common.base.MoreObjects.toStringHelper;
 
 /**
@@ -9,14 +11,6 @@ import static com.google.common.base.MoreObjects.toStringHelper;
  * @param <T>
  */
 public class ClientResponse<T> {
- 
-    private static final int SUCCESS_CODE = 0;
-    /** 异常编号 */
-    private static final int FIAL_CODE = -1;
-    /** 未登录 */
-    private static final int NOT_LOGIN_CODE = -2;
-    /** 未授权 */
-    private static final int NOT_REALNAME_CODE = -3;
  
     private int resultCode;
  
@@ -60,23 +54,23 @@ public class ClientResponse<T> {
     }
  
     public static <T> ClientResponse<T> respSuccess(T respDate) {
-        return new ClientResponse<T>(SUCCESS_CODE, respDate);
+        return new ClientResponse<T>(ResponseCode.SUCCESS_CODE, respDate);
     }
  
     public static <T> ClientResponse<T> respFail() {
-        return new ClientResponse<T>(FIAL_CODE, "-1", "系统运维中，请稍后再试。");
+        return new ClientResponse<T>(ResponseCode.FIAL_CODE, "-1", "系统运维中，请稍后再试。");
     }
  
     public static <T> ClientResponse<T> respFail(String code, String msg) {
-        return new ClientResponse<T>(FIAL_CODE, code, msg);
+        return new ClientResponse<T>(ResponseCode.FIAL_CODE, code, msg);
     }
  
     public static <T> ClientResponse<T> respLoginFail() {
-        return new ClientResponse<T>(NOT_LOGIN_CODE);
+        return new ClientResponse<T>(ResponseCode.NOT_LOGIN_CODE);
     }
  
     public static <T> ClientResponse<T> respRealNameFail(T respDate) {
-        return new ClientResponse<T>(NOT_REALNAME_CODE, respDate);
+        return new ClientResponse<T>(ResponseCode.NOT_REALNAME_CODE, respDate);
     }
  
     /**

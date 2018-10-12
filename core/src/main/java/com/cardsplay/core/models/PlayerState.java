@@ -8,5 +8,5 @@ public enum PlayerState {
 	 * Playing:游戏进行中
 	 * Discard:弃牌状态
 	 * */
-	Online, Offline, Ready, UndoReady, Playing, Discard;
+	Online, Offline, Ready, Playing, Discard;
 }

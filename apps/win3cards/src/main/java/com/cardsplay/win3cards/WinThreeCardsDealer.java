@@ -3,6 +3,7 @@ package com.cardsplay.win3cards;
 import com.cardsplay.access.api.CardsPlayClientService;
 import com.cardsplay.access.api.CardsPlayController;
 import com.cardsplay.access.api.CardsPlayNodeId;
+import com.cardsplay.core.api.ClientResponse;
 import com.cardsplay.core.api.PlayerService;
 import com.cardsplay.core.api.RoomService;
 import com.cardsplay.core.api.TableService;
@@ -12,22 +13,19 @@ import com.cardsplay.core.models.DealType;
 import com.cardsplay.core.models.Dealer;
 import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
+import com.cardsplay.core.models.PlayerState;
 import com.cardsplay.core.models.Rule;
 import com.cardsplay.core.models.TableStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class WinThreeCardsDealer extends Dealer {
 
@@ -49,9 +47,15 @@ public class WinThreeCardsDealer extends Dealer {
     }
 
     @Override
-    public void startGamble() {
+    public void init() {
         round = 1;
         players = tableService.getTable(this.tableId).playerIds;
+        executor.submit(() ->{
+           startGamble();
+        });
+    }
+
+    private synchronized void startGamble() {
         for (PlayerId playerId : players){
             this.playerCards.put(playerId, new ArrayList<Card>(3));
             CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(playerId.playerId));
@@ -74,20 +78,20 @@ public class WinThreeCardsDealer extends Dealer {
         
         for(; ; round++) {
             for(PlayerId playerId : players) {
-                executor.execute(()->{
+                if (playerService.getPlayerState(playerId) != PlayerState.Playing) {
                     askForBet(playerId, round);
-                });
+                }
             }
         }
     }
 
-    @Override
-    public void shuffle(List<Card> cards) {
+
+    private void shuffle(List<Card> cards) {
         Collections.shuffle(cards);
     }
-    
-    @Override
-    public void askStartLocation() {
+
+
+    private void askStartLocation() {
         Random random = new Random();
         PlayerId luckyDog = players.get(random.nextInt(5));
         Integer location = 1;
@@ -101,32 +105,40 @@ public class WinThreeCardsDealer extends Dealer {
             }
         }
         swap(luckyDog, location-1);
+        // TODO: Confirm location to all players
     }
 
-    @Override
-    public void askForBet(PlayerId player, int round) {
-        Double bet;
-        for (PlayerId playerId : players){
+
+    private void askForBet(PlayerId player, int round) {
+        for (PlayerId playerId : players) {
             CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(playerId.playerId));
-            try {
+            if (!player.equals(playerId)) {
                 client.askForBet(roomService.getRoomByTable(tableId), tableId, player, rule, round);
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
+        }
+        CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(player.playerId));
+        ClientResponse response = null;
+        try {
+            response = client.askForBet(roomService.getRoomByTable(tableId),
+                                        tableId, player, rule, round).get(30, TimeUnit.SECONDS);
+        } catch (Exception e){
+            playerService.getPlayer(player).setState(PlayerState.Discard);
         }
     }
 
-    @Override
-    public Player calcWinner(List<Player> players) {
+
+    private Player calcWinner(List<Player> players) {
         // TODO Need to consider exception situation of all players offline
         return null;
     }
 
-    @Override
-    public void balance() {
-        // TODO Auto-generated method stub
-        
+
+    private void balance() {
+
+    }
+
+    private void exit(){
+
     }
 
     private List<Card> generateCards(){

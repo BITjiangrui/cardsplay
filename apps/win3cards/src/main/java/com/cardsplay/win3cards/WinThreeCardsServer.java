@@ -356,7 +356,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
                         client.statusChange(roomId, table.tableId, player.playerId, event.prevSubject().state, event.subject().state);
                     }
                     if (tableService.isTableReady(table.tableId)){
-                        tableService.getDealer(table.tableId).startGamble();
+                        tableService.getDealer(table.tableId).init();
                     }
                     break;
 

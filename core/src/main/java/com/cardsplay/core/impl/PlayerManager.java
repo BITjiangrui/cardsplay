@@ -161,6 +161,11 @@ public class PlayerManager implements PlayerService{
         }    }
 
     @Override
+    public PlayerState getPlayerState(PlayerId playerId) {
+        return playerStore.get(playerId).getState();
+    }
+
+    @Override
     public Iterable<Player> getPlayers() {
         return playerStore.values();
     }

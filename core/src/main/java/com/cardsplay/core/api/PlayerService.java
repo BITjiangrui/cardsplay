@@ -2,6 +2,7 @@ package com.cardsplay.core.api;
 
 import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
+import com.cardsplay.core.models.PlayerState;
 import com.cardsplay.core.models.RoomId;
 import com.cardsplay.core.models.TableId;
 
@@ -27,6 +28,8 @@ public interface PlayerService extends LifeCycleService, EventRegistryService{
     Iterable<PlayerId> getOtherPlayers(PlayerId playerId);
 
     Player getPlayer(PlayerId playerId);
+
+    PlayerState getPlayerState(PlayerId playerId);
 
     Iterable<Player> getPlayers();
 
