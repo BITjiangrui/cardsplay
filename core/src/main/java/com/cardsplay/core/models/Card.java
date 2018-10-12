@@ -48,7 +48,7 @@ public class Card implements Comparable<Card>
     /**
      * 设置 porkActor
      * 
-     * @param 对porkActor进行赋值
+     * @param porkActor
      */
     public void setPorkActor(PorkActor porkActor)
     {
@@ -66,9 +66,9 @@ public class Card implements Comparable<Card>
     }
     
     /**
-     * 设置 porkColor
+     * set porkColor
      * 
-     * @param 对porkColor进行赋值
+     * @param  porkColor
      */
     public void setPorkColor(PorkColor porkColor)
     {

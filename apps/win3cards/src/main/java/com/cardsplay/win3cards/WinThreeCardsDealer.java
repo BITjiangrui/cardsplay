@@ -130,10 +130,12 @@ public class WinThreeCardsDealer extends Dealer {
                                         singleBet.getAmount() * playerService.getPlayerState(player).getTimes(), round).get(30, TimeUnit.SECONDS);
         } catch (Exception e) {
             playerService.getPlayer(player).setState(PlayerState.Discard);
+            // TODO: Add discard cards notification
         }
         if (response.getResultCode() == ResponseCode.SUCCESS_CODE) {
             if (response.getResultData().getClass().equals(Double.class)) {
                 singleBet = new Bet((Double) response.getResultData() / playerService.getPlayerState(player).getTimes());
+                // TODO: Add how many bets notification
             } else if(response.getResultData().getClass().equals(CallBack.class)){
                 CallBack callBack = (CallBack) response.getResultData();
                 switch (callBack.getMethod()){

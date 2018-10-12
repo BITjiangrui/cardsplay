@@ -28,6 +28,7 @@ public enum Rule {
         return singleBet;
     }
 
+
     public double getUpperLimit(){
         return upperLimit;
     }
