@@ -7,4 +7,7 @@ public class Bet {
         this.amount = amount;
     }
 
+    public double getAmount() {
+        return amount;
+    }
 }

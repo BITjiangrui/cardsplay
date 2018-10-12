@@ -55,7 +55,7 @@ public interface CardsPlayClientService{
      * This operation ask player to bet
      *
      */
-    ListenableFuture<ClientResponse> askForBet(RoomId room, TableId table, PlayerId player, Rule rule, int round);
+    ListenableFuture<ClientResponse> askForBet(RoomId room, TableId table, PlayerId player, Double singleBet, int round);
 
 
     /**

@@ -5,13 +5,13 @@ public enum Rule {
     NEWBEE(new Bet(0.1), 2,10),  EXPERT(new Bet(0.5), 10, 50), MASTER(new Bet(1),20, 100);
 
     // 单注
-    private  Bet singleBet;
+    private  final Bet singleBet;
 
     // 单回合最高下注
-    private  double upperLimit;
+    private  final double upperLimit;
 
     // 钱包余额需高于该值
-    private double balance;
+    private final double balance;
 
     private Rule(Bet singleBet, int upperLimit, int balance){
         this.singleBet = singleBet;
@@ -22,6 +22,7 @@ public enum Rule {
     public double getBalance(){
         return balance;
     }
+
 
     public Bet getSingleBet() {
         return singleBet;
