@@ -53,6 +53,9 @@ public class WinThreeCardsDealer extends Dealer {
 
     @Override
     public void init() {
+        /*
+        * 初始化牌局: 包括玩家、规则、回合等
+        * */
         round = 1;
         singleBet = rule.getSingleBet();
         players = tableService.getTable(this.tableId).playerIds;
@@ -62,6 +65,9 @@ public class WinThreeCardsDealer extends Dealer {
     }
 
     private synchronized void startGamble() {
+        /*
+        * 第一阶段: 通知游戏开始
+        * */
         for (PlayerId playerId : players) {
             this.playerCards.put(playerId, new ArrayList<Card>(3));
             CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(playerId.playerId));
@@ -69,10 +75,16 @@ public class WinThreeCardsDealer extends Dealer {
         }
         tableService.setTableState(tableId, TableStatus.Running);
 
+        /*
+        * 第二阶段: 生成扑克，洗牌，并写入区块链
+        * */
         cards = generateCards();
 
         shuffle(cards);
 
+        /*
+        * 第三阶段: 确定发牌起始位置并发牌
+        * */
         askStartLocation();
 
         for (int i = 1; i <= 3; i++) {
@@ -82,13 +94,25 @@ public class WinThreeCardsDealer extends Dealer {
             System.out.println("Cards" + i + "：" + cards.get(i));
         }
 
+        /*
+        * 第四阶段: 回合制开始
+        * */
         for (; ; round++) {
             for (PlayerId playerId : players) {
                 if (playerService.getPlayerState(playerId) != PlayerState.Playing) {
                     askForBet(playerId, round);
+                    if (satisfyEnd()){
+                        break;
+                    }
                 }
             }
+            break;
         }
+
+        /*
+        * 第五阶段: 结算，清除运行时数据并退出
+        * */
+        exit();
     }
 
 
@@ -116,25 +140,26 @@ public class WinThreeCardsDealer extends Dealer {
 
 
     private void askForBet(PlayerId player, int round) {
+        double amount = singleBet.getAmount() * playerService.getPlayerState(player).getTimes();
         for (PlayerId playerId : players) {
             CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(playerId.playerId));
             if (!player.equals(playerId)) {
-                client.askForBet(roomService.getRoomByTable(tableId), tableId, player,
-                                 singleBet.getAmount() * playerService.getPlayerState(player).getTimes(), round);
+                client.askForBet(roomService.getRoomByTable(tableId), tableId, player, amount, round);
             }
         }
         CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(player.playerId));
         ClientResponse response = null;
         try {
-            response = client.askForBet(roomService.getRoomByTable(tableId), tableId, player,
-                                        singleBet.getAmount() * playerService.getPlayerState(player).getTimes(), round).get(30, TimeUnit.SECONDS);
+            response = client.askForBet(roomService.getRoomByTable(tableId), tableId,
+                                        player, amount, round).get(30, TimeUnit.SECONDS);
         } catch (Exception e) {
             playerService.getPlayer(player).setState(PlayerState.Discard);
             // TODO: Add discard cards notification
         }
         if (response.getResultCode() == ResponseCode.SUCCESS_CODE) {
             if (response.getResultData().getClass().equals(Double.class)) {
-                singleBet = new Bet((Double) response.getResultData() / playerService.getPlayerState(player).getTimes());
+                singleBet = new Bet((Double) response.getResultData()
+                                            / playerService.getPlayerState(player).getTimes());
                 // TODO: Add how many bets notification
             } else if(response.getResultData().getClass().equals(CallBack.class)){
                 CallBack callBack = (CallBack) response.getResultData();
@@ -163,6 +188,10 @@ public class WinThreeCardsDealer extends Dealer {
 
     private void exit() {
 
+    }
+
+    private boolean satisfyEnd(){
+        return  true;
     }
 
     private List<Card> generateCards() {
