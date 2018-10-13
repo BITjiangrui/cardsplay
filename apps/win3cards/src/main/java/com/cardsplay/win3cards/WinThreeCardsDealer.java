@@ -54,9 +54,7 @@ public class WinThreeCardsDealer extends Dealer {
 
     @Override
     public void init() {
-        /*
-        * 初始化牌局: 包括玩家、规则、回合等
-        * */
+
         round = 1;
         singleBet = rule.getSingleBet();
         players = tableService.getTable(this.tableId).playerIds;
@@ -66,9 +64,7 @@ public class WinThreeCardsDealer extends Dealer {
     }
 
     private synchronized void startGamble() {
-        /*
-        * 第一阶段: 通知游戏开始
-        * */
+
         for (PlayerId playerId : players) {
             this.playerCards.put(playerId, new ArrayList<Card>(3));
             CardsPlayClientService client = controller.getCardsPlayClient(new CardsPlayNodeId(playerId.playerId));
@@ -76,28 +72,22 @@ public class WinThreeCardsDealer extends Dealer {
         }
         tableService.setTableState(tableId, TableStatus.Running);
 
-        /*
-        * 第二阶段: 生成扑克，洗牌，并写入区块链
-        * */
+
         cards = generateCards();
 
         shuffle(cards);
 
-        /*
-        * 第三阶段: 确定发牌起始位置并发牌
-        * */
+
         askStartLocation();
 
         for (int i = 1; i <= 3; i++) {
             for (PlayerId playerId : players) {
                 playerCards.get(playerId).add(cards.get(i * players.indexOf(playerId)));
             }
-            System.out.println("Cards" + i + "：" + cards.get(i));
+            System.out.println("Cards" + i + ":" + cards.get(i));
         }
 
-        /*
-        * 第四阶段: 回合制开始
-        * */
+
         for (; ; round++) {
             for (PlayerId playerId : players) {
                 if (playerService.getPlayerState(playerId) != PlayerState.Playing) {
@@ -110,9 +100,6 @@ public class WinThreeCardsDealer extends Dealer {
             break;
         }
 
-        /*
-        * 第五阶段: 结算，清除运行时数据并退出
-        * */
         exit();
     }
 
@@ -252,7 +239,6 @@ public class WinThreeCardsDealer extends Dealer {
         }
     }
 
-    // 右移一位
     private void moveRight(List<PlayerId> array) {
         PlayerId temp;
         temp = array.get(array.size() - 1);
@@ -262,7 +248,6 @@ public class WinThreeCardsDealer extends Dealer {
         array.set(0, temp);
     }
 
-    // 左移一位
     private void moveLeft(List<PlayerId> array) {
         PlayerId temp;
         temp = array.get(0);

@@ -87,7 +87,7 @@ public interface CardsPlayClientService{
     ListenableFuture<ClientResponse> assignTables(RoomId room, TableId table);
 
     /**
-     * This RPC method shows the all Info in the specific room¡£
+     * This RPC method shows the all Info in the specific room
      */
     void showRoom(ClientResponse response);
 
@@ -106,7 +106,7 @@ public interface CardsPlayClientService{
     
 
     /**
-     * Ask for start location¡£
+     * Ask for start location
      */
     ListenableFuture<Integer> askForStartLocation(PlayerId playerId);
 }

@@ -71,7 +71,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
     @Override
     public void activate() {
         log.info("WinThreeCardsServer Started");
-        // TODO: Init 1 Room for test， will init from DB in future
+        // TODO:Init 1 Room for test, will init from DB in future
         RoomId roomId = new RoomId(UUID.randomUUID());
 
         Room room = new Room(roomId, 1, roomCapacity, DealType.WinThreeCards,Rule.NEWBEE);
@@ -213,7 +213,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
             }
         }
         log.error("tableId {} or playerId {} can not be find in all room", tableId, playerId);
-        response = ClientResponse.respFail(ResponseCode.badRequest, "请重新加入房间");
+        response = ClientResponse.respFail(ResponseCode.badRequest, "Please exit and rejoin the table");
         return response;
     }
 
@@ -255,7 +255,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
             response = ClientResponse.respSuccess(true);
         } else {
             log.error("playerId {} can not be find in tableId {}", playerId, tableId);
-            response = ClientResponse.respFail(ResponseCode.badRequest, "请退出重新加入牌桌");
+            response = ClientResponse.respFail(ResponseCode.badRequest, "Please exit and rejoin the table");
         }
         return response;
     }
@@ -275,7 +275,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
             response = ClientResponse.respSuccess(true);
         } else {
             log.error("playerId {} can not be find in tableId {}", playerId, tableId);
-            response = ClientResponse.respFail(ResponseCode.badRequest, "请退出重新加入牌桌");
+            response = ClientResponse.respFail(ResponseCode.badRequest, "Please exit and rejoin the table");
         }
         return response;
     }
@@ -329,12 +329,7 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         public void event(PlayerEvent event) {
             log.info("{} event happend {}",event.type());
             switch (event.type()) {
-                /*
-                * 如果游戏在进行中则不驱逐用户，在游戏中的状态还可以恢复
-                * 每回合的最大时间设置为1 min，keep alive也会设置为1 min
-                * 在 1 min以内的网络断开都可以恢复
-                * 如果处在等待状态则驱逐出去
-                * */
+
                 case PLAYER_OFFLINE:
                     TableId tableId = tableService.getTableByPlayer(event.subject().playerId).tableId;
                     RoomId roomId = roomService.getRoomByTable(tableId);
@@ -347,7 +342,6 @@ public class WinThreeCardsServer implements CardsPlayServerService {
                 case PLAYER_ONLINE:
                     break;
 
-                //当一个桌子的所有人都是ready的则立刻开始游戏
                 case PLAYER_READY:
                     Player player = event.subject();
                     Table table = tableService.getTableByPlayer(player.playerId);
