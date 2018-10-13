@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.Ohenry</groupId>
+        <groupId>com.cardsplay</groupId>
         <artifactId>apps</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -21,17 +21,12 @@
         </dependency>
 
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.Ohenry</groupId>
+            <groupId>com.cardsplay</groupId>
             <artifactId>core</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.Ohenry</groupId>
+            <groupId>com.cardsplay</groupId>
             <artifactId>access</artifactId>
         </dependency>
         <dependency>

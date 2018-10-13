@@ -165,15 +165,6 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
         return null;
     }
 
-
-    @Override
-    public ListenableFuture<ClientResponse> askForBet(RoomId room, TableId table,
-                                                PlayerId player, Rule rule,
-                                                int round) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     @Override
     public void confirmForBet(RoomId room, TableId table, PlayerId player, Rule money, int round) {
 
@@ -191,5 +182,15 @@ public class DefaultCardsPlayClient implements CardsPlayProviderService, CardsPl
     public void playerLeave(RoomId room, Table preTable, Table currentTable) {
         // TODO Auto-generated method stub
         
+    }
+
+    @Override
+    public ListenableFuture<ClientResponse> askForBet(RoomId room,
+                                                      TableId table,
+                                                      PlayerId player,
+                                                      Double singleBet,
+                                                      int round) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
