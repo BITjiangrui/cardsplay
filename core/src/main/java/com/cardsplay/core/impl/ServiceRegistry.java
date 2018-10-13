@@ -1,8 +1,8 @@
 package com.cardsplay.core.impl;
 
 import com.cardsplay.core.api.LifeCycleService;
+import com.cardsplay.core.exception.ResponseCode;
 import com.cardsplay.core.exception.ServiceException;
-import com.cardsplay.util.ResponseCode;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +28,8 @@ public class ServiceRegistry {
         if (serviceMap.containsKey(key)){
              return serviceMap.get(key);
         } else {
-            log.error("Player {} do not exist", key);
-            throw new ServiceException(ResponseCode.badRequest, "服务不存在");
+            log.error("Service {} do not exist", key);
+            throw new ServiceException(ResponseCode.badRequest, "Service do not exist");
         }
     }
 

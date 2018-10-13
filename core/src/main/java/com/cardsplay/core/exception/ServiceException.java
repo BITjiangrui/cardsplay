@@ -2,16 +2,10 @@ package com.cardsplay.core.exception;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
 
-/**
- * @ClassName ServiceException
- * @Description 业务异常
- * @author jiangrui
- */
+
 public class ServiceException extends RuntimeException {
         private static final long serialVersionUID = -4742832112872227456L;
-        /**系统错误码*/
         private String code;
-        /**错误描述*/
         private String msg;
         
         public ServiceException() {

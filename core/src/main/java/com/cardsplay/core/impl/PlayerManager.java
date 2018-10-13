@@ -6,6 +6,7 @@ import com.cardsplay.core.api.PlayerEvent;
 import com.cardsplay.core.api.PlayerService;
 import com.cardsplay.core.api.RoomService;
 import com.cardsplay.core.api.TableService;
+import com.cardsplay.core.exception.ResponseCode;
 import com.cardsplay.core.exception.ServiceException;
 import com.cardsplay.core.models.Player;
 import com.cardsplay.core.models.PlayerId;
@@ -14,7 +15,6 @@ import com.cardsplay.core.models.Room;
 import com.cardsplay.core.models.RoomId;
 import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
-import com.cardsplay.util.ResponseCode;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
@@ -88,7 +88,7 @@ public class PlayerManager implements PlayerService{
         Player player = playerStore.get(playerId);
         if(player == null){
             log.error("Player {} do not exist", playerId, playerId);
-            throw new ServiceException(ResponseCode.badRequest, "玩家不存在，请退出重新加入");
+            throw new ServiceException(ResponseCode.badRequest, "Player do not exis, please exit and relogin.");
         }
         Player prePlayer = new Player(playerId, player.wallet);
         prePlayer.state = player.state;
@@ -103,7 +103,7 @@ public class PlayerManager implements PlayerService{
         Player player = playerStore.get(playerId);
         if(player == null){
             log.error("Player {} do not exist", playerId, playerId);
-            throw new ServiceException(ResponseCode.badRequest, "玩家不存在，请退出重新加入");
+            throw new ServiceException(ResponseCode.badRequest, "Player do not exist,please exit and relogin.");
         }
         Player prePlayer = new Player(playerId, player.wallet);
         prePlayer.state = player.state;
@@ -157,7 +157,7 @@ public class PlayerManager implements PlayerService{
             return playerStore.get(playerId);
         } else {
             log.error("Player {} do not exist", playerId);
-            throw new ServiceException(ResponseCode.badRequest, "玩家不存在");
+            throw new ServiceException(ResponseCode.badRequest, "Player do not exist.");
         }    }
 
     @Override

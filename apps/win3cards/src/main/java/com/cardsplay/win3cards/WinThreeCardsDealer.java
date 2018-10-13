@@ -8,6 +8,7 @@ import com.cardsplay.core.api.ClientResponse;
 import com.cardsplay.core.api.PlayerService;
 import com.cardsplay.core.api.RoomService;
 import com.cardsplay.core.api.TableService;
+import com.cardsplay.core.exception.ResponseCode;
 import com.cardsplay.core.impl.ServiceRegistry;
 import com.cardsplay.core.models.Bet;
 import com.cardsplay.core.models.Card;
@@ -18,7 +19,7 @@ import com.cardsplay.core.models.PlayerId;
 import com.cardsplay.core.models.PlayerState;
 import com.cardsplay.core.models.Rule;
 import com.cardsplay.core.models.TableStatus;
-import com.cardsplay.util.ResponseCode;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

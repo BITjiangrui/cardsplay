@@ -1,8 +1,9 @@
 package com.cardsplay.core.api;
 
-import com.cardsplay.util.Tools;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
+
+import com.cardsplay.util.Tools;
 
 /**
  * Base event implementation.

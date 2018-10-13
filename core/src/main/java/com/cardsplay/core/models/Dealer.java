@@ -5,12 +5,7 @@ import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
 
-/**
- * <pre>
- * 荷官，负责整个牌桌玩家的全生命周期的活动
- *
- * </pre>
- */
+
 public abstract class Dealer {
     public final DealType dealType;
 

@@ -5,6 +5,7 @@ import com.cardsplay.core.api.EventListener;
 import com.cardsplay.core.api.PlayerService;
 import com.cardsplay.core.api.TableEvent;
 import com.cardsplay.core.api.TableService;
+import com.cardsplay.core.exception.ResponseCode;
 import com.cardsplay.core.exception.ServiceException;
 import com.cardsplay.core.models.Dealer;
 import com.cardsplay.core.models.PlayerId;
@@ -12,7 +13,6 @@ import com.cardsplay.core.models.PlayerState;
 import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.cardsplay.core.models.TableStatus;
-import com.cardsplay.util.ResponseCode;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
@@ -63,7 +63,7 @@ public class TableManager implements TableService {
         Table table = tableStore.get(tableId);
         if(table == null) {
             log.error("Table {}do not exist", tableId);
-            throw new ServiceException(ResponseCode.badRequest, "桌号不存在");
+            throw new ServiceException(ResponseCode.badRequest, "Table do not exist");
         }
         dealer.setTableId(tableId);
         table.setDealer(dealer);
@@ -86,7 +86,7 @@ public class TableManager implements TableService {
             return tableStore.get(tableId);
         } else {
             log.error("Table {} do not exist", tableId);
-            throw new ServiceException(ResponseCode.badRequest, "牌桌不存在");
+            throw new ServiceException(ResponseCode.badRequest, "Table do not exist");
         }
     }
 
@@ -109,7 +109,7 @@ public class TableManager implements TableService {
             tableStore.remove(tableId);
         } else{
             log.error("Table {} do not exist", tableId);
-            throw new ServiceException(ResponseCode.badRequest, "牌桌不存在");
+            throw new ServiceException(ResponseCode.badRequest, "Table do not exist");
         }
     }
 
@@ -126,7 +126,7 @@ public class TableManager implements TableService {
             }
         }
         log.error("Can not find Table for Player {} ", playerId);
-        throw new ServiceException(ResponseCode.badRequest, "牌桌不存在");    }
+        throw new ServiceException(ResponseCode.badRequest, "Table do not exist");    }
 
     @Override
     public Dealer getDealer(TableId tableId) {
@@ -138,10 +138,10 @@ public class TableManager implements TableService {
         Table table = tableStore.get(tableId);
         if(table == null){
             log.error("Player {} can not join because Table {}do not exist", playerId, tableId);
-            throw new ServiceException(ResponseCode.badRequest, "桌号不存在");
+            throw new ServiceException(ResponseCode.badRequest, "Table do not exist");
         } else if(table.playerIds.size() >= table.capacity){
             log.error("Player {} can not join Table {} because the num of players reach the upper limit", playerId, tableId);
-            throw new ServiceException(ResponseCode.denyAccess, "人数已经达到上限");
+            throw new ServiceException(ResponseCode.denyAccess, "The num of players reach the upper limit");
         }
         List players = Lists.newLinkedList();
         players.addAll(table.playerIds);
@@ -157,7 +157,7 @@ public class TableManager implements TableService {
         Table table = tableStore.get(tableId);
         if(table == null){
             log.error("Player {} can not join because Table {}do not exist", playerId, tableId);
-            throw new ServiceException(ResponseCode.badRequest, "桌号不存在");
+            throw new ServiceException(ResponseCode.badRequest, "Table do not exist");
         }
         List players = Lists.newLinkedList();
         players.addAll(table.playerIds);

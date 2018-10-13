@@ -1,15 +1,10 @@
 package com.cardsplay.core.api;
 
-import com.cardsplay.util.ResponseCode;
-
 import static com.google.common.base.MoreObjects.toStringHelper;
 
-/**
- * @Description. 客户端消息反馈对象
- * @author jiangrui
- * @version 1.0.0
- * @param <T>
- */
+import com.cardsplay.core.exception.ResponseCode;
+
+
 public class ClientResponse<T> {
  
     private int resultCode;
@@ -57,10 +52,6 @@ public class ClientResponse<T> {
         return new ClientResponse<T>(ResponseCode.SUCCESS_CODE, respDate);
     }
  
-    public static <T> ClientResponse<T> respFail() {
-        return new ClientResponse<T>(ResponseCode.FIAL_CODE, "-1", "系统运维中，请稍后再试。");
-    }
- 
     public static <T> ClientResponse<T> respFail(String code, String msg) {
         return new ClientResponse<T>(ResponseCode.FIAL_CODE, code, msg);
     }
@@ -73,10 +64,7 @@ public class ClientResponse<T> {
         return new ClientResponse<T>(ResponseCode.NOT_REALNAME_CODE, respDate);
     }
  
-    /**
-     * 错误码对象
-     * 
-     */
+
     public class Result {
  
         private String code;

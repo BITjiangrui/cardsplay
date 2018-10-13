@@ -4,12 +4,7 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 
-/**
- * <pre>
- * ÅÆ×À
- * 
- * </pre>
- */
+
 public class Table {
 	public final TableId tableId;
 	public  Dealer dealer;

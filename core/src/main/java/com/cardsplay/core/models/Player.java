@@ -3,17 +3,9 @@ package com.cardsplay.core.models;
 
 import static com.google.common.base.MoreObjects.toStringHelper;
 
-/**
- * <pre>
- * ÆË¿ËÅÆÍæ¼Ò
- *
- * </pre>
- */
 public class Player {
     public final PlayerId playerId;
-    /**
-     * Ç®°ü
-     */
+
     public final TokenWallet wallet;
 
     public String nickName;
