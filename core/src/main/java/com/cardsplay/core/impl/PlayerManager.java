@@ -17,13 +17,13 @@ import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PlayerManager implements PlayerService{
 

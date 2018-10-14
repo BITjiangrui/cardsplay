@@ -14,6 +14,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>web</module>
 		<module>core</module>
 		<module>access</module>
 		<module>aaa</module>
@@ -25,9 +26,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<netty4.version>4.1.16.Final</netty4.version>
-		<slf4j.version>1.7.25</slf4j.version>
 		<guava.version>22.0</guava.version>
-		<jackson.version>2.8.10</jackson.version>
 	</properties>
 
 	<dependencyManagement>
@@ -114,45 +113,6 @@
 				<artifactId>joda-time</artifactId>
 				<version>2.9.3</version>
 			</dependency>
-
-			<!-- log -->
-			<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-core</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-jdk14</artifactId>
-				<version>${slf4j.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-databind</artifactId>
-				<version>${jackson.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-annotations</artifactId>
-				<version>${jackson.version}</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-core</artifactId>
-				<version>${jackson.version}</version>
-				<scope>provided</scope>
-			</dependency>
 			<dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
@@ -173,93 +133,11 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
 	<dependencies>
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-transport</artifactId>
-		</dependency>
-		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+		
 	</dependencies>
-	<build>
-		<pluginManagement>
- 			<plugins>
- 				<plugin>
- 					<groupId>org.apache.maven.plugins</groupId>
- 					<artifactId>maven-compiler-plugin</artifactId>
- 					<!-- TODO: update once following issue is fixed. -->
- 					<!-- https://jira.codehaus.org/browse/MCOMPILER-205 -->
- 					<version>2.5.1</version>
- 					<configuration>
- 						<source>1.8</source>
- 						<target>1.8</target>
- 					</configuration>
- 				</plugin>
- 				<plugin>
- 					<groupId>org.apache.maven.plugins</groupId>
- 					<artifactId>maven-jar-plugin</artifactId>
- 					<version>3.0.2</version>
- 					<configuration>
- 						<skipIfEmpty>true</skipIfEmpty>
- 					</configuration>
- 					<executions>
- 						<execution>
- 							<id>default</id>
- 							<goals>
- 								<goal>test-jar</goal>
- 							</goals>
- 						</execution>
- 					</executions>
- 				</plugin>
-
- 				<plugin>
- 					<groupId>org.apache.maven.plugins</groupId>
- 					<artifactId>maven-resources-plugin</artifactId>
- 					<version>3.0.2</version>
- 				</plugin>
-
- 				<plugin>
- 					<groupId>org.apache.felix</groupId>
- 					<artifactId>maven-bundle-plugin</artifactId>
- 					<version>3.3.0</version>
- 					<extensions>true</extensions>
- 					<configuration>
- 						<niceManifest>true</niceManifest>
- 					</configuration>
- 				</plugin>
- 			</plugins>
- 		</pluginManagement>
- 		<plugins>
- 			<plugin>
- 				<groupId>org.jacoco</groupId>
- 				<artifactId>jacoco-maven-plugin</artifactId>
- 				<version>0.7.9</version>
- 				<executions>
- 					<execution>
- 						<id>default-prepare-agent</id>
- 						<goals>
- 							<goal>prepare-agent</goal>
- 						</goals>
- 					</execution>
- 					<execution>
- 						<id>default-report</id>
- 						<phase>prepare-package</phase>
- 						<goals>
- 							<goal>report</goal>
- 						</goals>
- 					</execution>
- 				</executions>
- 			</plugin>
- 		</plugins>
-	</build>
 </project>
