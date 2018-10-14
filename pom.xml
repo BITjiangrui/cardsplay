@@ -14,7 +14,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>web</module>
 		<module>core</module>
 		<module>access</module>
 		<module>aaa</module>
@@ -192,7 +191,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<pluginManagement>
  			<plugins>
@@ -242,11 +240,6 @@
  			</plugins>
  		</pluginManagement>
  		<plugins>
- 			<plugin>
- 				<groupId>org.apache.maven.plugins</groupId>
- 				<artifactId>maven-jar-plugin</artifactId>
- 			</plugin>
-
  			<plugin>
  				<groupId>org.jacoco</groupId>
  				<artifactId>jacoco-maven-plugin</artifactId>

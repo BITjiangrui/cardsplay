@@ -34,7 +34,7 @@ public class RoomInfoControllerTest {
 
     @Test
     public void getRoomsInfo() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/roomsInfo").accept(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.get("/roomInfos").accept(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andDo(MockMvcResultHandlers.print())
         .andReturn();

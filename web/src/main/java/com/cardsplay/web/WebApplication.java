@@ -19,7 +19,7 @@ import com.cardsplay.win3cards.WinThreeCardsLoadBalancer;
 public class WebApplication {
 
 	public static void main(String[] args) {
-	    // TODO: add graceful shutdown mechanism
+	        // TODO: add graceful shutdown mechanism
 	        // init Core Service
 	        ServiceRegistry serviceMap = ServiceRegistry.getInstance();
 	        RoomService roomService = RoomManager.getInstance();
