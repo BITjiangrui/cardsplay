@@ -40,11 +40,11 @@ public class WinThreeCardsDealer extends Dealer {
     protected ExecutorService executor =
             Executors.newSingleThreadExecutor();
     List<PlayerId> players;
-    ServiceRegistry serviceMap = ServiceRegistry.getInstance();
-    RoomService roomService = (RoomService) serviceMap.getService(RoomService.class);
-    CardsPlayController controller = (CardsPlayController) serviceMap.getService(CardsPlayController.class);
-    TableService tableService = (TableService) serviceMap.getService(TableService.class);
-    PlayerService playerService = (PlayerService) serviceMap.getService(PlayerService.class);
+    ServiceRegistry serviceMap;
+    RoomService roomService;
+    CardsPlayController controller;
+    TableService tableService;
+    PlayerService playerService;
     private Bet singleBet;
 
     public WinThreeCardsDealer(Rule rule) {
@@ -54,10 +54,17 @@ public class WinThreeCardsDealer extends Dealer {
 
     @Override
     public void init() {
-
+        serviceMap = ServiceRegistry.getInstance();
+        roomService = (RoomService) serviceMap.getService(RoomService.class);
+        controller = (CardsPlayController) serviceMap.getService(CardsPlayController.class);
+        tableService = (TableService) serviceMap.getService(TableService.class);
+        playerService = (PlayerService) serviceMap.getService(PlayerService.class);
+        
+        
         round = 1;
         singleBet = rule.getSingleBet();
         players = tableService.getTable(this.tableId).playerIds;
+        
         executor.submit(() -> {
             startGamble();
         });

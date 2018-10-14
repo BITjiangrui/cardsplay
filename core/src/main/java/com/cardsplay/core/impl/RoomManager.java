@@ -25,8 +25,8 @@ public class RoomManager implements RoomService {
     protected Set<EventListener> eventListener = new CopyOnWriteArraySet<>();
 
     private static RoomService instance = new RoomManager();
-    ServiceRegistry serviceMap = ServiceRegistry.getInstance();
-    PlayerService playerService = (PlayerService) serviceMap.getService(PlayerService.class);
+    ServiceRegistry serviceMap;
+    PlayerService playerService;
     public static int roomCapacity = 250;
 
     private RoomManager(){
@@ -34,6 +34,8 @@ public class RoomManager implements RoomService {
     };
     @Override
     public void activate() {
+        serviceMap = ServiceRegistry.getInstance();
+        playerService = (PlayerService) serviceMap.getService(PlayerService.class);
         log.info("Room Service Activated");
     }
 

@@ -3,20 +3,21 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-		<groupId>com.Ohenry</groupId>
+	<groupId>com.Ohenry</groupId>
 	<artifactId>web</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>web</name>
 	<description>Demo project for Spring Boot</description>
+
 
 	<parent>
 		<groupId>com.Ohenry</groupId>
 		<artifactId>cardsplay</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -28,7 +29,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -36,9 +37,30 @@
 		</dependency>
 		
 		<dependency>
-		<groupId>com.Ohenry</groupId>
-    		<artifactId>core</artifactId>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-web</artifactId>
+	    </dependency>
+	     <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-devtools</artifactId>
+	        <optional>true</optional>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+	   
+	   	<dependency>
+			<groupId>com.Ohenry</groupId>
+			<artifactId>core</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.Ohenry</groupId>
+			<artifactId>win3cards</artifactId>
+		</dependency> 
 	</dependencies>
 
 	<build>
@@ -46,6 +68,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+	                <fork>true</fork>
+	            </configuration>
 			</plugin>
 		</plugins>
 	</build>

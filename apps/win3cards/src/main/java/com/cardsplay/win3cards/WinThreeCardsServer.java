@@ -40,22 +40,22 @@ import java.util.UUID;
 
 import static com.cardsplay.core.impl.RoomManager.roomCapacity;
 
-public class WinThreeCardsServer implements CardsPlayServerService {
+public class WinThreeCardsServer {
 
     public  final static Logger log = LoggerFactory
             .getLogger(WinThreeCardsServer.class);
 
-    ServiceRegistry serviceMap = ServiceRegistry.getInstance();
-    RoomService roomService = (RoomService) serviceMap.getService(RoomService.class);
-    TableService tableService = (TableService) serviceMap.getService(TableService.class);
-    PlayerService playerService = (PlayerService) serviceMap.getService(PlayerService.class);
-    CardsPlayController controller = (CardsPlayController) serviceMap.getService(CardsPlayController.class);
+    ServiceRegistry serviceMap;
+    RoomService roomService;
+    TableService tableService;
+    PlayerService playerService;
+    CardsPlayController controller;
     // The default capacity of each table
     private static int playersInTableCapacity = 5;
 
 
 
-    private static CardsPlayServerService instance = new WinThreeCardsServer();
+    private static WinThreeCardsServer instance = new WinThreeCardsServer();
 
     private  CardsPlayNodeHandler cardsPlayNodeHandler = new CardsPlayNodeHandler();
 
@@ -68,9 +68,16 @@ public class WinThreeCardsServer implements CardsPlayServerService {
 
     }
 
-    @Override
-    public void activate() {
-        log.info("WinThreeCardsServer Started");
+    public void init() {
+        serviceMap = ServiceRegistry.getInstance();
+        
+        roomService = (RoomService) serviceMap.getService(RoomService.class);
+        
+        tableService = (TableService) serviceMap.getService(TableService.class);
+        
+        playerService = (PlayerService) serviceMap.getService(PlayerService.class);
+        
+        controller = (CardsPlayController) serviceMap.getService(CardsPlayController.class);
         // TODO:Init 1 Room for test, will init from DB in future
         RoomId roomId = new RoomId(UUID.randomUUID());
 
@@ -93,195 +100,16 @@ public class WinThreeCardsServer implements CardsPlayServerService {
         controller.addNodeListener(cardsPlayNodeHandler);
         playerService.addEventListener(playerEventListener);
         tableService.addEventListener(tableEventListener);
+    
+        log.info("WinThreeCardsServer Started");
     }
 
-    @Override
-    public void deactivate() {
+    public void stop() {
         log.info("WinThreeCardsServer Stopped");
     }
 
-    @Override
-    public ClientResponse getPlayerInfo(CardsPlayNodeId nodeId) {
-        PlayerId playerId = new PlayerId(nodeId.nodeId());
-        ClientResponse response = null;
-        try{
-            Player player = playerService.getPlayer(playerId);
-            response = ClientResponse.respSuccess(player);
-        } catch (ServiceException exception){
-            response = ClientResponse.respFail(exception.getCode(), exception.getMsg());
-        }
-        return response;    
-    }
 
-    @Override
-    public ClientResponse getRoomsInfo() {
-        Iterable<Room> roomIds = roomService.getRooms();
-        Set roomsInfo = Sets.newConcurrentHashSet();
-        for(Room room : roomService.getRooms()){
-            Set tablesInfo = Sets.newConcurrentHashSet();
-            for(TableId tableId : room.tableIds){
-                TableInfo tableInfo = TableInfo.builder().tableId(tableId)
-                        .sequence(tableService.getTable(tableId).seq)
-                        .players(playerService.getPlayersInTable(tableId))
-                        .build();
-                tablesInfo.add(tableInfo);
-            }
-
-            RoomInfo roomInfo = RoomInfo.builder().roomId(room.roomId)
-                    .nickName(room.nickName)
-                    .sequence(room.seq)
-                    .tablesInfo(tablesInfo)
-                    .rule(room.rule)
-                    .build();
-            roomsInfo.add(roomInfo);
-        }
-        ClientResponse response = ClientResponse.respSuccess(roomsInfo);
-        return response;
-    }
-
-    @Override
-    public ClientResponse getRoomInfo(RoomId roomId) {
-        ClientResponse response = null;
-        try {
-            Room room = roomService.getRoom(roomId);
-            Set tablesInfo = Sets.newConcurrentHashSet();
-            for(TableId tableId : room.tableIds){
-                TableInfo tableInfo = TableInfo.builder().tableId(tableId)
-                        .sequence(tableService.getTable(tableId).seq)
-                        .players(playerService.getPlayersInTable(tableId))
-                        .build();
-                tablesInfo.add(tableInfo);
-            }
-
-            RoomInfo roomInfo = RoomInfo.builder().roomId(room.roomId)
-                                    .nickName(room.nickName)
-                                    .sequence(room.seq)
-                                    .tablesInfo(tablesInfo)
-                                    .rule(room.rule)
-                                    .build();
-
-            response = ClientResponse.respSuccess(roomInfo);
-        } catch (ServiceException exception){
-            response = ClientResponse.respFail(exception.getCode(), exception.getMsg());
-        }
-        return response;
-    }
-
-    @Override
-    public ClientResponse joinRoom(CardsPlayNodeId nodeId, RoomId roomId) {
-        PlayerId playerId = new PlayerId(nodeId.nodeId());
-        ClientResponse response = null;
-        try{
-            roomService.joinRoom(roomId, playerId);
-            response = ClientResponse.respSuccess(true);
-        } catch (ServiceException exception){
-            response = ClientResponse.respFail(exception.getCode(), exception.getMsg());
-        }
-        return response;
-    }
-
-    @Override
-    public ClientResponse getTableInfo(TableId tableId) {
-        ClientResponse response = null;
-        try {
-            TableInfo tableInfo = TableInfo.builder().tableId(tableId)
-                    .sequence(tableService.getTable(tableId).seq)
-                    .players(playerService.getPlayersInTable(tableId))
-                    .build();
-            response = ClientResponse.respSuccess(tableInfo);
-        } catch (ServiceException exception){
-            response = ClientResponse.respFail(exception.getCode(), exception.getMsg());
-        }
-        return response;
-    }
-
-    @Override
-    public ClientResponse joinTable(CardsPlayNodeId nodeId, TableId tableId) {
-        PlayerId playerId = new PlayerId(nodeId.nodeId());
-        ClientResponse response = null;
-        for (Room room : roomService.getRooms()) {
-            if (room.tableIds.contains(tableId) && room.playerIds.contains(playerId)) {
-                try {
-                    tableService.joinTable(tableId, playerId);
-                    playerService.playerUndoReady(playerId);
-                    response = ClientResponse.respSuccess(true);
-                    return response;
-                } catch (ServiceException exception){
-                    response = ClientResponse.respFail(exception.getCode(), exception.getMsg());
-                    return  response;
-                }
-            }
-        }
-        log.error("tableId {} or playerId {} can not be find in all room", tableId, playerId);
-        response = ClientResponse.respFail(ResponseCode.badRequest, "Please exit and rejoin the table");
-        return response;
-    }
-
-    @Override
-    public ClientResponse exitRoom(CardsPlayNodeId nodeId, RoomId roomId) {
-        PlayerId playerId = new PlayerId(nodeId.nodeId());
-        Room room =  roomService.getRoom(roomId);
-        for(TableId tableId : room.tableIds){
-            Table table = tableService.getTable(tableId);
-            if(table.playerIds.contains(playerId)){
-                tableService.quitTable(tableId, playerId);
-            }
-        }
-        roomService.quitRoom(roomId, playerId);
-        ClientResponse response = ClientResponse.respSuccess(true);
-        return response;
-    }
-
-    @Override
-    public ClientResponse exitTable(CardsPlayNodeId nodeId, TableId tableId) {
-        PlayerId playerId = new PlayerId(nodeId.nodeId());
-        tableService.quitTable(tableId, playerId);
-        ClientResponse response = ClientResponse.respSuccess(true);
-        return response;
-    }
-
-    @Override
-    public ClientResponse beReady(CardsPlayNodeId nodeId, TableId tableId) {
-        PlayerId playerId = new PlayerId(nodeId.nodeId());
-        Table table = tableService.getTable(tableId);
-        ClientResponse response = null;
-        if(table.playerIds.contains(playerId)){
-            try{
-                playerService.playerIsReady(playerId);
-            } catch (ServiceException exception){
-                response = ClientResponse.respFail(exception.getCode(), exception.getMsg());
-                return  response;
-            }
-            response = ClientResponse.respSuccess(true);
-        } else {
-            log.error("playerId {} can not be find in tableId {}", playerId, tableId);
-            response = ClientResponse.respFail(ResponseCode.badRequest, "Please exit and rejoin the table");
-        }
-        return response;
-    }
-
-    @Override
-    public ClientResponse undoReady(CardsPlayNodeId nodeId, TableId tableId) {
-        PlayerId playerId = new PlayerId(nodeId.nodeId());
-        Table table = tableService.getTable(tableId);
-        ClientResponse response = null;
-        if(table.playerIds.contains(playerId)){
-            try{
-                playerService.playerUndoReady(playerId);
-            } catch (ServiceException exception){
-                response = ClientResponse.respFail(exception.getCode(), exception.getMsg());
-                return  response;
-            }
-            response = ClientResponse.respSuccess(true);
-        } else {
-            log.error("playerId {} can not be find in tableId {}", playerId, tableId);
-            response = ClientResponse.respFail(ResponseCode.badRequest, "Please exit and rejoin the table");
-        }
-        return response;
-    }
-
-
-    public static CardsPlayServerService getInstance(){
+    public static WinThreeCardsServer getInstance(){
         return instance;
     }
 

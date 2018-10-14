@@ -28,8 +28,8 @@ public class TableManager implements TableService {
 
     public  final static Logger log = LoggerFactory
             .getLogger(TableManager.class);
-    ServiceRegistry serviceMap = ServiceRegistry.getInstance();
-    PlayerService playerService = (PlayerService) serviceMap.getService(PlayerService.class);
+    ServiceRegistry serviceMap;
+    PlayerService playerService;
     Map<TableId, Table> tableStore;
     Map<TableId, TableStatus> stateStore;
 
@@ -39,9 +39,12 @@ public class TableManager implements TableService {
 
     private TableManager(){
         tableStore = Maps.newConcurrentMap();
+        stateStore = Maps.newConcurrentMap();
     };
     @Override
     public void activate() {
+        serviceMap = ServiceRegistry.getInstance();
+        playerService = (PlayerService) serviceMap.getService(PlayerService.class);
         log.info("Table Service Activated");
     }
 
@@ -58,7 +61,7 @@ public class TableManager implements TableService {
     }
 
     @Override
-    public void setDealer(TableId tableId, Dealer dealer) {
+    public void setDealer(TableId tableId, Dealer dealer)  throws ServiceException{
 
         Table table = tableStore.get(tableId);
         if(table == null) {
@@ -81,7 +84,7 @@ public class TableManager implements TableService {
         return ready;
     }
 
-    public Table getTable(TableId tableId) {
+    public Table getTable(TableId tableId)  throws ServiceException{
         if (tableStore.containsKey(tableId)){
             return tableStore.get(tableId);
         } else {
@@ -91,22 +94,28 @@ public class TableManager implements TableService {
     }
 
     @Override
-    public TableStatus getTableState(TableId tableId) {
-        return stateStore.get(tableId);
+    public TableStatus getTableState(TableId tableId)  throws ServiceException{
+        if (stateStore.containsKey(tableId)){
+            return stateStore.get(tableId);
+        } else{
+            log.error("Table {} do not exist", tableId);
+            throw new ServiceException(ResponseCode.badRequest, "Table do not exist");
+        }
     }
 
     @Override
     public void setTableState(TableId tableId, TableStatus state) {
-        stateStore.put(tableId, state);
+            stateStore.put(tableId, state);
     }
 
     public void addTable(Table table) {
             tableStore.put(table.tableId, table);
     }
 
-    public void removeTable(TableId tableId) {
+    public void removeTable(TableId tableId) throws ServiceException{
         if (tableStore.containsKey(tableId)){
             tableStore.remove(tableId);
+            stateStore.remove(tableId);
         } else{
             log.error("Table {} do not exist", tableId);
             throw new ServiceException(ResponseCode.badRequest, "Table do not exist");

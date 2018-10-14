@@ -34,9 +34,9 @@ public class PlayerManager implements PlayerService{
     protected Set<EventListener> eventListener = new CopyOnWriteArraySet<>();
 
     private static PlayerService instance = new PlayerManager();
-    ServiceRegistry serviceMap = ServiceRegistry.getInstance();
-    RoomService roomService = (RoomService) serviceMap.getService(RoomService.class);
-    TableService tableService = (TableService) serviceMap.getService(TableService.class);
+    ServiceRegistry serviceMap;
+    RoomService roomService;
+    TableService tableService;
 
     private PlayerManager(){
         playerStore = Maps.newConcurrentMap();
@@ -44,6 +44,9 @@ public class PlayerManager implements PlayerService{
 
     @Override
     public void activate() {
+        serviceMap = ServiceRegistry.getInstance();
+        roomService = (RoomService) serviceMap.getService(RoomService.class);
+        tableService = (TableService) serviceMap.getService(TableService.class);
         log.info("Player Service Activated");
 
     }

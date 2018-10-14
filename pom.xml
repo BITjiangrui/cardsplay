@@ -93,13 +93,19 @@
 			</dependency>
 
 			<dependency>
-		<groupId>com.Ohenry</groupId>
+				<groupId>com.Ohenry</groupId>
 				<artifactId>access</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 
 			<dependency>
-		<groupId>com.Ohenry</groupId>
+				<groupId>com.Ohenry</groupId>
+				<artifactId>win3cards</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.Ohenry</groupId>
 				<artifactId>util</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
