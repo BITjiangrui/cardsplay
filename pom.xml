@@ -1,119 +1,121 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>	
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.5.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-	
-	<groupId>com.Ohenry</groupId>
-	<artifactId>cardsplay</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.5.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
-	<modules>
-		<module>web</module>
-		<module>core</module>
-		<module>access</module>
-		<module>aaa</module>
-		<module>apps</module>
-		<module>util</module>
-	</modules>
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-		<netty4.version>4.1.16.Final</netty4.version>
-		<guava.version>22.0</guava.version>
-	</properties>
+    <groupId>com.Ohenry</groupId>
+    <artifactId>cardsplay</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<dependencyManagement>
-		<dependencies>
+    <modules>
+        <module>web</module>
+        <module>core</module>
+        <module>access</module>
+        <module>aaa</module>
+        <module>apps</module>
+        <module>util</module>
+    </modules>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8
+        </project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <netty4.version>4.1.16.Final</netty4.version>
+        <guava.version>22.0</guava.version>
+    </properties>
 
-			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>${guava.version}</version>
-			</dependency>
+    <dependencyManagement>
+        <dependencies>
 
-			<dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty-common</artifactId>
-				<version>${netty4.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty-buffer</artifactId>
-				<version>${netty4.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty-transport</artifactId>
-				<version>${netty4.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty-handler</artifactId>
-				<version>${netty4.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty-codec</artifactId>
-				<version>${netty4.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-common</artifactId>
+                <version>${netty4.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-buffer</artifactId>
+                <version>${netty4.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport</artifactId>
+                <version>${netty4.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-handler</artifactId>
+                <version>${netty4.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty-transport-native-unix-common</artifactId>
-				<version>${netty4.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-codec</artifactId>
+                <version>${netty4.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty-transport-native-epoll</artifactId>
-				<version>${netty4.version}</version>
-				<classifier>${os.detected.classifier}</classifier>
-			</dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport-native-unix-common</artifactId>
+                <version>${netty4.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty-resolver</artifactId>
-				<version>${netty4.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-transport-native-epoll</artifactId>
+                <version>${netty4.version}</version>
+                <classifier>${os.detected.classifier}</classifier>
+            </dependency>
 
-			<dependency>
-				<groupId>com.Ohenry</groupId>
-				<artifactId>core</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-			</dependency>
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-resolver</artifactId>
+                <version>${netty4.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>com.Ohenry</groupId>
-				<artifactId>access</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-			</dependency>
+            <dependency>
+                <groupId>com.Ohenry</groupId>
+                <artifactId>core</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
 
-			<dependency>
-				<groupId>com.Ohenry</groupId>
-				<artifactId>win3cards</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>com.Ohenry</groupId>
-				<artifactId>util</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
-			</dependency>
+            <dependency>
+                <groupId>com.Ohenry</groupId>
+                <artifactId>access</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
 
-			<dependency>
-				<groupId>joda-time</groupId>
-				<artifactId>joda-time</artifactId>
-				<version>2.9.3</version>
-			</dependency>
-			<dependency>
+            <dependency>
+                <groupId>com.Ohenry</groupId>
+                <artifactId>win3cards</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.Ohenry</groupId>
+                <artifactId>util</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>2.9.3</version>
+            </dependency>
+            <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
                 <version>2.6</version>
@@ -125,19 +127,19 @@
                 <version>3.6</version>
             </dependency>
 
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.12</version>
-				<scope>test</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-		
-	</dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+    </dependencies>
 </project>
