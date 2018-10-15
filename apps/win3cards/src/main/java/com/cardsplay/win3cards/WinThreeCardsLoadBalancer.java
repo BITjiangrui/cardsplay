@@ -1,17 +1,10 @@
 package com.cardsplay.win3cards;
 
-import com.cardsplay.access.api.CardsPlayClientService;
-import com.cardsplay.access.api.CardsPlayController;
 import com.cardsplay.access.api.CardsPlayNodeId;
-import com.cardsplay.access.api.CardsPlayNodeListener;
 import com.cardsplay.access.api.CardsPlayServerService;
 import com.cardsplay.core.api.ClientResponse;
-import com.cardsplay.core.api.PlayerEvent;
-import com.cardsplay.core.api.PlayerListener;
 import com.cardsplay.core.api.PlayerService;
 import com.cardsplay.core.api.RoomService;
-import com.cardsplay.core.api.TableEvent;
-import com.cardsplay.core.api.TableListener;
 import com.cardsplay.core.api.TableService;
 import com.cardsplay.core.exception.ResponseCode;
 import com.cardsplay.core.exception.ServiceException;
@@ -28,13 +21,10 @@ import com.cardsplay.core.models.Table;
 import com.cardsplay.core.models.TableId;
 import com.cardsplay.core.models.TableInfo;
 import com.cardsplay.core.models.TableStatus;
-import com.cardsplay.core.models.TokenType;
-import com.cardsplay.core.models.TokenWallet;
 import com.google.common.collect.Sets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -120,6 +110,7 @@ public class WinThreeCardsLoadBalancer implements CardsPlayServerService {
                 TableInfo tableInfo = TableInfo.builder().tableId(tableId)
                         .sequence(tableService.getTable(tableId).seq)
                         .players(playerService.getPlayersInTable(tableId))
+                        .dealer(tableService.getDealer(tableId))
                         .build();
                 tablesInfo.add(tableInfo);
             }

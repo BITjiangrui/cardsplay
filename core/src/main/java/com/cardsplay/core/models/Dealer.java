@@ -1,5 +1,6 @@
 package com.cardsplay.core.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Maps;
 
 import java.util.List;
@@ -9,11 +10,12 @@ import java.util.Map;
 public abstract class Dealer {
     public final DealType dealType;
 
-    public TokenWallet wallet;
+    @JsonIgnore
     public Map<PlayerId, List<Card> > playerCards;
+    @JsonIgnore
     public TableId tableId;
+    @JsonIgnore
     public int round;
-    public double bet;
 
 
     public Dealer(DealType dealType) {

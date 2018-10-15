@@ -20,6 +20,7 @@ import com.cardsplay.core.models.PlayerState;
 import com.cardsplay.core.models.Rule;
 import com.cardsplay.core.models.TableStatus;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,15 +36,23 @@ public class WinThreeCardsDealer extends Dealer {
 
     public final static Logger log = LoggerFactory
             .getLogger(WinThreeCardsDealer.class);
+    @JsonIgnore
     public final Rule rule;
+    @JsonIgnore
     public List<Card> cards;
     protected ExecutorService executor =
             Executors.newSingleThreadExecutor();
+    @JsonIgnore
     List<PlayerId> players;
+    @JsonIgnore
     ServiceRegistry serviceMap;
+    @JsonIgnore
     RoomService roomService;
+    @JsonIgnore
     CardsPlayController controller;
+    @JsonIgnore
     TableService tableService;
+    @JsonIgnore
     PlayerService playerService;
     private Bet singleBet;
 
